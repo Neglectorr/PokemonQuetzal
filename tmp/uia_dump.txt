@@ -1,0 +1,50 @@
+Control Identifiers:
+
+Dialog - 'mGBA - 0.10.3'    (L720, T360, R1200, B701)
+['mGBA - 0.10.3', 'mGBA - 0.10.3Dialog', 'Dialog']
+child_window(title="mGBA - 0.10.3", control_type="Window")
+   | 
+   | TitleBar - ''    (L736, T332, R1200, B360)
+   | ['TitleBar']
+   |    | 
+   |    | Menu - 'System'    (L720, T337, R742, B359)
+   |    | ['Menu', 'System', 'SystemMenu', 'System0', 'System1', 'Menu0', 'Menu1']
+   |    | child_window(title="System", auto_id="MenuBar", control_type="MenuBar")
+   |    |    | 
+   |    |    | MenuItem - 'System'    (L720, T337, R742, B359)
+   |    |    | ['SystemMenuItem', 'System2', 'MenuItem', 'MenuItem0', 'MenuItem1']
+   |    |    | child_window(title="System", control_type="MenuItem")
+   |    | 
+   |    | Button - 'Minimize'    (L1061, T330, R1108, B360)
+   |    | ['MinimizeButton', 'Minimize', 'Button', 'Button0', 'Button1']
+   |    | child_window(title="Minimize", control_type="Button")
+   |    | 
+   |    | Button - 'Maximize'    (L1108, T330, R1154, B360)
+   |    | ['Maximize', 'MaximizeButton', 'Button2']
+   |    | child_window(title="Maximize", control_type="Button")
+   |    | 
+   |    | Button - 'Close'    (L1154, T330, R1201, B360)
+   |    | ['Close', 'CloseButton', 'Button3']
+   |    | child_window(title="Close", control_type="Button")
+   | 
+   | GroupBox - ''    (L720, T381, R1200, B701)
+   | ['GroupBox']
+   | 
+   | Menu - ''    (L720, T360, R1200, B381)
+   | ['Menu2']
+   |    | 
+   |    | MenuItem - 'File'    (L720, T360, R754, B380)
+   |    | ['File', 'FileMenuItem', 'MenuItem2']
+   |    | child_window(title="File", control_type="MenuItem")
+   |    | 
+   |    | MenuItem - 'Emulation'    (L754, T360, R824, B380)
+   |    | ['EmulationMenuItem', 'MenuItem3', 'Emulation']
+   |    | child_window(title="Emulation", control_type="MenuItem")
+   |    | 
+   |    | MenuItem - 'Audio/Video'    (L824, T360, R907, B380)
+   |    | ['Audio/Video', 'Audio/VideoMenuItem', 'MenuItem4']
+   |    | child_window(title="Audio/Video", control_type="MenuItem")
+   |    | 
+   |    | MenuItem - 'Tools'    (L907, T360, R951, B380)
+   |    | ['Tools', 'MenuItem5', 'ToolsMenuItem']
+   |    | child_window(title="Tools", control_type="MenuItem")

@@ -1,0 +1,38 @@
+﻿**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.4.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.50.35717\include;C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\VS\include;C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\um;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\shared;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\winrt;C:\Program Files (x86)\Windows Kits\10\\include\10.0.26100.0\\cppwinrt;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um
+[1/202] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src && C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bin\cmake.exe -DBINARY_NAME=mgba -DCONFIG_FILE=C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/core/version.c.in -DOUT_FILE=C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/version.c -P C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/version.cmake"
+[2/202] Building C object CMakeFiles\mgba.dir\src\util\image\font.c.obj
+FAILED: [code=2] CMakeFiles/mgba.dir/src/util/image/font.c.obj 
+C:\PROGRA~2\MICROS~2\18\BUILDT~1\VC\Tools\MSVC\1450~1.357\bin\Hostx64\x64\cl.exe  /nologo -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB -DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE -DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DMGBA_DLL -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE -DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE -DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB -DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE -Dmgba_EXPORTS -IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include -IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include -IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src -IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma -IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include -external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include -external:W0 /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\mgba.dir\src\util\image\font.c.obj /FdCMakeFiles\mgba.dir\ /FS -c C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\image\font.c
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\image\font.c(19): error C2054: expected '(' to follow '_Atomic'
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\image\font.c(19): error C2085: 'libraryOpen': not in formal parameter list
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\image\font.c(19): error C2143: syntax error: missing ';' before '='
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\image\font.c(43): error C2065: 'libraryOpen': undeclared identifier
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\image\font.c(73): error C2065: 'libraryOpen': undeclared identifier
+[3/202] Building C object CMakeFiles\mgba.dir\src\arm\debugger\memory-debugger.c.obj
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\arm\debugger\memory-debugger.c(78): warning C4098: 'DebuggerShim_store32': 'void' function returning a value
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\arm\debugger\memory-debugger.c(79): warning C4098: 'DebuggerShim_store16': 'void' function returning a value
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\arm\debugger\memory-debugger.c(80): warning C4098: 'DebuggerShim_store8': 'void' function returning a value
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\arm\debugger\memory-debugger.c(83): warning C4098: 'DebuggerShim_setActiveRegion': 'void' function returning a value
+[4/202] Building C object CMakeFiles\mgba.dir\src\debugger\stack-trace.c.obj
+[5/202] Building C object CMakeFiles\mgba.dir\src\sm83\debugger\memory-debugger.c.obj
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\sm83\debugger\memory-debugger.c(40): warning C4098: 'DebuggerShim_store8': 'void' function returning a value
+[6/202] Building C object CMakeFiles\mgba.dir\src\script\context.c.obj
+[7/202] Building C object CMakeFiles\mgba.dir\src\arm\debugger\cli-debugger.c.obj
+[8/202] Building C object CMakeFiles\mgba.dir\src\sm83\debugger\debugger.c.obj
+[9/202] Building C object CMakeFiles\mgba.dir\src\sm83\debugger\cli-debugger.c.obj
+[10/202] Building C object CMakeFiles\mgba.dir\src\debugger\cli-debugger-scripting.c.obj
+[11/202] Building C object CMakeFiles\mgba.dir\src\gb\debugger\symbols.c.obj
+[12/202] Building C object CMakeFiles\mgba.dir\src\script\canvas.c.obj
+[13/202] Building C object CMakeFiles\mgba.dir\src\gb\debugger\cli.c.obj
+[14/202] Building C object CMakeFiles\mgba.dir\src\gb\debugger\debugger.c.obj
+[15/202] Building C object CMakeFiles\mgba.dir\src\arm\debugger\debugger.c.obj
+[16/202] Building C object CMakeFiles\mgba.dir\src\debugger\gdb-stub.c.obj
+[17/202] Building C object CMakeFiles\mgba.dir\src\script\console.c.obj
+[18/202] Building C object CMakeFiles\mgba.dir\src\gba\debugger\cli.c.obj
+[19/202] Linking C executable updater-stub.exe
+ninja: build stopped: subcommand failed.

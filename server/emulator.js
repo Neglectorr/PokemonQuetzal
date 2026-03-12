@@ -35,9 +35,9 @@ class EmulatorInstance {
     }
 
     async loadRom(romFilename, players = []) {
-        const mgbaExe = path.join(__dirname, '..', 'mgba_native', 'mGBA-0.10.3-win64', 'mGBA.exe');
+        const mgbaExe = path.join(__dirname, '..', 'mgba_native', 'mGBA-custom', 'mGBA.exe');
         if (!fs.existsSync(mgbaExe)) {
-            const err = 'mGBA.exe not found. Ensure 0.10.3 is extracted to mgba_native.';
+            const err = 'Custom mGBA.exe not found. Ensure it is built in mgba_src and copied to mgba_native/mGBA-custom.';
             console.error(`[Room ${this.roomId}]`, err);
             if (this.onError) this.onError(err);
             return false;
@@ -51,37 +51,59 @@ class EmulatorInstance {
             return false;
         }
 
+        const ROMS_DIR = path.join(__dirname, '..', 'roms');
         const romBase = romFilename.replace(/\.gba$/i, '');
         const SAVES_ROOT = path.join(__dirname, '..', 'saves');
-
-        // 1. Prepare per-player ROMs and sync their individual saves
-        // We always prepare up to maxPlayers, even if not all slots are filled yet
-        const allRoms = [];
-        for (let slot = 1; slot <= this.maxPlayers; slot++) {
-            // Check if we have a player assigned to this slot
-            const player = players.find(p => p.slot === slot);
-            
-            // Temporary filenames are scoped to the ROOM ID to avoid multi-room collisions
-            const pRomPath = romPath.replace(/\.gba$/i, `_${this.roomId}_P${slot}.gba`);
-            const pSavePath = romPath.replace(/\.gba$/i, `_${this.roomId}_P${slot}.sav`);
-            // mGBA Quick Save Slot 1 uses .ss1
-            const pStatePath = romPath.replace(/\.gba$/i, `_${this.roomId}_P${slot}.ss1`);
-
-            if (player) {
-                this.syncUserSaveToSlot(slot, player.userId, romBase);
-            } else {
-                // No player, but we still need a ROM to spawn the instance
-                if (!fs.existsSync(pRomPath)) {
-                    fs.copyFileSync(romPath, pRomPath);
-                }
+        
+        // Use a single Hard Link for the entire room to ensure unique saves without duplication
+        const roomRomName = `${romBase}_${this.roomId}.gba`;
+        const roomRomPath = path.join(ROMS_DIR, roomRomName);
+        
+        if (!fs.existsSync(roomRomPath)) {
+            try {
+                fs.linkSync(romPath, roomRomPath);
+                console.log(`[Room ${this.roomId}] Created hard link for room ROM.`);
+            } catch (e) {
+                console.log(`[Room ${this.roomId}] Hard link failed, falling back to copy:`, e.message);
+                fs.copyFileSync(romPath, roomRomPath);
             }
-            allRoms.push(pRomPath);
         }
 
-        console.log(`[Room ${this.roomId}] Launching native mGBA for ${this.maxPlayers} players...`);
+        // Pipe name base for this lobby
+        const pipeBase = `streamer_${this.roomId}`;
+        this.pipeBridges = [];
+
+        // 1. Prepare per-player saves (mGBA handles suffixes .sav, .sa2, etc. based on the ROM basename)
+        for (let slot = 1; slot <= this.maxPlayers; slot++) {
+            const player = players.find(p => p.slot === slot);
+            if (player) {
+                // Suffixes based on roomRomPath base
+                this.syncUserSaveToSlot(slot, player.userId, roomRomName.replace(/\.gba$/i, ''));
+            }
+
+            // Setup Pipe Bridge for this slot
+            const PipeBridge = require('./pipeBridge');
+            const bridge = new PipeBridge(`${pipeBase}_${slot-1}`, slot);
+            bridge.on('video', (data) => {
+                // emit RGBA frame to frontend
+                if (this.onFrame) {
+                    // Send as raw Buffer for better performance
+                    this.onFrame(slot, data.data, data.width, data.height);
+                }
+            });
+            bridge.on('audio', (payload) => {
+                if (this.onAudio) this.onAudio(slot, payload);
+            });
+            bridge.connect();
+            this.pipeBridges.push(bridge);
+        }
+
+        console.log(`[Room ${this.roomId}] Launching custom mGBA with on-demand streaming...`);
         
-        // Spawn mGBA process EMPTY
-        this.mGBAProcess = spawn(mgbaExe, [], {
+        // Spawn mGBA with --stream-pipe. We only need the ONE ROM path.
+        // mGBA -m 4 path.gba will open 4 windows all loading that path.
+        const mgbaArgs = ['-m', this.maxPlayers.toString(), '--stream-pipe', pipeBase, roomRomPath];
+        this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
             cwd: path.dirname(mgbaExe),
             stdio: 'ignore'
         });
@@ -94,22 +116,13 @@ class EmulatorInstance {
             this.kill();
         });
 
-        // 2. Run the Macro to link windows and load ROMs
-        console.log(`[Room ${this.roomId}] Waiting for mGBA GUI to stabilize...`);
-        await new Promise(r => setTimeout(r, 2000));
+        // 2. Wait for stabilization (Our custom -m handles window linking and loading internally)
+        console.log(`[Room ${this.roomId}] Waiting for custom mGBA windows to stabilize...`);
+        await new Promise(r => setTimeout(r, 4000));
 
-        console.log(`[Room ${this.roomId}] Executing spawn_multiplayer.py...`);
-        const multiScript = path.join(__dirname, 'spawn_multiplayer.py');
-        await new Promise((resolve) => {
-            const p = spawn('python', ['-u', multiScript, mGbaPid.toString(), ...allRoms]);
-            p.stdout.on('data', d => console.log(`[Macro]`, d.toString().trim()));
-            p.stderr.on('data', d => console.error(`[Macro]`, d.toString().trim()));
-            p.on('exit', () => resolve());
-        });
-
-        // 3. Spawn Python wrapper - now passing expected window count
+        // 3. Spawn Python wrapper - now passing expected window count and disabling legacy capture
         const wrapperScript = path.join(__dirname, 'wrapper.py');
-        this.wrapperProcess = spawn('python', ['-u', wrapperScript, mGbaPid.toString(), this.maxPlayers.toString()], {
+        this.wrapperProcess = spawn('python', ['-u', wrapperScript, mGbaPid.toString(), this.maxPlayers.toString(), '--no-capture'], {
             stdio: ['pipe', 'pipe', 'pipe']
         });
 
@@ -363,6 +376,11 @@ class EmulatorInstance {
 
         // 3. Sync files back
         await this.syncSavesBack();
+
+        if (this.pipeBridges) {
+            this.pipeBridges.forEach(b => b.close());
+            this.pipeBridges = [];
+        }
 
         if (this.wrapperProcess) {
             this.wrapperProcess.kill('SIGINT');

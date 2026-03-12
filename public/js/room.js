@@ -152,14 +152,14 @@
       // On mobile, only render our own slot (or Slot 1 if not assigned) to save resources
       if (isMobile) {
         if (mySlot) {
-          if (data.slot === mySlot) renderFrame(data.slot, data.data);
+          if (data.slot === mySlot) renderFrame(data.slot, data.data, data.width, data.height, data.raw);
         } else if (data.slot === 1) {
-          renderFrame(data.slot, data.data);
+          renderFrame(data.slot, data.data, data.width, data.height, data.raw);
         }
         return;
       }
       
-      renderFrame(data.slot, data.data);
+      renderFrame(data.slot, data.data, data.width, data.height, data.raw);
     });
 
     // Chat messages
@@ -179,9 +179,14 @@
       showToast(data.message, 'error');
     });
 
-    // Audio stream from backend (Raw PCM 16-bit Mono 44100Hz)
-    socket.on('audio', (buffer) => {
-        playAudioBuffer(buffer);
+    // Audio stream from backend (Raw PCM 16-bit Stereo 44100Hz)
+    socket.on('audio', (data) => {
+        // Only play if it's our slot, or if we are Slot 1 (for host/spectators)
+        if (mySlot) {
+            if (data.slot === mySlot) playAudioBuffer(data.data);
+        } else if (data.slot === 1) {
+            playAudioBuffer(data.data);
+        }
     });
 
     // Errors
@@ -207,26 +212,40 @@
   // ═══════════════════════════════════════
   // FRAME RENDERING
   // ═══════════════════════════════════════
-  function renderFrame(slot, frameData) {
+  function renderFrame(slot, frameData, width, height, raw) {
     if (!frameData) return;
 
-    // Create an image object from the base64 JPEG string
-    const img = new Image();
-    img.onload = () => {
-      // Render to main canvas if this is our slot or single view
+    if (raw && width && height) {
+      // Raw RGBA binary data (ArrayBuffer)
+      const imageData = new ImageData(new Uint8ClampedArray(frameData), width, height);
+      
       if (currentView === 'single') {
         if (slot === mySlot || (!mySlot && slot === 1)) {
-          mainCtx.drawImage(img, 0, 0, GBA_WIDTH, GBA_HEIGHT);
+          mainCtx.putImageData(imageData, 0, 0);
         }
       } else {
-        // Grid view
         const targetCtx = gridContexts[slot];
         if (targetCtx) {
-          targetCtx.drawImage(img, 0, 0, GBA_WIDTH, GBA_HEIGHT);
+          targetCtx.putImageData(imageData, 0, 0);
         }
       }
-    };
-    img.src = 'data:image/png;base64,' + frameData;
+    } else {
+      // Legacy Base64 PNG/JPEG
+      const img = new Image();
+      img.onload = () => {
+        if (currentView === 'single') {
+          if (slot === mySlot || (!mySlot && slot === 1)) {
+            mainCtx.drawImage(img, 0, 0, GBA_WIDTH, GBA_HEIGHT);
+          }
+        } else {
+          const targetCtx = gridContexts[slot];
+          if (targetCtx) {
+            targetCtx.drawImage(img, 0, 0, GBA_WIDTH, GBA_HEIGHT);
+          }
+        }
+      };
+      img.src = 'data:image/png;base64,' + frameData;
+    }
   }
 
   // ═══════════════════════════════════════
@@ -240,17 +259,18 @@
         try { await audioContext.resume(); } catch(e) { return; }
     }
 
-    // buffer is an ArrayBuffer from Socket.io
+    // buffer is an ArrayBuffer from Socket.io (Int16 Stereo)
     const int16Array = new Int16Array(buffer);
-    const float32Array = new Float32Array(int16Array.length);
+    const frameCount = int16Array.length / 2;
+    const audioBuffer = audioContext.createBuffer(2, frameCount, 44100);
     
-    // Normalize Int16 [-32768, 32767] to Float32 [-1.0, 1.0]
-    for (let i = 0; i < int16Array.length; i++) {
-        float32Array[i] = int16Array[i] / 32768.0;
+    const leftChannel = audioBuffer.getChannelData(0);
+    const rightChannel = audioBuffer.getChannelData(1);
+    
+    for (let i = 0; i < frameCount; i++) {
+        leftChannel[i] = int16Array[i * 2] / 32768.0;
+        rightChannel[i] = int16Array[i * 2 + 1] / 32768.0;
     }
-
-    const audioBuffer = audioContext.createBuffer(1, float32Array.length, 44100);
-    audioBuffer.getChannelData(0).set(float32Array);
 
     const source = audioContext.createBufferSource();
     source.buffer = audioBuffer;

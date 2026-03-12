@@ -1,0 +1,1 @@
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/mgba-qt_autogen/7KDSW62DQT/moc_AutorunScriptView.cpp: C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/scripting/AutorunScriptView.h

@@ -1,0 +1,920 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:205 (message)"
+      - "CMakeLists.txt:12 (project)"
+    message: |
+      The system is: Windows - 10.0.26200 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:12 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Microsoft (R) C/C++ Optimizing Compiler Version 19.50.35726 for x64
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      CMakeCCompilerId.c
+      Microsoft (R) Incremental Linker Version 14.50.35726.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      /out:CMakeCCompilerId.exe 
+      CMakeCCompilerId.obj 
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
+      
+      The C compiler identification is MSVC, found in:
+        C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/3.31.10/CompilerIdC/CMakeCCompilerId.exe
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1289 (message)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:250 (CMAKE_DETERMINE_MSVC_SHOWINCLUDES_PREFIX)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:12 (project)"
+    message: |
+      Detecting C compiler /showIncludes prefix:
+        main.c
+        Note: including file: C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\ShowIncludes\\foo.h
+        
+      Found prefix "Note: including file: "
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:12 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Microsoft (R) C/C++ Optimizing Compiler Version 19.50.35726 for x64
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      CMakeCXXCompilerId.cpp
+      Microsoft (R) Incremental Linker Version 14.50.35726.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      /out:CMakeCXXCompilerId.exe 
+      CMakeCXXCompilerId.obj 
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
+      
+      The CXX compiler identification is MSVC, found in:
+        C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/3.31.10/CompilerIdCXX/CMakeCXXCompilerId.exe
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1289 (message)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:250 (CMAKE_DETERMINE_MSVC_SHOWINCLUDES_PREFIX)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:12 (project)"
+    message: |
+      Detecting CXX compiler /showIncludes prefix:
+        main.c
+        Note: including file: C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\ShowIncludes\\foo.h
+        
+      Found prefix "Note: including file: "
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:12 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-asvy8e"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-asvy8e"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-asvy8e'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_8658c
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_8658c.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_8658c.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_8658c.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_8658c.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_8658c.exe /implib:cmTC_8658c.lib /pdb:cmTC_8658c.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:12 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'C': C:/PROGRA~2/MICROS~2/18/BUILDT~1/VC/Tools/MSVC/1450~1.357/bin/Hostx64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:12 (project)"
+    message: |
+      Running the C compiler's linker: "C:/PROGRA~2/MICROS~2/18/BUILDT~1/VC/Tools/MSVC/1450~1.357/bin/Hostx64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.50.35726.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:12 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-6uyw0g"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-6uyw0g"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-6uyw0g'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_74799
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /W3 /GR /EHsc  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_74799.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_74799.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_74799.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_74799.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_74799.exe /implib:cmTC_74799.lib /pdb:cmTC_74799.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:12 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'CXX': C:/PROGRA~2/MICROS~2/18/BUILDT~1/VC/Tools/MSVC/1450~1.357/bin/Hostx64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:12 (project)"
+    message: |
+      Running the CXX compiler's linker: "C:/PROGRA~2/MICROS~2/18/BUILDT~1/VC/Tools/MSVC/1450~1.357/bin/Hostx64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.50.35726.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:328 (find_function)"
+    checks:
+      - "Looking for strdup"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-hoolf7"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-hoolf7"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_STRDUP"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-hoolf7'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_6b591
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=strdup /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_6b591.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_6b591.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hoolf7\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_6b591.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_6b591.dir\\CheckFunctionExists.c.obj  /out:cmTC_6b591.exe /implib:cmTC_6b591.lib /pdb:cmTC_6b591.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:329 (find_function)"
+    checks:
+      - "Looking for strlcpy"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-m7g3pb"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-m7g3pb"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_STRLCPY"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-m7g3pb'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_c84e2
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=strlcpy /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_c84e2.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_c84e2.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-m7g3pb\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_c84e2.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_c84e2.dir\\CheckFunctionExists.c.obj  /out:cmTC_c84e2.exe /implib:cmTC_c84e2.lib /pdb:cmTC_c84e2.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_c84e2.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_c84e2.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_c84e2.dir\\CheckFunctionExists.c.obj  /out:cmTC_c84e2.exe /implib:cmTC_c84e2.lib /pdb:cmTC_c84e2.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_c84e2.dir\\CheckFunctionExists.c.obj /out:cmTC_c84e2.exe /implib:cmTC_c84e2.lib /pdb:cmTC_c84e2.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_c84e2.dir/intermediate.manifest CMakeFiles\\cmTC_c84e2.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol strlcpy referenced in function main
+        cmTC_c84e2.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:330 (find_function)"
+    checks:
+      - "Looking for strndup"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-t4t9d1"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-t4t9d1"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_STRNDUP"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-t4t9d1'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_cf27b
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=strndup /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_cf27b.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_cf27b.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-t4t9d1\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_cf27b.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_cf27b.dir\\CheckFunctionExists.c.obj  /out:cmTC_cf27b.exe /implib:cmTC_cf27b.lib /pdb:cmTC_cf27b.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_cf27b.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_cf27b.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_cf27b.dir\\CheckFunctionExists.c.obj  /out:cmTC_cf27b.exe /implib:cmTC_cf27b.lib /pdb:cmTC_cf27b.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_cf27b.dir\\CheckFunctionExists.c.obj /out:cmTC_cf27b.exe /implib:cmTC_cf27b.lib /pdb:cmTC_cf27b.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_cf27b.dir/intermediate.manifest CMakeFiles\\cmTC_cf27b.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol strndup referenced in function main
+        cmTC_cf27b.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:331 (find_function)"
+    checks:
+      - "Looking for vasprintf"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-xyl314"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-xyl314"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_VASPRINTF"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-xyl314'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_066ed
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=vasprintf /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_066ed.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_066ed.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-xyl314\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_066ed.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_066ed.dir\\CheckFunctionExists.c.obj  /out:cmTC_066ed.exe /implib:cmTC_066ed.lib /pdb:cmTC_066ed.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_066ed.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_066ed.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_066ed.dir\\CheckFunctionExists.c.obj  /out:cmTC_066ed.exe /implib:cmTC_066ed.lib /pdb:cmTC_066ed.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_066ed.dir\\CheckFunctionExists.c.obj /out:cmTC_066ed.exe /implib:cmTC_066ed.lib /pdb:cmTC_066ed.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_066ed.dir/intermediate.manifest CMakeFiles\\cmTC_066ed.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol vasprintf referenced in function main
+        cmTC_066ed.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:333 (find_function)"
+    checks:
+      - "Looking for freelocale"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-pncla3"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-pncla3"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_FREELOCALE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-pncla3'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_250c5
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=freelocale /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_250c5.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_250c5.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-pncla3\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_250c5.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_250c5.dir\\CheckFunctionExists.c.obj  /out:cmTC_250c5.exe /implib:cmTC_250c5.lib /pdb:cmTC_250c5.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_250c5.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_250c5.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_250c5.dir\\CheckFunctionExists.c.obj  /out:cmTC_250c5.exe /implib:cmTC_250c5.lib /pdb:cmTC_250c5.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_250c5.dir\\CheckFunctionExists.c.obj /out:cmTC_250c5.exe /implib:cmTC_250c5.lib /pdb:cmTC_250c5.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_250c5.dir/intermediate.manifest CMakeFiles\\cmTC_250c5.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol freelocale referenced in function main
+        cmTC_250c5.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:334 (find_function)"
+    checks:
+      - "Looking for newlocale"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-wcajvs"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-wcajvs"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_NEWLOCALE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-wcajvs'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_3b6d3
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=newlocale /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_3b6d3.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_3b6d3.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-wcajvs\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_3b6d3.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_3b6d3.dir\\CheckFunctionExists.c.obj  /out:cmTC_3b6d3.exe /implib:cmTC_3b6d3.lib /pdb:cmTC_3b6d3.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_3b6d3.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_3b6d3.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_3b6d3.dir\\CheckFunctionExists.c.obj  /out:cmTC_3b6d3.exe /implib:cmTC_3b6d3.lib /pdb:cmTC_3b6d3.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_3b6d3.dir\\CheckFunctionExists.c.obj /out:cmTC_3b6d3.exe /implib:cmTC_3b6d3.lib /pdb:cmTC_3b6d3.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_3b6d3.dir/intermediate.manifest CMakeFiles\\cmTC_3b6d3.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol newlocale referenced in function main
+        cmTC_3b6d3.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:335 (find_function)"
+    checks:
+      - "Looking for setlocale"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-ttjzu0"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-ttjzu0"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_SETLOCALE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-ttjzu0'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_89371
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=setlocale /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_89371.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_89371.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ttjzu0\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_89371.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_89371.dir\\CheckFunctionExists.c.obj  /out:cmTC_89371.exe /implib:cmTC_89371.lib /pdb:cmTC_89371.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:336 (find_function)"
+    checks:
+      - "Looking for snprintf_l"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-owoxm6"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-owoxm6"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_SNPRINTF_L"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-owoxm6'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_ddcf3
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=snprintf_l /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_ddcf3.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_ddcf3.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-owoxm6\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_ddcf3.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_ddcf3.dir\\CheckFunctionExists.c.obj  /out:cmTC_ddcf3.exe /implib:cmTC_ddcf3.lib /pdb:cmTC_ddcf3.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_ddcf3.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_ddcf3.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_ddcf3.dir\\CheckFunctionExists.c.obj  /out:cmTC_ddcf3.exe /implib:cmTC_ddcf3.lib /pdb:cmTC_ddcf3.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_ddcf3.dir\\CheckFunctionExists.c.obj /out:cmTC_ddcf3.exe /implib:cmTC_ddcf3.lib /pdb:cmTC_ddcf3.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_ddcf3.dir/intermediate.manifest CMakeFiles\\cmTC_ddcf3.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol snprintf_l referenced in function main
+        cmTC_ddcf3.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:337 (find_function)"
+    checks:
+      - "Looking for uselocale"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-sw9ahm"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-sw9ahm"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_USELOCALE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-sw9ahm'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_80653
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=uselocale /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_80653.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_80653.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-sw9ahm\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_80653.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_80653.dir\\CheckFunctionExists.c.obj  /out:cmTC_80653.exe /implib:cmTC_80653.lib /pdb:cmTC_80653.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_80653.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_80653.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_80653.dir\\CheckFunctionExists.c.obj  /out:cmTC_80653.exe /implib:cmTC_80653.lib /pdb:cmTC_80653.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_80653.dir\\CheckFunctionExists.c.obj /out:cmTC_80653.exe /implib:cmTC_80653.lib /pdb:cmTC_80653.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_80653.dir/intermediate.manifest CMakeFiles\\cmTC_80653.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol uselocale referenced in function main
+        cmTC_80653.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:339 (find_function)"
+    checks:
+      - "Looking for popcount32"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-qtqrv2"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-qtqrv2"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_POPCOUNT32"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-qtqrv2'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_de63b
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=popcount32 /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_de63b.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_de63b.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qtqrv2\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_de63b.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_de63b.dir\\CheckFunctionExists.c.obj  /out:cmTC_de63b.exe /implib:cmTC_de63b.lib /pdb:cmTC_de63b.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_de63b.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_de63b.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_de63b.dir\\CheckFunctionExists.c.obj  /out:cmTC_de63b.exe /implib:cmTC_de63b.lib /pdb:cmTC_de63b.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_de63b.dir\\CheckFunctionExists.c.obj /out:cmTC_de63b.exe /implib:cmTC_de63b.lib /pdb:cmTC_de63b.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_de63b.dir/intermediate.manifest CMakeFiles\\cmTC_de63b.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol popcount32 referenced in function main
+        cmTC_de63b.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:341 (find_function)"
+    checks:
+      - "Looking for futimens"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-omtyke"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-omtyke"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_FUTIMENS"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-omtyke'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_c34d1
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=futimens /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_c34d1.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_c34d1.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-omtyke\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_c34d1.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_c34d1.dir\\CheckFunctionExists.c.obj  /out:cmTC_c34d1.exe /implib:cmTC_c34d1.lib /pdb:cmTC_c34d1.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_c34d1.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_c34d1.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_c34d1.dir\\CheckFunctionExists.c.obj  /out:cmTC_c34d1.exe /implib:cmTC_c34d1.lib /pdb:cmTC_c34d1.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_c34d1.dir\\CheckFunctionExists.c.obj /out:cmTC_c34d1.exe /implib:cmTC_c34d1.lib /pdb:cmTC_c34d1.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_c34d1.dir/intermediate.manifest CMakeFiles\\cmTC_c34d1.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol futimens referenced in function main
+        cmTC_c34d1.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:342 (find_function)"
+    checks:
+      - "Looking for futimes"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-9zhx83"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-9zhx83"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_FUTIMES"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-9zhx83'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_daebd
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=futimes /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_daebd.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_daebd.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9zhx83\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_daebd.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_daebd.dir\\CheckFunctionExists.c.obj  /out:cmTC_daebd.exe /implib:cmTC_daebd.lib /pdb:cmTC_daebd.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_daebd.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_daebd.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_daebd.dir\\CheckFunctionExists.c.obj  /out:cmTC_daebd.exe /implib:cmTC_daebd.lib /pdb:cmTC_daebd.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_daebd.dir\\CheckFunctionExists.c.obj /out:cmTC_daebd.exe /implib:cmTC_daebd.lib /pdb:cmTC_daebd.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_daebd.dir/intermediate.manifest CMakeFiles\\cmTC_daebd.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol futimes referenced in function main
+        cmTC_daebd.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:343 (find_function)"
+    checks:
+      - "Looking for localtime_r"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-51mjd4"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-51mjd4"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_LOCALTIME_R"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-51mjd4'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_b27bb
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=localtime_r /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_b27bb.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_b27bb.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-51mjd4\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_b27bb.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_b27bb.dir\\CheckFunctionExists.c.obj  /out:cmTC_b27bb.exe /implib:cmTC_b27bb.lib /pdb:cmTC_b27bb.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_b27bb.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_b27bb.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_b27bb.dir\\CheckFunctionExists.c.obj  /out:cmTC_b27bb.exe /implib:cmTC_b27bb.lib /pdb:cmTC_b27bb.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_b27bb.dir\\CheckFunctionExists.c.obj /out:cmTC_b27bb.exe /implib:cmTC_b27bb.lib /pdb:cmTC_b27bb.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_b27bb.dir/intermediate.manifest CMakeFiles\\cmTC_b27bb.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol localtime_r referenced in function main
+        cmTC_b27bb.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:345 (find_function)"
+    checks:
+      - "Looking for realpath"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-0qmxz4"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-0qmxz4"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_REALPATH"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-0qmxz4'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_48bf6
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=realpath /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_48bf6.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_48bf6.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-0qmxz4\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_48bf6.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_48bf6.dir\\CheckFunctionExists.c.obj  /out:cmTC_48bf6.exe /implib:cmTC_48bf6.lib /pdb:cmTC_48bf6.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_48bf6.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_48bf6.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_48bf6.dir\\CheckFunctionExists.c.obj  /out:cmTC_48bf6.exe /implib:cmTC_48bf6.lib /pdb:cmTC_48bf6.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_48bf6.dir\\CheckFunctionExists.c.obj /out:cmTC_48bf6.exe /implib:cmTC_48bf6.lib /pdb:cmTC_48bf6.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_48bf6.dir/intermediate.manifest CMakeFiles\\cmTC_48bf6.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol realpath referenced in function main
+        cmTC_48bf6.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckFunctionExists.cmake:93 (try_compile)"
+      - "src/platform/cmake/FindFunction.cmake:7 (check_function_exists)"
+      - "CMakeLists.txt:351 (find_function)"
+    checks:
+      - "Looking for strtof_l"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-ux391o"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-ux391o"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_STRTOF_L"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-ux391o'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_7840c
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=strtof_l /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_7840c.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_7840c.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-ux391o\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_7840c.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_7840c.dir\\CheckFunctionExists.c.obj  /out:cmTC_7840c.exe /implib:cmTC_7840c.lib /pdb:cmTC_7840c.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_7840c.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_7840c.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_7840c.dir\\CheckFunctionExists.c.obj  /out:cmTC_7840c.exe /implib:cmTC_7840c.lib /pdb:cmTC_7840c.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_7840c.dir\\CheckFunctionExists.c.obj /out:cmTC_7840c.exe /implib:cmTC_7840c.lib /pdb:cmTC_7840c.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_7840c.dir/intermediate.manifest CMakeFiles\\cmTC_7840c.dir/manifest.res" failed (exit code 1120) with the following output:
+        CheckFunctionExists.c.obj : error LNK2019: unresolved external symbol strtof_l referenced in function main
+        cmTC_7840c.exe : fatal error LNK1120: 1 unresolved externals
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckIncludeFiles.cmake:141 (try_compile)"
+      - "CMakeLists.txt:354 (check_include_files)"
+    checks:
+      - "Looking for include file xlocale.h"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-qt98ke"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-qt98ke"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "HAVE_XLOCALE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-qt98ke'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_feca7
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-  /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_feca7.dir\\HAVE_XLOCALE.c.obj /FdCMakeFiles\\cmTC_feca7.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qt98ke\\HAVE_XLOCALE.c
+        FAILED: [code=2] CMakeFiles/cmTC_feca7.dir/HAVE_XLOCALE.c.obj 
+        C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-  /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_feca7.dir\\HAVE_XLOCALE.c.obj /FdCMakeFiles\\cmTC_feca7.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qt98ke\\HAVE_XLOCALE.c
+        C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qt98ke\\HAVE_XLOCALE.c(2): fatal error C1083: Cannot open include file: 'xlocale.h': No such file or directory
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "src/platform/cmake/FindSDL2.cmake:123 (FIND_PACKAGE)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "src/platform/sdl/CMakeLists.txt:18 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-w0ahfw"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-w0ahfw"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "10.7"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-w0ahfw'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_07a49
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo -DCMAKE_HAVE_LIBC_PTHREAD  /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-  /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_07a49.dir\\src.c.obj /FdCMakeFiles\\cmTC_07a49.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-w0ahfw\\src.c
+        FAILED: [code=2] CMakeFiles/cmTC_07a49.dir/src.c.obj 
+        C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo -DCMAKE_HAVE_LIBC_PTHREAD  /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-  /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_07a49.dir\\src.c.obj /FdCMakeFiles\\cmTC_07a49.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-w0ahfw\\src.c
+        C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-w0ahfw\\src.c(1): fatal error C1083: Cannot open include file: 'pthread.h': No such file or directory
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/FindThreads.cmake:175 (_threads_check_lib)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "src/platform/cmake/FindSDL2.cmake:123 (FIND_PACKAGE)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "src/platform/sdl/CMakeLists.txt:18 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-p32ygw"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-p32ygw"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "10.7"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-p32ygw'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_f1155
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=pthread_create /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_f1155.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_f1155.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p32ygw\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_f1155.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_f1155.dir\\CheckFunctionExists.c.obj  /out:cmTC_f1155.exe /implib:cmTC_f1155.lib /pdb:cmTC_f1155.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_f1155.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_f1155.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_f1155.dir\\CheckFunctionExists.c.obj  /out:cmTC_f1155.exe /implib:cmTC_f1155.lib /pdb:cmTC_f1155.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_f1155.dir\\CheckFunctionExists.c.obj /out:cmTC_f1155.exe /implib:cmTC_f1155.lib /pdb:cmTC_f1155.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_f1155.dir/intermediate.manifest CMakeFiles\\cmTC_f1155.dir/manifest.res" failed (exit code 1104) with the following output:
+        LINK : fatal error LNK1104: cannot open file 'pthreads.lib'
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/downloads/tools/cmake-3.31.10-windows/cmake-3.31.10-windows-x86_64/share/cmake-3.31/Modules/FindThreads.cmake:176 (_threads_check_lib)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "src/platform/cmake/FindSDL2.cmake:123 (FIND_PACKAGE)"
+      - "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/scripts/buildsystems/vcpkg.cmake:908 (_find_package)"
+      - "src/platform/sdl/CMakeLists.txt:18 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-yo38al"
+      binary: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-yo38al"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor-"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/cmake/"
+      CMAKE_OSX_DEPLOYMENT_TARGET: "10.7"
+      VCPKG_INSTALLED_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/CMakeScratch/TryCompile-yo38al'
+        
+        Run Build Command(s): C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\ninja-1.13.2-windows\\ninja.exe -v cmTC_73c30
+        [1/2] C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- -DCHECK_FUNCTION_EXISTS=pthread_create /MDd /Zi /Ob0 /Od /RTC1 -std:c11 /showIncludes /FoCMakeFiles\\cmTC_73c30.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_73c30.dir\\ /FS -c C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\mgba_src\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yo38al\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_73c30.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_73c30.dir\\CheckFunctionExists.c.obj  /out:cmTC_73c30.exe /implib:cmTC_73c30.lib /pdb:cmTC_73c30.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: [code=4294967295] cmTC_73c30.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\vcpkg\\downloads\\tools\\cmake-3.31.10-windows\\cmake-3.31.10-windows-x86_64\\bin\\cmake.exe -E vs_link_exe --msvc-ver=1950 --intdir=CMakeFiles\\cmTC_73c30.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_73c30.dir\\CheckFunctionExists.c.obj  /out:cmTC_73c30.exe /implib:cmTC_73c30.lib /pdb:cmTC_73c30.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~2\\MICROS~2\\18\\BUILDT~1\\VC\\Tools\\MSVC\\1450~1.357\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_73c30.dir\\CheckFunctionExists.c.obj /out:cmTC_73c30.exe /implib:cmTC_73c30.lib /pdb:cmTC_73c30.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_73c30.dir/intermediate.manifest CMakeFiles\\cmTC_73c30.dir/manifest.res" failed (exit code 1104) with the following output:
+        LINK : fatal error LNK1104: cannot open file 'pthread.lib'
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: -1
+...

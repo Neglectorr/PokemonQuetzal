@@ -162,7 +162,8 @@ async function setup() {
     { module: 'pywinauto', package: 'pywinauto' },
     { module: 'numpy', package: 'numpy' },
     { module: 'cv2', package: 'opencv-python' },
-    { module: 'soundcard', package: 'soundcard' }
+    { module: 'soundcard', package: 'soundcard' },
+    { module: 'pywinauto', package: 'pywinauto' }
   ];
 
   try {

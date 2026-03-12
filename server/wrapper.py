@@ -58,12 +58,12 @@ def capture_window(hwnd):
     saveBitMap.CreateCompatibleBitmap(mfcDC, client_width, client_height)
     saveDC.SelectObject(saveBitMap)
     
-    # 3 = PW_CLIENTONLY (only works on Win8.1+) or 1 = PW_RENDERFULLCONTENT
-    # On Windows 10/11, 3 is required to capture hardware accelerated hidden windows.
+    # On Windows 10/11, 3 (PW_CLIENTONLY) is required for some apps, 
+    # but 2 (PW_RENDERFULLCONTENT) is often more reliable for Qt 5 in Session 0.
     try:
-        result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 3)
+        result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 2)
     except:
-        result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 1)
+        result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 0)
         
     bmpinfo = saveBitMap.GetInfo()
     bmpstr = saveBitMap.GetBitmapBits(True)
@@ -228,8 +228,9 @@ def main():
         
     pid = int(sys.argv[1])
     expected_count = int(sys.argv[2]) if len(sys.argv) > 2 else 4
+    no_capture = "--no-capture" in sys.argv
     
-    sys.stderr.write(f"Looking for {expected_count} windows with PID {pid}...\n")
+    sys.stderr.write(f"Looking for {expected_count} windows with PID {pid}... (no_capture={no_capture})\n")
     
     # Wait for windows to appear, or timeout after 10 seconds
     hwnds_dict = {}
@@ -240,23 +241,27 @@ def main():
         
     for _ in range(100):
         hwnds = get_hwnds_for_pid(pid)
+        
+        # Sort by HWND to ensure stable assignment if titles are identical
+        hwnds.sort()
+        
         hwnds_dict = {}
-        for h in hwnds:
-            # REMOVED IsWindowVisible: Headless sessions often report windows as invisible
-            title = win32gui.GetWindowText(h)
-            
-            # Identify slots by window title
-            slot = 1
-            if "Player 2" in title: slot = 2
-            elif "Player 3" in title: slot = 3
-            elif "Player 4" in title: slot = 4
-            
+        for i, h in enumerate(hwnds):
+            title = win32gui.GetWindowText(h).lower()
             rect = win32gui.GetClientRect(h)
             area = (rect[2] - rect[0]) * (rect[3] - rect[1])
             
-            # Prioritize larger windows for the same slot (mGBA sometimes has utility windows)
-            if slot not in hwnds_dict or area > hwnds_dict[slot]['area']:
-                hwnds_dict[slot] = {'hwnd': h, 'area': area, 'title': title}
+            # Default slot by order
+            slot = i + 1
+            # Override if title specifically mentions player
+            if "player 2" in title: slot = 2
+            elif "player 3" in title: slot = 3
+            elif "player 4" in title: slot = 4
+            
+            # Keep only the window for this slot, prioritize larger area if multiple candidates
+            if slot <= expected_count:
+                if slot not in hwnds_dict or area > hwnds_dict[slot]['area']:
+                    hwnds_dict[slot] = {'hwnd': h, 'area': area, 'title': title}
                     
         if len(hwnds_dict) >= expected_count:
             break
@@ -285,35 +290,49 @@ def main():
     # Target 30 FPS to save CPU and bandwidth
     frame_time = 1.0 / 30.0
     
-    while True:
-        start_t = time.time()
-        
-        all_closed = True
-        for slot, h in multi_hwnds:
-            if not win32gui.IsWindow(h):
-                continue
-            all_closed = False
+    if not no_capture:
+        while True:
+            start_t = time.time()
             
-            img = capture_window(h)
-            if img is not None:
-                # Encode PNG for lossless pixel art quality
-                encode_param = [int(cv2.IMWRITE_PNG_COMPRESSION), 1]
-                result, encimg = cv2.imencode('.png', img, encode_param)
-                if result:
-                    data = encimg.tobytes()
-                    # Write header: [Slot (1 byte)][Size (4 bytes LE)]
-                    sys.stdout.buffer.write(struct.pack('<BI', slot, len(data)))
-                    sys.stdout.buffer.write(data)
-                    sys.stdout.buffer.flush()
-        
-        if all_closed:
-            sys.stderr.write("All mGBA windows closed.\n")
-            break
+            all_closed = True
+            for slot, h in multi_hwnds:
+                if not win32gui.IsWindow(h):
+                    continue
+                all_closed = False
+                
+                img = capture_window(h)
+                if img is not None:
+                    # Encode PNG for lossless pixel art quality
+                    encode_param = [int(cv2.IMWRITE_PNG_COMPRESSION), 1]
+                    result, encimg = cv2.imencode('.png', img, encode_param)
+                    if result:
+                        data = encimg.tobytes()
+                        # Write header: [Slot (1 byte)][Size (4 bytes LE)]
+                        sys.stdout.buffer.write(struct.pack('<BI', slot, len(data)))
+                        sys.stdout.buffer.write(data)
+                        sys.stdout.buffer.flush()
             
-        elapsed = time.time() - start_t
-        sleep_time = frame_time - elapsed
-        if sleep_time > 0:
-            time.sleep(sleep_time)
+            if all_closed:
+                sys.stderr.write("All mGBA windows closed.\n")
+                break
+                
+            elapsed = time.time() - start_t
+            sleep_time = frame_time - elapsed
+            if sleep_time > 0:
+                time.sleep(sleep_time)
+    else:
+        # Input-only mode: just keep the process alive while windows exist
+        sys.stderr.write("Input-only mode active. Skipping capture loop.\n")
+        while True:
+            all_closed = True
+            for slot, h in multi_hwnds:
+                if win32gui.IsWindow(h):
+                    all_closed = False
+                    break
+            if all_closed:
+                sys.stderr.write("All mGBA windows closed (input-only).\n")
+                break
+            time.sleep(1.0)
 
 if __name__ == '__main__':
     main()

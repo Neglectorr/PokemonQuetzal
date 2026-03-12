@@ -183,16 +183,16 @@ function init(socketIo, lobby) {
       room.emulator = new EmulatorInstance(
         room.id,
         room.maxPlayers,
-        (slot, b64Frame) => {
+        (slot, b64Frame, width, height) => {
           // Only broadcast if the slot is occupied by a player
           const isSlotActive = Array.from(room.players.values()).some(p => p.slot === slot);
           if (isSlotActive) {
-            io.to(mapping.roomId).emit('frame', { slot, data: b64Frame });
+            io.to(mapping.roomId).emit('frame', { slot, data: b64Frame, width, height, raw: !!width });
           }
         },
-        (audioBuffer) => {
-          // Broadcast raw PCM audio to all users
-          io.to(mapping.roomId).emit('audio', audioBuffer);
+        (slot, audioBuffer) => {
+          // Broadcast raw PCM audio to all users with slot info
+          io.to(mapping.roomId).emit('audio', { slot, data: audioBuffer });
         },
         () => {
           room.status = 'playing';

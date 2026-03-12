@@ -1,0 +1,2208 @@
+﻿
+> mgba_src\build\build.ninja:1740:build mgba.dll mgba.lib: 
+C_SHARED_LIBRARY_LINKER__mgba_Debug CMakeFiles\mgba.dir\src\core\bitmap-cache.c.obj 
+CMakeFiles\mgba.dir\src\core\cache-set.c.obj CMakeFiles\mgba.dir\src\core\cheats.c.obj 
+CMakeFiles\mgba.dir\src\core\config.c.obj CMakeFiles\mgba.dir\src\core\core.c.obj 
+CMakeFiles\mgba.dir\src\core\directories.c.obj CMakeFiles\mgba.dir\src\core\input.c.obj 
+CMakeFiles\mgba.dir\src\core\interface.c.obj CMakeFiles\mgba.dir\src\core\lockstep.c.obj 
+CMakeFiles\mgba.dir\src\core\log.c.obj CMakeFiles\mgba.dir\src\core\map-cache.c.obj 
+CMakeFiles\mgba.dir\src\core\mem-search.c.obj CMakeFiles\mgba.dir\src\core\rewind.c.obj 
+CMakeFiles\mgba.dir\src\core\serialize.c.obj CMakeFiles\mgba.dir\src\core\sync.c.obj 
+CMakeFiles\mgba.dir\src\core\thread.c.obj CMakeFiles\mgba.dir\src\core\tile-cache.c.obj 
+CMakeFiles\mgba.dir\src\core\timing.c.obj CMakeFiles\mgba.dir\src\core\library.c.obj 
+CMakeFiles\mgba.dir\src\sm83\decoder.c.obj CMakeFiles\mgba.dir\src\sm83\isa-sm83.c.obj 
+CMakeFiles\mgba.dir\src\sm83\sm83.c.obj CMakeFiles\mgba.dir\src\gb\audio.c.obj 
+CMakeFiles\mgba.dir\src\gb\cheats.c.obj CMakeFiles\mgba.dir\src\gb\core.c.obj 
+CMakeFiles\mgba.dir\src\gb\gb.c.obj CMakeFiles\mgba.dir\src\gb\input.c.obj 
+CMakeFiles\mgba.dir\src\gb\io.c.obj CMakeFiles\mgba.dir\src\gb\mbc.c.obj 
+CMakeFiles\mgba.dir\src\gb\mbc\huc-3.c.obj CMakeFiles\mgba.dir\src\gb\mbc\licensed.c.obj 
+CMakeFiles\mgba.dir\src\gb\mbc\mbc.c.obj CMakeFiles\mgba.dir\src\gb\mbc\pocket-cam.c.obj 
+CMakeFiles\mgba.dir\src\gb\mbc\tama5.c.obj 
+CMakeFiles\mgba.dir\src\gb\mbc\unlicensed.c.obj CMakeFiles\mgba.dir\src\gb\memory.c.obj 
+CMakeFiles\mgba.dir\src\gb\overrides.c.obj CMakeFiles\mgba.dir\src\gb\serialize.c.obj 
+CMakeFiles\mgba.dir\src\gb\renderers\cache-set.c.obj 
+CMakeFiles\mgba.dir\src\gb\renderers\software.c.obj CMakeFiles\mgba.dir\src\gb\sio.c.obj 
+CMakeFiles\mgba.dir\src\gb\timer.c.obj CMakeFiles\mgba.dir\src\gb\video.c.obj 
+CMakeFiles\mgba.dir\src\arm\arm.c.obj CMakeFiles\mgba.dir\src\arm\decoder-arm.c.obj 
+CMakeFiles\mgba.dir\src\arm\decoder.c.obj 
+CMakeFiles\mgba.dir\src\arm\decoder-thumb.c.obj 
+CMakeFiles\mgba.dir\src\arm\isa-arm.c.obj CMakeFiles\mgba.dir\src\arm\isa-thumb.c.obj 
+CMakeFiles\mgba.dir\src\gba\audio.c.obj CMakeFiles\mgba.dir\src\gba\bios.c.obj 
+CMakeFiles\mgba.dir\src\gba\cart\ereader.c.obj 
+CMakeFiles\mgba.dir\src\gba\cart\gpio.c.obj 
+CMakeFiles\mgba.dir\src\gba\cart\matrix.c.obj 
+CMakeFiles\mgba.dir\src\gba\cart\unlicensed.c.obj 
+CMakeFiles\mgba.dir\src\gba\cart\vfame.c.obj CMakeFiles\mgba.dir\src\gba\cheats.c.obj 
+CMakeFiles\mgba.dir\src\gba\cheats\codebreaker.c.obj 
+CMakeFiles\mgba.dir\src\gba\cheats\gameshark.c.obj 
+CMakeFiles\mgba.dir\src\gba\cheats\parv3.c.obj CMakeFiles\mgba.dir\src\gba\core.c.obj 
+CMakeFiles\mgba.dir\src\gba\dma.c.obj CMakeFiles\mgba.dir\src\gba\gba.c.obj 
+CMakeFiles\mgba.dir\src\gba\hle-bios.c.obj CMakeFiles\mgba.dir\src\gba\input.c.obj 
+CMakeFiles\mgba.dir\src\gba\io.c.obj CMakeFiles\mgba.dir\src\gba\memory.c.obj 
+CMakeFiles\mgba.dir\src\gba\overrides.c.obj 
+CMakeFiles\mgba.dir\src\gba\renderers\cache-set.c.obj 
+CMakeFiles\mgba.dir\src\gba\renderers\common.c.obj 
+CMakeFiles\mgba.dir\src\gba\renderers\gl.c.obj 
+CMakeFiles\mgba.dir\src\gba\renderers\software-bg.c.obj 
+CMakeFiles\mgba.dir\src\gba\renderers\software-mode0.c.obj 
+CMakeFiles\mgba.dir\src\gba\renderers\software-obj.c.obj 
+CMakeFiles\mgba.dir\src\gba\renderers\video-software.c.obj 
+CMakeFiles\mgba.dir\src\gba\savedata.c.obj CMakeFiles\mgba.dir\src\gba\serialize.c.obj 
+CMakeFiles\mgba.dir\src\gba\sharkport.c.obj CMakeFiles\mgba.dir\src\gba\sio.c.obj 
+CMakeFiles\mgba.dir\src\gba\sio\gbp.c.obj CMakeFiles\mgba.dir\src\gba\timer.c.obj 
+CMakeFiles\mgba.dir\src\gba\video.c.obj CMakeFiles\mgba.dir\src\util\circle-buffer.c.obj 
+CMakeFiles\mgba.dir\src\util\configuration.c.obj 
+CMakeFiles\mgba.dir\src\util\crc32.c.obj CMakeFiles\mgba.dir\src\util\formatting.c.obj 
+CMakeFiles\mgba.dir\src\util\gbk-table.c.obj CMakeFiles\mgba.dir\src\util\hash.c.obj 
+CMakeFiles\mgba.dir\src\util\md5.c.obj CMakeFiles\mgba.dir\src\util\sha1.c.obj 
+CMakeFiles\mgba.dir\src\util\string.c.obj CMakeFiles\mgba.dir\src\util\table.c.obj 
+CMakeFiles\mgba.dir\src\util\vector.c.obj CMakeFiles\mgba.dir\src\util\vfs.c.obj 
+CMakeFiles\mgba.dir\src\util\audio-buffer.c.obj 
+CMakeFiles\mgba.dir\src\util\audio-resampler.c.obj 
+CMakeFiles\mgba.dir\src\util\convolve.c.obj CMakeFiles\mgba.dir\src\util\elf-read.c.obj 
+CMakeFiles\mgba.dir\src\util\geometry.c.obj CMakeFiles\mgba.dir\src\util\image.c.obj 
+CMakeFiles\mgba.dir\src\util\image\export.c.obj 
+CMakeFiles\mgba.dir\src\util\image\font.c.obj 
+CMakeFiles\mgba.dir\src\util\image\png-io.c.obj 
+CMakeFiles\mgba.dir\src\util\interpolator.c.obj CMakeFiles\mgba.dir\src\util\patch.c.obj 
+CMakeFiles\mgba.dir\src\util\patch-fast.c.obj 
+CMakeFiles\mgba.dir\src\util\patch-ips.c.obj 
+CMakeFiles\mgba.dir\src\util\patch-ups.c.obj 
+CMakeFiles\mgba.dir\src\util\ring-fifo.c.obj CMakeFiles\mgba.dir\src\util\sfo.c.obj 
+CMakeFiles\mgba.dir\src\util\text-codec.c.obj CMakeFiles\mgba.dir\version.c.obj 
+CMakeFiles\mgba.dir\src\util\vfs\vfs-mem.c.obj 
+CMakeFiles\mgba.dir\src\util\vfs\vfs-fifo.c.obj 
+CMakeFiles\mgba.dir\src\util\vfs\vfs-fd.c.obj 
+CMakeFiles\mgba.dir\src\platform\windows\memory.c.obj 
+CMakeFiles\mgba.dir\src\platform\windows\vfs-w32.c.obj 
+CMakeFiles\mgba.dir\src\third-party\inih\ini.c.obj 
+CMakeFiles\mgba.dir\src\util\vfs\vfs-zip.c.obj 
+CMakeFiles\mgba.dir\src\util\vfs\vfs-lzma.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\7zAlloc.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\7zArcIn.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\7zBuf.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\7zBuf2.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\7zCrc.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\7zCrcOpt.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\7zDec.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\CpuArch.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\Delta.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\LzmaDec.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\Lzma2Dec.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\Bra.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\Bra86.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\BraIA64.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\Bcj2.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\Ppmd7.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\Ppmd7Dec.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\7zFile.c.obj 
+CMakeFiles\mgba.dir\src\third-party\lzma\7zStream.c.obj 
+CMakeFiles\mgba.dir\src\gba\sio\dolphin.c.obj 
+CMakeFiles\mgba.dir\src\gba\sio\lockstep.c.obj 
+CMakeFiles\mgba.dir\src\gb\sio\lockstep.c.obj 
+CMakeFiles\mgba.dir\src\gb\sio\printer.c.obj 
+CMakeFiles\mgba.dir\src\platform\opengl\gl.c.obj 
+CMakeFiles\mgba.dir\src\platform\opengl\gles2.c.obj 
+CMakeFiles\mgba.dir\src\feature\ffmpeg\ffmpeg-encoder.c.obj 
+CMakeFiles\mgba.dir\src\feature\ffmpeg\ffmpeg-decoder.c.obj 
+CMakeFiles\mgba.dir\src\feature\ffmpeg\ffmpeg-scale.c.obj 
+CMakeFiles\mgba.dir\src\feature\sqlite3\no-intro.c.obj 
+CMakeFiles\mgba.dir\src\debugger\access-logger.c.obj 
+CMakeFiles\mgba.dir\src\debugger\cli-debugger.c.obj 
+CMakeFiles\mgba.dir\src\debugger\debugger.c.obj 
+CMakeFiles\mgba.dir\src\debugger\parser.c.obj 
+CMakeFiles\mgba.dir\src\debugger\symbols.c.obj 
+CMakeFiles\mgba.dir\src\debugger\stack-trace.c.obj 
+CMakeFiles\mgba.dir\src\debugger\cli-debugger-scripting.c.obj 
+CMakeFiles\mgba.dir\src\debugger\gdb-stub.c.obj 
+CMakeFiles\mgba.dir\src\sm83\debugger\cli-debugger.c.obj 
+CMakeFiles\mgba.dir\src\sm83\debugger\debugger.c.obj 
+CMakeFiles\mgba.dir\src\sm83\debugger\memory-debugger.c.obj 
+CMakeFiles\mgba.dir\src\gb\debugger\cli.c.obj 
+CMakeFiles\mgba.dir\src\gb\debugger\debugger.c.obj 
+CMakeFiles\mgba.dir\src\gb\debugger\symbols.c.obj 
+CMakeFiles\mgba.dir\src\arm\debugger\cli-debugger.c.obj 
+CMakeFiles\mgba.dir\src\arm\debugger\debugger.c.obj 
+CMakeFiles\mgba.dir\src\arm\debugger\memory-debugger.c.obj 
+CMakeFiles\mgba.dir\src\gba\debugger\cli.c.obj 
+CMakeFiles\mgba.dir\src\script\canvas.c.obj CMakeFiles\mgba.dir\src\script\console.c.obj 
+CMakeFiles\mgba.dir\src\script\context.c.obj CMakeFiles\mgba.dir\src\script\input.c.obj 
+CMakeFiles\mgba.dir\src\script\image.c.obj CMakeFiles\mgba.dir\src\script\socket.c.obj 
+CMakeFiles\mgba.dir\src\script\stdlib.c.obj CMakeFiles\mgba.dir\src\script\types.c.obj 
+CMakeFiles\mgba.dir\src\script\engines\lua.c.obj 
+CMakeFiles\mgba.dir\src\gba\extra\battlechip.c.obj 
+CMakeFiles\mgba.dir\src\gba\extra\proxy.c.obj 
+CMakeFiles\mgba.dir\src\gb\extra\proxy.c.obj 
+CMakeFiles\mgba.dir\src\feature\commandline.c.obj 
+CMakeFiles\mgba.dir\src\feature\proxy-backend.c.obj 
+CMakeFiles\mgba.dir\src\feature\thread-proxy.c.obj 
+CMakeFiles\mgba.dir\src\feature\video-backend.c.obj 
+CMakeFiles\mgba.dir\src\feature\video-logger.c.obj 
+CMakeFiles\mgba.dir\src\feature\updater.c.obj 
+CMakeFiles\mgba.dir\src\core\scripting.c.obj | C$:\PassionProjects\GBAEmu\PokemonQuetzal\
+vcpkg\installed\x64-windows\debug\lib\avdevice.lib C$:\PassionProjects\GBAEmu\PokemonQuet
+zal\vcpkg\installed\x64-windows\debug\lib\avfilter.lib C$:\PassionProjects\GBAEmu\Pokemon
+Quetzal\vcpkg\installed\x64-windows\debug\lib\avformat.lib C$:\PassionProjects\GBAEmu\Pok
+emonQuetzal\vcpkg\installed\x64-windows\debug\lib\avcodec.lib C$:\PassionProjects\GBAEmu\
+PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\swresample.lib C$:\PassionProjects\G
+BAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\swscale.lib C$:\PassionProject
+s\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avutil.lib C$:\PassionProje
+cts\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib C$:\PassionProj
+ects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libpng16d.lib C$:\Passio
+nProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib C$:\Passi
+onProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zip.lib C
+$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\epoxy.lib 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\sqlite3.l
+ib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.
+lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libpn
+g16d.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\
+epoxy.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib
+\sqlite3.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\
+lib\freetyped.lib || mgba-version-info
+  mgba_src\build\build.ninja:1741:  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1
+  mgba_src\build\build.ninja:1742:  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL  
+/DEF:CMakeFiles\mgba.dir\.\exports.def
+  mgba_src\build\build.ninja:1743:  LINK_LIBRARIES = opengl32.lib  glu32.lib  C:\PassionP
+rojects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avdevice.lib  C:\Pass
+ionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avfilter.lib  C:\
+PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avformat.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avcodec.l
+ib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\swresa
+mple.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\
+swscale.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\l
+ib\avutil.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libpng16d
+.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib 
+ 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zip.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\epoxy.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\sqlite3.l
+ib  ws2_32.lib  shlwapi.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libpng16d
+.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\epoxy.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\sqlite3.l
+ib  ws2_32.lib  shlwapi.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64
+-windows\debug\lib\freetyped.lib  kernel32.lib user32.lib gdi32.lib winspool.lib 
+shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  mgba_src\build\build.ninja:1744:  LINK_PATH = 
+-LIBPATH:C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib   
+-LIBPATH:C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib
+  mgba_src\build\build.ninja:1745:  OBJECT_DIR = CMakeFiles\mgba.dir
+> mgba_src\build\build.ninja:1746:  POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build && 
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy 
+Bypass -file 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 
+-targetBinary C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/mgba.dll 
+-installedDir 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed/x64-windows/debug/bin 
+-OutVariable out"
+  mgba_src\build\build.ninja:1747:  PRE_LINK = C:\WINDOWS\system32\cmd.exe /C "C:\Passion
+Projects\GBAEmu\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-
+windows-x86_64\bin\cmake.exe -E __create_def C:\PassionProjects\GBAEmu\PokemonQuetzal\mgb
+a_src\build\CMakeFiles\mgba.dir\.\exports.def C:\PassionProjects\GBAEmu\PokemonQuetzal\mg
+ba_src\build\CMakeFiles\mgba.dir\.\exports.def.objs && cd 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build"
+  mgba_src\build\build.ninja:1748:  RESTAT = 1
+  mgba_src\build\build.ninja:1749:  TARGET_COMPILE_PDB = CMakeFiles\mgba.dir\
+  mgba_src\build\build.ninja:1750:  TARGET_FILE = mgba.dll
+  mgba_src\build\build.ninja:1751:  TARGET_IMPLIB = mgba.lib
+  mgba_src\build\build.ninja:1752:  TARGET_PDB = mgba.pdb
+  mgba_src\build\build.ninja:1753:  RSP_FILE = CMakeFiles\mgba.rsp
+  mgba_src\build\build.ninja:1754:
+  mgba_src\build\build.ninja:1755:# 
+=============================================================================
+  mgba_src\build\build.ninja:1756:# Object build statements for EXECUTABLE target 
+updater-stub
+  mgba_src\build\build.ninja:1757:
+  mgba_src\build\build.ninja:1758:
+  mgba_src\build\build.ninja:1759:#############################################
+  mgba_src\build\build.ninja:1760:# Order-only phony target for updater-stub
+  mgba_src\build\build.ninja:1761:
+  mgba_src\build\build.ninja:1762:build cmake_object_order_depends_target_updater-stub: 
+phony || .
+  mgba_src\build\build.ninja:1763:
+  mgba_src\build\build.ninja:1764:build 
+CMakeFiles\updater-stub.dir\src\util\vfs\vfs-mem.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\vfs\vfs-mem.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1765:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+  mgba_src\build\build.ninja:1766:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1 -std:c11
+  mgba_src\build\build.ninja:1767:  INCLUDES = 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include 
+-external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include 
+-external:W0
+  mgba_src\build\build.ninja:1768:  OBJECT_DIR = CMakeFiles\updater-stub.dir
+  mgba_src\build\build.ninja:1769:  OBJECT_FILE_DIR = 
+CMakeFiles\updater-stub.dir\src\util\vfs
+  mgba_src\build\build.ninja:1770:  TARGET_COMPILE_PDB = CMakeFiles\updater-stub.dir\
+  mgba_src\build\build.ninja:1771:  TARGET_PDB = updater-stub.pdb
+  mgba_src\build\build.ninja:1772:
+  mgba_src\build\build.ninja:1773:build 
+CMakeFiles\updater-stub.dir\src\util\vfs\vfs-fifo.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\vfs\vfs-fifo.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1774:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+  mgba_src\build\build.ninja:1775:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1 -std:c11
+  mgba_src\build\build.ninja:1776:  INCLUDES = 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include 
+-external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include 
+-external:W0
+  mgba_src\build\build.ninja:1777:  OBJECT_DIR = CMakeFiles\updater-stub.dir
+  mgba_src\build\build.ninja:1778:  OBJECT_FILE_DIR = 
+CMakeFiles\updater-stub.dir\src\util\vfs
+  mgba_src\build\build.ninja:1779:  TARGET_COMPILE_PDB = CMakeFiles\updater-stub.dir\
+  mgba_src\build\build.ninja:1780:  TARGET_PDB = updater-stub.pdb
+  mgba_src\build\build.ninja:1781:
+  mgba_src\build\build.ninja:1782:build 
+CMakeFiles\updater-stub.dir\src\util\vfs\vfs-fd.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\vfs\vfs-fd.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1783:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+  mgba_src\build\build.ninja:1784:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1 -std:c11
+  mgba_src\build\build.ninja:1785:  INCLUDES = 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include 
+-external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include 
+-external:W0
+  mgba_src\build\build.ninja:1786:  OBJECT_DIR = CMakeFiles\updater-stub.dir
+  mgba_src\build\build.ninja:1787:  OBJECT_FILE_DIR = 
+CMakeFiles\updater-stub.dir\src\util\vfs
+  mgba_src\build\build.ninja:1788:  TARGET_COMPILE_PDB = CMakeFiles\updater-stub.dir\
+  mgba_src\build\build.ninja:1789:  TARGET_PDB = updater-stub.pdb
+  mgba_src\build\build.ninja:1790:
+  mgba_src\build\build.ninja:1791:build 
+CMakeFiles\updater-stub.dir\src\platform\windows\vfs-w32.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\windows\vfs-w32.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1792:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+  mgba_src\build\build.ninja:1793:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1 -std:c11
+  mgba_src\build\build.ninja:1794:  INCLUDES = 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include 
+-external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include 
+-external:W0
+  mgba_src\build\build.ninja:1795:  OBJECT_DIR = CMakeFiles\updater-stub.dir
+  mgba_src\build\build.ninja:1796:  OBJECT_FILE_DIR = 
+CMakeFiles\updater-stub.dir\src\platform\windows
+  mgba_src\build\build.ninja:1797:  TARGET_COMPILE_PDB = CMakeFiles\updater-stub.dir\
+  mgba_src\build\build.ninja:1798:  TARGET_PDB = updater-stub.pdb
+  mgba_src\build\build.ninja:1799:
+  mgba_src\build\build.ninja:1800:build 
+CMakeFiles\updater-stub.dir\src\util\vfs\vfs-zip.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\vfs\vfs-zip.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1801:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+  mgba_src\build\build.ninja:1802:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1 -std:c11
+  mgba_src\build\build.ninja:1803:  INCLUDES = 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include 
+-external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include 
+-external:W0
+  mgba_src\build\build.ninja:1804:  OBJECT_DIR = CMakeFiles\updater-stub.dir
+  mgba_src\build\build.ninja:1805:  OBJECT_FILE_DIR = 
+CMakeFiles\updater-stub.dir\src\util\vfs
+  mgba_src\build\build.ninja:1806:  TARGET_COMPILE_PDB = CMakeFiles\updater-stub.dir\
+  mgba_src\build\build.ninja:1807:  TARGET_PDB = updater-stub.pdb
+  mgba_src\build\build.ninja:1808:
+  mgba_src\build\build.ninja:1809:build 
+CMakeFiles\updater-stub.dir\src\util\vfs\vfs-lzma.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\util\vfs\vfs-lzma.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1810:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+  mgba_src\build\build.ninja:1811:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1 -std:c11
+  mgba_src\build\build.ninja:1812:  INCLUDES = 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include 
+-external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include 
+-external:W0
+  mgba_src\build\build.ninja:1813:  OBJECT_DIR = CMakeFiles\updater-stub.dir
+  mgba_src\build\build.ninja:1814:  OBJECT_FILE_DIR = 
+CMakeFiles\updater-stub.dir\src\util\vfs
+  mgba_src\build\build.ninja:1815:  TARGET_COMPILE_PDB = CMakeFiles\updater-stub.dir\
+  mgba_src\build\build.ninja:1816:  TARGET_PDB = updater-stub.pdb
+  mgba_src\build\build.ninja:1817:
+  mgba_src\build\build.ninja:1818:build 
+CMakeFiles\updater-stub.dir\src\third-party\lzma\7zAlloc.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma\7zAlloc.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1819:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+  mgba_src\build\build.ninja:1820:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1 -std:c11
+  mgba_src\build\build.ninja:1821:  INCLUDES = 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include 
+-external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include 
+-external:W0
+  mgba_src\build\build.ninja:1822:  OBJECT_DIR = CMakeFiles\updater-stub.dir
+  mgba_src\build\build.ninja:1823:  OBJECT_FILE_DIR = 
+CMakeFiles\updater-stub.dir\src\third-party\lzma
+  mgba_src\build\build.ninja:1824:  TARGET_COMPILE_PDB = CMakeFiles\updater-stub.dir\
+  mgba_src\build\build.ninja:1825:  TARGET_PDB = updater-stub.pdb
+  mgba_src\build\build.ninja:1826:
+  mgba_src\build\build.ninja:1827:build 
+CMakeFiles\updater-stub.dir\src\third-party\lzma\7zArcIn.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma\7zArcIn.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1828:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+  mgba_src\build\build.ninja:1829:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1 -std:c11
+  mgba_src\build\build.ninja:1830:  INCLUDES = 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include 
+-external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include 
+-external:W0
+  mgba_src\build\build.ninja:1831:  OBJECT_DIR = CMakeFiles\updater-stub.dir
+  mgba_src\build\build.ninja:1832:  OBJECT_FILE_DIR = 
+CMakeFiles\updater-stub.dir\src\third-party\lzma
+  mgba_src\build\build.ninja:1833:  TARGET_COMPILE_PDB = CMakeFiles\updater-stub.dir\
+  mgba_src\build\build.ninja:1834:  TARGET_PDB = updater-stub.pdb
+  mgba_src\build\build.ninja:1835:
+  mgba_src\build\build.ninja:1836:build 
+CMakeFiles\updater-stub.dir\src\third-party\lzma\7zBuf.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma\7zBuf.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1837:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+  mgba_src\build\build.ninja:1838:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1 -std:c11
+  mgba_src\build\build.ninja:1839:  INCLUDES = 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\include 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma 
+-IC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\discord-rpc\include 
+-external:IC:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\include 
+-external:W0
+  mgba_src\build\build.ninja:1840:  OBJECT_DIR = CMakeFiles\updater-stub.dir
+  mgba_src\build\build.ninja:1841:  OBJECT_FILE_DIR = 
+CMakeFiles\updater-stub.dir\src\third-party\lzma
+  mgba_src\build\build.ninja:1842:  TARGET_COMPILE_PDB = CMakeFiles\updater-stub.dir\
+  mgba_src\build\build.ninja:1843:  TARGET_PDB = updater-stub.pdb
+  mgba_src\build\build.ninja:1844:
+  mgba_src\build\build.ninja:1845:build 
+CMakeFiles\updater-stub.dir\src\third-party\lzma\7zBuf2.c.obj: 
+C_COMPILER__updater-stub_unscanned_Debug 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\third-party\lzma\7zBuf2.c || 
+cmake_object_order_depends_target_updater-stub
+  mgba_src\build\build.ninja:1846:  DEFINES = -DBUILD_GL -DBUILD_GLES2 -DBUILD_GLES3 
+-DBUILD_STATIC -DENABLE_DEBUGGERS -DENABLE_DIRECTORIES -DENABLE_GDB_STUB 
+-DENABLE_SCRIPTING -DENABLE_VFS -DENABLE_VFS_FD -DHAVE_CRC32 -DHAVE_SETLOCALE 
+-DHAVE_STRDUP -DLUA_VERSION_ONLY=\"5.5\" -DM_CORE_GB -DM_CORE_GBA -DNOMINMAX -DUNICODE 
+-DUSE_DISCORD_RPC -DUSE_EPOXY -DUSE_FFMPEG -DUSE_FREETYPE -DUSE_LIBSWRESAMPLE 
+-DUSE_LIBZIP -DUSE_LUA -DUSE_LZMA -DUSE_PNG -DUSE_SQLITE3 -DUSE_ZLIB 
+-DWIN32_LEAN_AND_MEAN -D_7ZIP_PPMD_SUPPPORT -D_UNICODE
+> mgba_src\build\build.ninja:3327:build mgba-sdl.exe: 
+C_EXECUTABLE_LINKER__mgba-sdl_Debug sdl\CMakeFiles\mgba-sdl.dir\sdl-audio.c.obj 
+sdl\CMakeFiles\mgba-sdl.dir\sdl-events.c.obj sdl\CMakeFiles\mgba-sdl.dir\gl-common.c.obj 
+sdl\CMakeFiles\mgba-sdl.dir\main.c.obj sdl\CMakeFiles\mgba-sdl.dir\gl-sdl.c.obj 
+sdl\CMakeFiles\mgba-sdl.dir\gles2-sdl.c.obj sdl\CMakeFiles\mgba-sdl.dir\sw-sdl2.c.obj | 
+mgba.lib 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib\SDL2.lib C$:\Pa
+ssionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.
+lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib\SDL2.lib C$
+:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\epoxy.lib C
+$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avdevice.l
+ib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avfilt
+er.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\av
+format.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\li
+b\avcodec.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug
+\lib\swresample.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows
+\debug\lib\swscale.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-wind
+ows\debug\lib\avutil.lib 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zip.lib C
+$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\freetyped.
+lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd
+.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libp
+ng16d.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib
+\sqlite3.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\
+lib\zlibd.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug
+\lib\libpng16d.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\
+debug\lib\sqlite3.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windo
+ws\lib\manual-link\SDL2main.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed
+\x64-windows\debug\lib\epoxy.lib || mgba.dll
+  mgba_src\build\build.ninja:3328:  FLAGS = /DWIN32 /D_WINDOWS /W3 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1
+  mgba_src\build\build.ninja:3329:  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL 
+/subsystem:windows
+  mgba_src\build\build.ninja:3330:  LINK_LIBRARIES = mgba.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib\SDL2.lib  
+imm32.lib  setupapi.lib  version.lib  winmm.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal
+\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib\SDL2.lib  
+imm32.lib  setupapi.lib  version.lib  winmm.lib  opengl32.lib  glu32.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\epoxy.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avdevice.
+lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avfil
+ter.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\a
+vformat.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\l
+ib\avcodec.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debu
+g\lib\swresample.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-window
+s\debug\lib\swscale.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-win
+dows\debug\lib\avutil.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zip.lib  C
+:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\freetyped.l
+ib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libpng16d
+.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\sqli
+te3.lib  ws2_32.lib  shlwapi.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libpng16d
+.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\sqli
+te3.lib  ws2_32.lib  shlwapi.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installe
+d\x64-windows\lib\manual-link\SDL2main.lib  opengl32.lib  glu32.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\epoxy.lib 
+ kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib 
+uuid.lib comdlg32.lib advapi32.lib
+  mgba_src\build\build.ninja:3331:  LINK_PATH = 
+-LIBPATH:C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib   
+-LIBPATH:C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib
+  mgba_src\build\build.ninja:3332:  OBJECT_DIR = sdl\CMakeFiles\mgba-sdl.dir
+  mgba_src\build\build.ninja:3333:  POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\sdl && 
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy 
+Bypass -file 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 
+-targetBinary C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/mgba-sdl.exe 
+-installedDir 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed/x64-windows/debug/bin 
+-OutVariable out"
+  mgba_src\build\build.ninja:3334:  PRE_LINK = cd .
+  mgba_src\build\build.ninja:3335:  TARGET_COMPILE_PDB = sdl\CMakeFiles\mgba-sdl.dir\
+  mgba_src\build\build.ninja:3336:  TARGET_FILE = mgba-sdl.exe
+  mgba_src\build\build.ninja:3337:  TARGET_IMPLIB = sdl\mgba-sdl.lib
+  mgba_src\build\build.ninja:3338:  TARGET_PDB = mgba-sdl.pdb
+  mgba_src\build\build.ninja:3339:
+  mgba_src\build\build.ninja:3340:
+  mgba_src\build\build.ninja:3341:#############################################
+  mgba_src\build\build.ninja:3342:# Utility command for package
+  mgba_src\build\build.ninja:3343:
+  mgba_src\build\build.ninja:3344:build sdl\CMakeFiles\package.util: CUSTOM_COMMAND 
+sdl\all
+  mgba_src\build\build.ninja:3345:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build && C:\PassionProjects\GBAEmu\Poke
+monQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bin\c
+pack.exe --config ./CPackConfig.cmake"
+  mgba_src\build\build.ninja:3346:  DESC = Run CPack packaging tool...
+  mgba_src\build\build.ninja:3347:  pool = console
+  mgba_src\build\build.ninja:3348:  restat = 1
+  mgba_src\build\build.ninja:3349:
+  mgba_src\build\build.ninja:3350:build sdl\package: phony sdl\CMakeFiles\package.util
+  mgba_src\build\build.ninja:3351:
+  mgba_src\build\build.ninja:3352:
+  mgba_src\build\build.ninja:3353:#############################################
+  mgba_src\build\build.ninja:3354:# Utility command for package_source
+  mgba_src\build\build.ninja:3355:
+  mgba_src\build\build.ninja:3356:build sdl\CMakeFiles\package_source.util: 
+CUSTOM_COMMAND
+  mgba_src\build\build.ninja:3357:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build && C:\PassionProjects\GBAEmu\Poke
+monQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bin\c
+pack.exe --config ./CPackSourceConfig.cmake 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CPackSourceConfig.cmake"
+  mgba_src\build\build.ninja:3358:  DESC = Run CPack packaging tool for source...
+  mgba_src\build\build.ninja:3359:  pool = console
+  mgba_src\build\build.ninja:3360:  restat = 1
+  mgba_src\build\build.ninja:3361:
+  mgba_src\build\build.ninja:3362:build sdl\package_source: phony 
+sdl\CMakeFiles\package_source.util
+  mgba_src\build\build.ninja:3363:
+  mgba_src\build\build.ninja:3364:
+  mgba_src\build\build.ninja:3365:#############################################
+  mgba_src\build\build.ninja:3366:# Utility command for edit_cache
+  mgba_src\build\build.ninja:3367:
+  mgba_src\build\build.ninja:3368:build sdl\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:3369:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\sdl && C:\PassionProjects\GBAEmu\
+PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\b
+in\cmake-gui.exe -SC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src 
+-BC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build"
+  mgba_src\build\build.ninja:3370:  DESC = Running CMake cache editor...
+  mgba_src\build\build.ninja:3371:  pool = console
+  mgba_src\build\build.ninja:3372:  restat = 1
+  mgba_src\build\build.ninja:3373:
+  mgba_src\build\build.ninja:3374:build sdl\edit_cache: phony 
+sdl\CMakeFiles\edit_cache.util
+  mgba_src\build\build.ninja:3375:
+  mgba_src\build\build.ninja:3376:
+  mgba_src\build\build.ninja:3377:#############################################
+  mgba_src\build\build.ninja:3378:# Utility command for rebuild_cache
+  mgba_src\build\build.ninja:3379:
+  mgba_src\build\build.ninja:3380:build sdl\CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:3381:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\sdl && C:\PassionProjects\GBAEmu\
+PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\b
+in\cmake.exe --regenerate-during-build 
+-SC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src 
+-BC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build"
+  mgba_src\build\build.ninja:3382:  DESC = Running CMake to regenerate build system...
+  mgba_src\build\build.ninja:3383:  pool = console
+  mgba_src\build\build.ninja:3384:  restat = 1
+  mgba_src\build\build.ninja:3385:
+  mgba_src\build\build.ninja:3386:build sdl\rebuild_cache: phony 
+sdl\CMakeFiles\rebuild_cache.util
+  mgba_src\build\build.ninja:3387:
+  mgba_src\build\build.ninja:3388:
+  mgba_src\build\build.ninja:3389:#############################################
+  mgba_src\build\build.ninja:3390:# Utility command for list_install_components
+  mgba_src\build\build.ninja:3391:
+  mgba_src\build\build.ninja:3392:build sdl\list_install_components: phony
+  mgba_src\build\build.ninja:3393:
+  mgba_src\build\build.ninja:3394:
+  mgba_src\build\build.ninja:3395:#############################################
+  mgba_src\build\build.ninja:3396:# Utility command for install
+  mgba_src\build\build.ninja:3397:
+  mgba_src\build\build.ninja:3398:build sdl\CMakeFiles\install.util: CUSTOM_COMMAND 
+sdl\all
+  mgba_src\build\build.ninja:3399:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\sdl && C:\PassionProjects\GBAEmu\
+PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\b
+in\cmake.exe -P cmake_install.cmake"
+  mgba_src\build\build.ninja:3400:  DESC = Install the project...
+  mgba_src\build\build.ninja:3401:  pool = console
+  mgba_src\build\build.ninja:3402:  restat = 1
+  mgba_src\build\build.ninja:3403:
+  mgba_src\build\build.ninja:3404:build sdl\install: phony sdl\CMakeFiles\install.util
+  mgba_src\build\build.ninja:3405:
+  mgba_src\build\build.ninja:3406:
+  mgba_src\build\build.ninja:3407:#############################################
+  mgba_src\build\build.ninja:3408:# Utility command for install/local
+  mgba_src\build\build.ninja:3409:
+  mgba_src\build\build.ninja:3410:build sdl\CMakeFiles\install\local.util: 
+CUSTOM_COMMAND sdl\all
+  mgba_src\build\build.ninja:3411:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\sdl && C:\PassionProjects\GBAEmu\
+PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\b
+in\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  mgba_src\build\build.ninja:3412:  DESC = Installing only the local directory...
+  mgba_src\build\build.ninja:3413:  pool = console
+  mgba_src\build\build.ninja:3414:  restat = 1
+  mgba_src\build\build.ninja:3415:
+  mgba_src\build\build.ninja:3416:build sdl\install\local: phony 
+sdl\CMakeFiles\install\local.util
+  mgba_src\build\build.ninja:3417:
+  mgba_src\build\build.ninja:3418:# 
+=============================================================================
+  mgba_src\build\build.ninja:3419:# Write statements declared in CMakeLists.txt:
+  mgba_src\build\build.ninja:3420:# 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/CMakeLists.txt
+  mgba_src\build\build.ninja:3421:# 
+=============================================================================
+  mgba_src\build\build.ninja:3422:
+  mgba_src\build\build.ninja:3423:
+  mgba_src\build\build.ninja:3424:#############################################
+  mgba_src\build\build.ninja:3425:# Utility command for agb001.shader
+  mgba_src\build\build.ninja:3426:
+  mgba_src\build\build.ninja:3427:build qt\agb001.shader: phony 
+qt\CMakeFiles\agb001.shader qt\shaders\agb001.shader
+> mgba_src\build\build.ninja:4680:build mGBA.exe: CXX_EXECUTABLE_LINKER__mgba-qt_Debug 
+qt\CMakeFiles\mgba-qt.dir\mgba-qt_autogen\mocs_compilation.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\main.cpp.obj qt\CMakeFiles\mgba-qt.dir\AboutScreen.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\AbstractUpdater.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\Action.cpp.obj qt\CMakeFiles\mgba-qt.dir\ActionMapper.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ApplicationUpdater.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ApplicationUpdatePrompt.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\AssetInfo.cpp.obj qt\CMakeFiles\mgba-qt.dir\AssetTile.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\AssetView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\AudioProcessor.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\CheatsModel.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\CheatsView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\CheckBoxDelegate.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ConfigController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ColorPicker.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\CoreManager.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\CoreController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\Display.cpp.obj qt\CMakeFiles\mgba-qt.dir\DisplayGL.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\DisplayQt.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ForwarderController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ForwarderGenerator.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ForwarderGenerator3DS.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ForwarderGeneratorVita.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ForwarderView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\FrameView.cpp.obj qt\CMakeFiles\mgba-qt.dir\GBAApp.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\GBAKeyEditor.cpp.obj qt\CMakeFiles\mgba-qt.dir\GIFView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\HistoryLineEdit.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\IOViewer.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\input\Gamepad.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\input\GamepadAxisEvent.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\input\GamepadButtonEvent.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\input\GamepadHatEvent.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\input\InputDriver.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\input\InputSource.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\input\InputMapper.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\input\KeySource.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\InputController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\InputProfile.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\KeyEditor.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\LoadSaveState.cpp.obj qt\CMakeFiles\mgba-qt.dir\Log.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\LogController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\LogConfigModel.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\LogView.cpp.obj qt\CMakeFiles\mgba-qt.dir\LogWidget.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\MapView.cpp.obj qt\CMakeFiles\mgba-qt.dir\MemoryDump.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\MemoryModel.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\MemorySearch.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\MemoryView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\MessagePainter.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\MultiplayerController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ObjView.cpp.obj qt\CMakeFiles\mgba-qt.dir\OpenGLBug.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\OverrideView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\PaletteView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\PlacementControl.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\RegisterView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ReportView.cpp.obj qt\CMakeFiles\mgba-qt.dir\ROMInfo.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\RotatedHeaderView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\SaveConverter.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\SavestateButton.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\SensorView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\SettingsView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ShaderSelector.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ShortcutController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ShortcutModel.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ShortcutView.cpp.obj qt\CMakeFiles\mgba-qt.dir\Swatch.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\TilePainter.cpp.obj qt\CMakeFiles\mgba-qt.dir\TileView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\utils.cpp.obj qt\CMakeFiles\mgba-qt.dir\Window.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\VFileDevice.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\VideoProxy.cpp.obj qt\CMakeFiles\mgba-qt.dir\VideoView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\input\SDLInputDriver.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\DebuggerController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\DebuggerConsole.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\DebuggerConsoleController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\MemoryAccessLogController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\MemoryAccessLogModel.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\MemoryAccessLogView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\GDBController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\GDBWindow.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\ArchiveInspector.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\library\LibraryController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\library\LibraryEntry.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\library\LibraryModel.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\DiscordCoordinator.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\scripting\AutorunScriptModel.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\scripting\AutorunScriptView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\scripting\ScriptingController.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\scripting\ScriptingTextBuffer.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\scripting\ScriptingTextBufferModel.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\scripting\ScriptingView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\__\sdl\sdl-events.c.obj 
+qt\CMakeFiles\mgba-qt.dir\__\sdl\sdl-audio.c.obj 
+qt\CMakeFiles\mgba-qt.dir\BattleChipModel.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\BattleChipUpdater.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\BattleChipView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\DolphinConnector.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\GBAOverride.cpp.obj qt\CMakeFiles\mgba-qt.dir\GameBoy.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\GBOverride.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\PrinterView.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\AudioProcessorSDL.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\AudioProcessorQt.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\AudioDevice.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\VideoDumper.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\qrc_resources.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\qrc_updater.cpp.obj 
+qt\CMakeFiles\mgba-qt.dir\__\res\mgba.rc.res | 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib\SDL2.lib 
+mgba.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\
+Qt5Multimediad.lib discord-rpc\src\discord-rpc.lib C$:\PassionProjects\GBAEmu\PokemonQuet
+zal\vcpkg\installed\x64-windows\debug\lib\Qt5Widgetsd.lib C$:\PassionProjects\GBAEmu\Poke
+monQuetzal\vcpkg\installed\x64-windows\debug\lib\Qt5Networkd.lib C$:\PassionProjects\GBAE
+mu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\epoxy.lib C$:\PassionProjects\GBA
+Emu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avdevice.lib C$:\PassionProjects
+\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avfilter.lib C$:\PassionProj
+ects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avformat.lib C$:\Passion
+Projects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avcodec.lib C$:\Pass
+ionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\swresample.lib C$
+:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\swscale.lib
+ C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avutil.l
+ib 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zip.lib C
+$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\freetyped.
+lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd
+.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libp
+ng16d.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib
+\sqlite3.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\
+lib\zlibd.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug
+\lib\libpng16d.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\
+debug\lib\sqlite3.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windo
+ws\debug\lib\epoxy.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-wind
+ows\debug\lib\Qt5Guid.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-w
+indows\debug\lib\Qt5Cored.lib C$:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x
+64-windows\debug\lib\manual-link\qtmaind.lib || discord-rpc\src\discord-rpc.lib mgba.dll 
+qt\mgba-qt_autogen qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:4681:  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc 
+-D_CRT_SECURE_NO_WARNINGS /wd4003 /wd4244 /wd4146 /wd4267 /Zc:preprocessor- /MDd /Zi 
+/Ob0 /Od /RTC1
+  mgba_src\build\build.ninja:4682:  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL 
+/subsystem:windows
+  mgba_src\build\build.ninja:4683:  LINK_LIBRARIES = dwmapi.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib\SDL2.lib  
+imm32.lib  setupapi.lib  version.lib  winmm.lib  mgba.lib  C:\PassionProjects\GBAEmu\Poke
+monQuetzal\vcpkg\installed\x64-windows\debug\lib\Qt5Multimediad.lib  
+discord-rpc\src\discord-rpc.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed
+\x64-windows\debug\lib\Qt5Widgetsd.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\in
+stalled\x64-windows\debug\lib\Qt5Networkd.lib  opengl32.lib  glu32.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\epoxy.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avdevice.
+lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\avfil
+ter.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\a
+vformat.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\l
+ib\avcodec.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debu
+g\lib\swresample.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-window
+s\debug\lib\swscale.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-win
+dows\debug\lib\avutil.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zip.lib  C
+:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\freetyped.l
+ib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libpng16d
+.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\sqli
+te3.lib  ws2_32.lib  shlwapi.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\zlibd.lib 
+ C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\libpng16d
+.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\sqli
+te3.lib  ws2_32.lib  shlwapi.lib  
+C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib\epoxy.lib 
+ psapi.lib  advapi32.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-wi
+ndows\debug\lib\Qt5Guid.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64
+-windows\debug\lib\Qt5Cored.lib  C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed
+\x64-windows\debug\lib\manual-link\qtmaind.lib  kernel32.lib user32.lib gdi32.lib 
+winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  mgba_src\build\build.ninja:4684:  LINK_PATH = 
+-LIBPATH:C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\lib   
+-LIBPATH:C:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\debug\lib
+  mgba_src\build\build.ninja:4685:  OBJECT_DIR = qt\CMakeFiles\mgba-qt.dir
+  mgba_src\build\build.ninja:4686:  POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && 
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy 
+Bypass -file 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 
+-targetBinary C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/mGBA.exe 
+-installedDir 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/vcpkg/installed/x64-windows/debug/bin 
+-OutVariable out"
+  mgba_src\build\build.ninja:4687:  PRE_LINK = cd .
+  mgba_src\build\build.ninja:4688:  TARGET_COMPILE_PDB = qt\CMakeFiles\mgba-qt.dir\
+  mgba_src\build\build.ninja:4689:  TARGET_FILE = mGBA.exe
+  mgba_src\build\build.ninja:4690:  TARGET_IMPLIB = qt\mGBA.lib
+  mgba_src\build\build.ninja:4691:  TARGET_PDB = mGBA.pdb
+  mgba_src\build\build.ninja:4692:  RSP_FILE = CMakeFiles\mgba-qt.rsp
+  mgba_src\build\build.ninja:4693:
+  mgba_src\build\build.ninja:4694:
+  mgba_src\build\build.ninja:4695:#############################################
+  mgba_src\build\build.ninja:4696:# Utility command for package
+  mgba_src\build\build.ninja:4697:
+  mgba_src\build\build.ninja:4698:build qt\CMakeFiles\package.util: CUSTOM_COMMAND qt\all
+  mgba_src\build\build.ninja:4699:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build && C:\PassionProjects\GBAEmu\Poke
+monQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bin\c
+pack.exe --config ./CPackConfig.cmake"
+  mgba_src\build\build.ninja:4700:  DESC = Run CPack packaging tool...
+  mgba_src\build\build.ninja:4701:  pool = console
+  mgba_src\build\build.ninja:4702:  restat = 1
+  mgba_src\build\build.ninja:4703:
+  mgba_src\build\build.ninja:4704:build qt\package: phony qt\CMakeFiles\package.util
+  mgba_src\build\build.ninja:4705:
+  mgba_src\build\build.ninja:4706:
+  mgba_src\build\build.ninja:4707:#############################################
+  mgba_src\build\build.ninja:4708:# Utility command for package_source
+  mgba_src\build\build.ninja:4709:
+  mgba_src\build\build.ninja:4710:build qt\CMakeFiles\package_source.util: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:4711:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build && C:\PassionProjects\GBAEmu\Poke
+monQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bin\c
+pack.exe --config ./CPackSourceConfig.cmake 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CPackSourceConfig.cmake"
+  mgba_src\build\build.ninja:4712:  DESC = Run CPack packaging tool for source...
+  mgba_src\build\build.ninja:4713:  pool = console
+  mgba_src\build\build.ninja:4714:  restat = 1
+  mgba_src\build\build.ninja:4715:
+  mgba_src\build\build.ninja:4716:build qt\package_source: phony 
+qt\CMakeFiles\package_source.util
+  mgba_src\build\build.ninja:4717:
+  mgba_src\build\build.ninja:4718:
+  mgba_src\build\build.ninja:4719:#############################################
+  mgba_src\build\build.ninja:4720:# Utility command for edit_cache
+  mgba_src\build\build.ninja:4721:
+  mgba_src\build\build.ninja:4722:build qt\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:4723:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bi
+n\cmake-gui.exe -SC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src 
+-BC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build"
+  mgba_src\build\build.ninja:4724:  DESC = Running CMake cache editor...
+  mgba_src\build\build.ninja:4725:  pool = console
+  mgba_src\build\build.ninja:4726:  restat = 1
+  mgba_src\build\build.ninja:4727:
+  mgba_src\build\build.ninja:4728:build qt\edit_cache: phony 
+qt\CMakeFiles\edit_cache.util
+  mgba_src\build\build.ninja:4729:
+  mgba_src\build\build.ninja:4730:
+  mgba_src\build\build.ninja:4731:#############################################
+  mgba_src\build\build.ninja:4732:# Utility command for rebuild_cache
+  mgba_src\build\build.ninja:4733:
+  mgba_src\build\build.ninja:4734:build qt\CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:4735:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bi
+n\cmake.exe --regenerate-during-build 
+-SC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src 
+-BC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build"
+  mgba_src\build\build.ninja:4736:  DESC = Running CMake to regenerate build system...
+  mgba_src\build\build.ninja:4737:  pool = console
+  mgba_src\build\build.ninja:4738:  restat = 1
+  mgba_src\build\build.ninja:4739:
+  mgba_src\build\build.ninja:4740:build qt\rebuild_cache: phony 
+qt\CMakeFiles\rebuild_cache.util
+  mgba_src\build\build.ninja:4741:
+  mgba_src\build\build.ninja:4742:
+  mgba_src\build\build.ninja:4743:#############################################
+  mgba_src\build\build.ninja:4744:# Utility command for list_install_components
+  mgba_src\build\build.ninja:4745:
+  mgba_src\build\build.ninja:4746:build qt\list_install_components: phony
+  mgba_src\build\build.ninja:4747:
+  mgba_src\build\build.ninja:4748:
+  mgba_src\build\build.ninja:4749:#############################################
+  mgba_src\build\build.ninja:4750:# Utility command for install
+  mgba_src\build\build.ninja:4751:
+  mgba_src\build\build.ninja:4752:build qt\CMakeFiles\install.util: CUSTOM_COMMAND qt\all
+  mgba_src\build\build.ninja:4753:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bi
+n\cmake.exe -P cmake_install.cmake"
+  mgba_src\build\build.ninja:4754:  DESC = Install the project...
+  mgba_src\build\build.ninja:4755:  pool = console
+  mgba_src\build\build.ninja:4756:  restat = 1
+  mgba_src\build\build.ninja:4757:
+  mgba_src\build\build.ninja:4758:build qt\install: phony qt\CMakeFiles\install.util
+  mgba_src\build\build.ninja:4759:
+  mgba_src\build\build.ninja:4760:
+  mgba_src\build\build.ninja:4761:#############################################
+  mgba_src\build\build.ninja:4762:# Utility command for install/local
+  mgba_src\build\build.ninja:4763:
+  mgba_src\build\build.ninja:4764:build qt\CMakeFiles\install\local.util: CUSTOM_COMMAND 
+qt\all
+  mgba_src\build\build.ninja:4765:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bi
+n\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  mgba_src\build\build.ninja:4766:  DESC = Installing only the local directory...
+  mgba_src\build\build.ninja:4767:  pool = console
+  mgba_src\build\build.ninja:4768:  restat = 1
+  mgba_src\build\build.ninja:4769:
+  mgba_src\build\build.ninja:4770:build qt\install\local: phony 
+qt\CMakeFiles\install\local.util
+  mgba_src\build\build.ninja:4771:
+  mgba_src\build\build.ninja:4772:
+  mgba_src\build\build.ninja:4773:#############################################
+  mgba_src\build\build.ninja:4774:# Utility command for mgba-qt_autogen_timestamp_deps
+  mgba_src\build\build.ninja:4775:
+> mgba_src\build\build.ninja:4776:build qt\mgba-qt_autogen_timestamp_deps: phony 
+discord-rpc\src\discord-rpc.lib mgba.dll
+  mgba_src\build\build.ninja:4777:
+  mgba_src\build\build.ninja:4778:
+  mgba_src\build\build.ninja:4779:#############################################
+  mgba_src\build\build.ninja:4780:# Utility command for mgba-qt_autogen
+  mgba_src\build\build.ninja:4781:
+  mgba_src\build\build.ninja:4782:build qt\mgba-qt_autogen: phony 
+qt\CMakeFiles\mgba-qt_autogen qt\mgba-qt_autogen\timestamp 
+qt\mgba-qt_autogen\mocs_compilation.cpp qt\mgba-qt_autogen_timestamp_deps
+  mgba_src\build\build.ninja:4783:
+  mgba_src\build\build.ninja:4784:
+  mgba_src\build\build.ninja:4785:#############################################
+  mgba_src\build\build.ninja:4786:# Phony custom command for qt\CMakeFiles\agb001.shader
+  mgba_src\build\build.ninja:4787:
+  mgba_src\build\build.ninja:4788:build qt\CMakeFiles\agb001.shader | 
+${cmake_ninja_workdir}qt\CMakeFiles\agb001.shader: phony qt\shaders\agb001.shader
+  mgba_src\build\build.ninja:4789:
+  mgba_src\build\build.ninja:4790:
+  mgba_src\build\build.ninja:4791:#############################################
+  mgba_src\build\build.ninja:4792:# Custom command for qt\shaders\agb001.shader
+  mgba_src\build\build.ninja:4793:
+  mgba_src\build\build.ninja:4794:build qt\shaders\agb001.shader | 
+${cmake_ninja_workdir}qt\shaders\agb001.shader: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:4795:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\shaders\agb001.shader && C:\Passion
+Projects\GBAEmu\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-
+windows-x86_64\bin\cmake.exe -E tar cf 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/shaders/agb001.shader 
+--format=zip ."
+  mgba_src\build\build.ninja:4796:  DESC = Generating shaders/agb001.shader
+  mgba_src\build\build.ninja:4797:  restat = 1
+  mgba_src\build\build.ninja:4798:
+  mgba_src\build\build.ninja:4799:
+  mgba_src\build\build.ninja:4800:#############################################
+  mgba_src\build\build.ninja:4801:# Phony custom command for qt\CMakeFiles\ags001.shader
+  mgba_src\build\build.ninja:4802:
+  mgba_src\build\build.ninja:4803:build qt\CMakeFiles\ags001.shader | 
+${cmake_ninja_workdir}qt\CMakeFiles\ags001.shader: phony qt\shaders\ags001.shader
+  mgba_src\build\build.ninja:4804:
+  mgba_src\build\build.ninja:4805:
+  mgba_src\build\build.ninja:4806:#############################################
+  mgba_src\build\build.ninja:4807:# Custom command for qt\shaders\ags001.shader
+  mgba_src\build\build.ninja:4808:
+  mgba_src\build\build.ninja:4809:build qt\shaders\ags001.shader | 
+${cmake_ninja_workdir}qt\shaders\ags001.shader: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:4810:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\shaders\ags001.shader && C:\Passion
+Projects\GBAEmu\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-
+windows-x86_64\bin\cmake.exe -E tar cf 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/shaders/ags001.shader 
+--format=zip ."
+  mgba_src\build\build.ninja:4811:  DESC = Generating shaders/ags001.shader
+  mgba_src\build\build.ninja:4812:  restat = 1
+  mgba_src\build\build.ninja:4813:
+  mgba_src\build\build.ninja:4814:
+  mgba_src\build\build.ninja:4815:#############################################
+  mgba_src\build\build.ninja:4816:# Phony custom command for 
+qt\CMakeFiles\dslite-color.shader
+  mgba_src\build\build.ninja:4817:
+  mgba_src\build\build.ninja:4818:build qt\CMakeFiles\dslite-color.shader | 
+${cmake_ninja_workdir}qt\CMakeFiles\dslite-color.shader: phony 
+qt\shaders\dslite-color.shader
+  mgba_src\build\build.ninja:4819:
+  mgba_src\build\build.ninja:4820:
+  mgba_src\build\build.ninja:4821:#############################################
+  mgba_src\build\build.ninja:4822:# Custom command for qt\shaders\dslite-color.shader
+  mgba_src\build\build.ninja:4823:
+  mgba_src\build\build.ninja:4824:build qt\shaders\dslite-color.shader | 
+${cmake_ninja_workdir}qt\shaders\dslite-color.shader: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:4825:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\shaders\dslite-color.shader && C:\P
+assionProjects\GBAEmu\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.
+31.10-windows-x86_64\bin\cmake.exe -E tar cf 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/shaders/dslite-color.shader 
+--format=zip ."
+  mgba_src\build\build.ninja:4826:  DESC = Generating shaders/dslite-color.shader
+  mgba_src\build\build.ninja:4827:  restat = 1
+  mgba_src\build\build.ninja:4828:
+  mgba_src\build\build.ninja:4829:
+  mgba_src\build\build.ninja:4830:#############################################
+  mgba_src\build\build.ninja:4831:# Phony custom command for qt\CMakeFiles\fish.shader
+  mgba_src\build\build.ninja:4832:
+  mgba_src\build\build.ninja:4833:build qt\CMakeFiles\fish.shader | 
+${cmake_ninja_workdir}qt\CMakeFiles\fish.shader: phony qt\shaders\fish.shader
+  mgba_src\build\build.ninja:4834:
+  mgba_src\build\build.ninja:4835:
+  mgba_src\build\build.ninja:4836:#############################################
+  mgba_src\build\build.ninja:4837:# Custom command for qt\shaders\fish.shader
+  mgba_src\build\build.ninja:4838:
+  mgba_src\build\build.ninja:4839:build qt\shaders\fish.shader | 
+${cmake_ninja_workdir}qt\shaders\fish.shader: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:4840:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\shaders\fish.shader && C:\PassionPr
+ojects\GBAEmu\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-wi
+ndows-x86_64\bin\cmake.exe -E tar cf 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/shaders/fish.shader 
+--format=zip ."
+  mgba_src\build\build.ninja:4841:  DESC = Generating shaders/fish.shader
+  mgba_src\build\build.ninja:4842:  restat = 1
+  mgba_src\build\build.ninja:4843:
+  mgba_src\build\build.ninja:4844:
+  mgba_src\build\build.ninja:4845:#############################################
+  mgba_src\build\build.ninja:4846:# Phony custom command for 
+qt\CMakeFiles\gb-micro-color.shader
+  mgba_src\build\build.ninja:4847:
+  mgba_src\build\build.ninja:4848:build qt\CMakeFiles\gb-micro-color.shader | 
+${cmake_ninja_workdir}qt\CMakeFiles\gb-micro-color.shader: phony 
+qt\shaders\gb-micro-color.shader
+  mgba_src\build\build.ninja:4849:
+  mgba_src\build\build.ninja:4850:
+  mgba_src\build\build.ninja:4851:#############################################
+  mgba_src\build\build.ninja:4852:# Custom command for qt\shaders\gb-micro-color.shader
+  mgba_src\build\build.ninja:4853:
+  mgba_src\build\build.ninja:4854:build qt\shaders\gb-micro-color.shader | 
+${cmake_ninja_workdir}qt\shaders\gb-micro-color.shader: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:4855:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\shaders\gb-micro-color.shader && C:
+\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-
+3.31.10-windows-x86_64\bin\cmake.exe -E tar cf 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/shaders/gb-micro-color.shader 
+--format=zip ."
+  mgba_src\build\build.ninja:4856:  DESC = Generating shaders/gb-micro-color.shader
+  mgba_src\build\build.ninja:4857:  restat = 1
+  mgba_src\build\build.ninja:4858:
+  mgba_src\build\build.ninja:4859:
+  mgba_src\build\build.ninja:4860:#############################################
+  mgba_src\build\build.ninja:4861:# Phony custom command for 
+qt\CMakeFiles\gba-color.shader
+  mgba_src\build\build.ninja:4862:
+  mgba_src\build\build.ninja:4863:build qt\CMakeFiles\gba-color.shader | 
+${cmake_ninja_workdir}qt\CMakeFiles\gba-color.shader: phony qt\shaders\gba-color.shader
+  mgba_src\build\build.ninja:4864:
+  mgba_src\build\build.ninja:4865:
+  mgba_src\build\build.ninja:4866:#############################################
+  mgba_src\build\build.ninja:4867:# Custom command for qt\shaders\gba-color.shader
+  mgba_src\build\build.ninja:4868:
+  mgba_src\build\build.ninja:4869:build qt\shaders\gba-color.shader | 
+${cmake_ninja_workdir}qt\shaders\gba-color.shader: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:4870:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\shaders\gba-color.shader && C:\Pass
+ionProjects\GBAEmu\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.
+10-windows-x86_64\bin\cmake.exe -E tar cf 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/shaders/gba-color.shader 
+--format=zip ."
+  mgba_src\build\build.ninja:4871:  DESC = Generating shaders/gba-color.shader
+  mgba_src\build\build.ninja:4872:  restat = 1
+  mgba_src\build\build.ninja:4873:
+  mgba_src\build\build.ninja:4874:
+  mgba_src\build\build.ninja:4875:#############################################
+  mgba_src\build\build.ninja:4876:# Phony custom command for 
+qt\CMakeFiles\gbc-color.shader
+> mgba_src\build\build.ninja:5208:build qt\ui_AboutScreen.h | 
+${cmake_ninja_workdir}qt\ui_AboutScreen.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\AboutScreen.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5209:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_AboutScreen.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/AboutScreen.ui"
+  mgba_src\build\build.ninja:5210:  DESC = Generating ui_AboutScreen.h
+  mgba_src\build\build.ninja:5211:  restat = 1
+  mgba_src\build\build.ninja:5212:
+  mgba_src\build\build.ninja:5213:
+  mgba_src\build\build.ninja:5214:#############################################
+  mgba_src\build\build.ninja:5215:# Custom command for qt\ui_ApplicationUpdatePrompt.h
+  mgba_src\build\build.ninja:5216:
+> mgba_src\build\build.ninja:5217:build qt\ui_ApplicationUpdatePrompt.h | 
+${cmake_ninja_workdir}qt\ui_ApplicationUpdatePrompt.h: CUSTOM_COMMAND C$:\PassionProjects
+\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\ApplicationUpdatePrompt.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5218:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_ApplicationUpdatePrompt.h C
+:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/ApplicationUpdatePrompt.
+ui"
+  mgba_src\build\build.ninja:5219:  DESC = Generating ui_ApplicationUpdatePrompt.h
+  mgba_src\build\build.ninja:5220:  restat = 1
+  mgba_src\build\build.ninja:5221:
+  mgba_src\build\build.ninja:5222:
+  mgba_src\build\build.ninja:5223:#############################################
+  mgba_src\build\build.ninja:5224:# Custom command for qt\ui_ArchiveInspector.h
+  mgba_src\build\build.ninja:5225:
+> mgba_src\build\build.ninja:5226:build qt\ui_ArchiveInspector.h | 
+${cmake_ninja_workdir}qt\ui_ArchiveInspector.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\ArchiveInspector.ui 
+|| discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5227:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_ArchiveInspector.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/ArchiveInspector.ui"
+  mgba_src\build\build.ninja:5228:  DESC = Generating ui_ArchiveInspector.h
+  mgba_src\build\build.ninja:5229:  restat = 1
+  mgba_src\build\build.ninja:5230:
+  mgba_src\build\build.ninja:5231:
+  mgba_src\build\build.ninja:5232:#############################################
+  mgba_src\build\build.ninja:5233:# Custom command for qt\ui_AssetTile.h
+  mgba_src\build\build.ninja:5234:
+> mgba_src\build\build.ninja:5235:build qt\ui_AssetTile.h | 
+${cmake_ninja_workdir}qt\ui_AssetTile.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\AssetTile.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5236:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_AssetTile.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/AssetTile.ui"
+  mgba_src\build\build.ninja:5237:  DESC = Generating ui_AssetTile.h
+  mgba_src\build\build.ninja:5238:  restat = 1
+  mgba_src\build\build.ninja:5239:
+  mgba_src\build\build.ninja:5240:
+  mgba_src\build\build.ninja:5241:#############################################
+  mgba_src\build\build.ninja:5242:# Custom command for qt\ui_BattleChipView.h
+  mgba_src\build\build.ninja:5243:
+> mgba_src\build\build.ninja:5244:build qt\ui_BattleChipView.h | 
+${cmake_ninja_workdir}qt\ui_BattleChipView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\BattleChipView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5245:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_BattleChipView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/BattleChipView.ui"
+  mgba_src\build\build.ninja:5246:  DESC = Generating ui_BattleChipView.h
+  mgba_src\build\build.ninja:5247:  restat = 1
+  mgba_src\build\build.ninja:5248:
+  mgba_src\build\build.ninja:5249:
+  mgba_src\build\build.ninja:5250:#############################################
+  mgba_src\build\build.ninja:5251:# Custom command for qt\ui_CheatsView.h
+  mgba_src\build\build.ninja:5252:
+> mgba_src\build\build.ninja:5253:build qt\ui_CheatsView.h | 
+${cmake_ninja_workdir}qt\ui_CheatsView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\CheatsView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5254:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_CheatsView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/CheatsView.ui"
+  mgba_src\build\build.ninja:5255:  DESC = Generating ui_CheatsView.h
+  mgba_src\build\build.ninja:5256:  restat = 1
+  mgba_src\build\build.ninja:5257:
+  mgba_src\build\build.ninja:5258:
+  mgba_src\build\build.ninja:5259:#############################################
+  mgba_src\build\build.ninja:5260:# Custom command for qt\ui_DebuggerConsole.h
+  mgba_src\build\build.ninja:5261:
+> mgba_src\build\build.ninja:5262:build qt\ui_DebuggerConsole.h | 
+${cmake_ninja_workdir}qt\ui_DebuggerConsole.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\DebuggerConsole.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5263:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_DebuggerConsole.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/DebuggerConsole.ui"
+  mgba_src\build\build.ninja:5264:  DESC = Generating ui_DebuggerConsole.h
+  mgba_src\build\build.ninja:5265:  restat = 1
+  mgba_src\build\build.ninja:5266:
+  mgba_src\build\build.ninja:5267:
+  mgba_src\build\build.ninja:5268:#############################################
+  mgba_src\build\build.ninja:5269:# Custom command for qt\ui_DolphinConnector.h
+  mgba_src\build\build.ninja:5270:
+> mgba_src\build\build.ninja:5271:build qt\ui_DolphinConnector.h | 
+${cmake_ninja_workdir}qt\ui_DolphinConnector.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\DolphinConnector.ui 
+|| discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5272:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_DolphinConnector.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/DolphinConnector.ui"
+  mgba_src\build\build.ninja:5273:  DESC = Generating ui_DolphinConnector.h
+  mgba_src\build\build.ninja:5274:  restat = 1
+  mgba_src\build\build.ninja:5275:
+  mgba_src\build\build.ninja:5276:
+  mgba_src\build\build.ninja:5277:#############################################
+  mgba_src\build\build.ninja:5278:# Custom command for qt\ui_ForwarderView.h
+  mgba_src\build\build.ninja:5279:
+> mgba_src\build\build.ninja:5280:build qt\ui_ForwarderView.h | 
+${cmake_ninja_workdir}qt\ui_ForwarderView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\ForwarderView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5281:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_ForwarderView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/ForwarderView.ui"
+  mgba_src\build\build.ninja:5282:  DESC = Generating ui_ForwarderView.h
+  mgba_src\build\build.ninja:5283:  restat = 1
+  mgba_src\build\build.ninja:5284:
+  mgba_src\build\build.ninja:5285:
+  mgba_src\build\build.ninja:5286:#############################################
+  mgba_src\build\build.ninja:5287:# Custom command for qt\ui_FrameView.h
+  mgba_src\build\build.ninja:5288:
+> mgba_src\build\build.ninja:5289:build qt\ui_FrameView.h | 
+${cmake_ninja_workdir}qt\ui_FrameView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\FrameView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5290:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_FrameView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/FrameView.ui"
+  mgba_src\build\build.ninja:5291:  DESC = Generating ui_FrameView.h
+  mgba_src\build\build.ninja:5292:  restat = 1
+  mgba_src\build\build.ninja:5293:
+  mgba_src\build\build.ninja:5294:
+  mgba_src\build\build.ninja:5295:#############################################
+  mgba_src\build\build.ninja:5296:# Custom command for qt\ui_GIFView.h
+  mgba_src\build\build.ninja:5297:
+> mgba_src\build\build.ninja:5298:build qt\ui_GIFView.h | 
+${cmake_ninja_workdir}qt\ui_GIFView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\GIFView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5299:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_GIFView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/GIFView.ui"
+  mgba_src\build\build.ninja:5300:  DESC = Generating ui_GIFView.h
+  mgba_src\build\build.ninja:5301:  restat = 1
+  mgba_src\build\build.ninja:5302:
+  mgba_src\build\build.ninja:5303:
+  mgba_src\build\build.ninja:5304:#############################################
+  mgba_src\build\build.ninja:5305:# Custom command for qt\ui_IOViewer.h
+  mgba_src\build\build.ninja:5306:
+> mgba_src\build\build.ninja:5307:build qt\ui_IOViewer.h | 
+${cmake_ninja_workdir}qt\ui_IOViewer.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\IOViewer.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5308:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_IOViewer.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/IOViewer.ui"
+  mgba_src\build\build.ninja:5309:  DESC = Generating ui_IOViewer.h
+  mgba_src\build\build.ninja:5310:  restat = 1
+  mgba_src\build\build.ninja:5311:
+  mgba_src\build\build.ninja:5312:
+  mgba_src\build\build.ninja:5313:#############################################
+  mgba_src\build\build.ninja:5314:# Custom command for qt\ui_LoadSaveState.h
+  mgba_src\build\build.ninja:5315:
+> mgba_src\build\build.ninja:5316:build qt\ui_LoadSaveState.h | 
+${cmake_ninja_workdir}qt\ui_LoadSaveState.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\LoadSaveState.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5317:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_LoadSaveState.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/LoadSaveState.ui"
+  mgba_src\build\build.ninja:5318:  DESC = Generating ui_LoadSaveState.h
+  mgba_src\build\build.ninja:5319:  restat = 1
+  mgba_src\build\build.ninja:5320:
+  mgba_src\build\build.ninja:5321:
+  mgba_src\build\build.ninja:5322:#############################################
+  mgba_src\build\build.ninja:5323:# Custom command for qt\ui_LogView.h
+  mgba_src\build\build.ninja:5324:
+> mgba_src\build\build.ninja:5325:build qt\ui_LogView.h | 
+${cmake_ninja_workdir}qt\ui_LogView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\LogView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5326:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_LogView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/LogView.ui"
+  mgba_src\build\build.ninja:5327:  DESC = Generating ui_LogView.h
+  mgba_src\build\build.ninja:5328:  restat = 1
+  mgba_src\build\build.ninja:5329:
+  mgba_src\build\build.ninja:5330:
+  mgba_src\build\build.ninja:5331:#############################################
+  mgba_src\build\build.ninja:5332:# Custom command for qt\ui_MapView.h
+  mgba_src\build\build.ninja:5333:
+> mgba_src\build\build.ninja:5334:build qt\ui_MapView.h | 
+${cmake_ninja_workdir}qt\ui_MapView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\MapView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5335:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_MapView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/MapView.ui"
+  mgba_src\build\build.ninja:5336:  DESC = Generating ui_MapView.h
+  mgba_src\build\build.ninja:5337:  restat = 1
+  mgba_src\build\build.ninja:5338:
+  mgba_src\build\build.ninja:5339:
+  mgba_src\build\build.ninja:5340:#############################################
+  mgba_src\build\build.ninja:5341:# Custom command for qt\ui_MemoryAccessLogView.h
+  mgba_src\build\build.ninja:5342:
+> mgba_src\build\build.ninja:5343:build qt\ui_MemoryAccessLogView.h | 
+${cmake_ninja_workdir}qt\ui_MemoryAccessLogView.h: CUSTOM_COMMAND C$:\PassionProjects\GBA
+Emu\PokemonQuetzal\mgba_src\src\platform\qt\MemoryAccessLogView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5344:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_MemoryAccessLogView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/MemoryAccessLogView.ui"
+  mgba_src\build\build.ninja:5345:  DESC = Generating ui_MemoryAccessLogView.h
+  mgba_src\build\build.ninja:5346:  restat = 1
+  mgba_src\build\build.ninja:5347:
+  mgba_src\build\build.ninja:5348:
+  mgba_src\build\build.ninja:5349:#############################################
+  mgba_src\build\build.ninja:5350:# Custom command for qt\ui_MemoryDump.h
+  mgba_src\build\build.ninja:5351:
+> mgba_src\build\build.ninja:5352:build qt\ui_MemoryDump.h | 
+${cmake_ninja_workdir}qt\ui_MemoryDump.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\MemoryDump.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5353:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_MemoryDump.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/MemoryDump.ui"
+  mgba_src\build\build.ninja:5354:  DESC = Generating ui_MemoryDump.h
+  mgba_src\build\build.ninja:5355:  restat = 1
+  mgba_src\build\build.ninja:5356:
+  mgba_src\build\build.ninja:5357:
+  mgba_src\build\build.ninja:5358:#############################################
+  mgba_src\build\build.ninja:5359:# Custom command for qt\ui_MemorySearch.h
+  mgba_src\build\build.ninja:5360:
+> mgba_src\build\build.ninja:5361:build qt\ui_MemorySearch.h | 
+${cmake_ninja_workdir}qt\ui_MemorySearch.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\MemorySearch.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5362:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_MemorySearch.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/MemorySearch.ui"
+  mgba_src\build\build.ninja:5363:  DESC = Generating ui_MemorySearch.h
+  mgba_src\build\build.ninja:5364:  restat = 1
+  mgba_src\build\build.ninja:5365:
+  mgba_src\build\build.ninja:5366:
+  mgba_src\build\build.ninja:5367:#############################################
+  mgba_src\build\build.ninja:5368:# Custom command for qt\ui_MemoryView.h
+  mgba_src\build\build.ninja:5369:
+> mgba_src\build\build.ninja:5370:build qt\ui_MemoryView.h | 
+${cmake_ninja_workdir}qt\ui_MemoryView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\MemoryView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5371:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_MemoryView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/MemoryView.ui"
+  mgba_src\build\build.ninja:5372:  DESC = Generating ui_MemoryView.h
+  mgba_src\build\build.ninja:5373:  restat = 1
+  mgba_src\build\build.ninja:5374:
+  mgba_src\build\build.ninja:5375:
+  mgba_src\build\build.ninja:5376:#############################################
+  mgba_src\build\build.ninja:5377:# Custom command for qt\ui_ObjView.h
+  mgba_src\build\build.ninja:5378:
+> mgba_src\build\build.ninja:5379:build qt\ui_ObjView.h | 
+${cmake_ninja_workdir}qt\ui_ObjView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\ObjView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5380:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_ObjView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/ObjView.ui"
+  mgba_src\build\build.ninja:5381:  DESC = Generating ui_ObjView.h
+  mgba_src\build\build.ninja:5382:  restat = 1
+  mgba_src\build\build.ninja:5383:
+  mgba_src\build\build.ninja:5384:
+  mgba_src\build\build.ninja:5385:#############################################
+  mgba_src\build\build.ninja:5386:# Custom command for qt\ui_OverrideView.h
+  mgba_src\build\build.ninja:5387:
+> mgba_src\build\build.ninja:5388:build qt\ui_OverrideView.h | 
+${cmake_ninja_workdir}qt\ui_OverrideView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\OverrideView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5389:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_OverrideView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/OverrideView.ui"
+  mgba_src\build\build.ninja:5390:  DESC = Generating ui_OverrideView.h
+  mgba_src\build\build.ninja:5391:  restat = 1
+  mgba_src\build\build.ninja:5392:
+  mgba_src\build\build.ninja:5393:
+  mgba_src\build\build.ninja:5394:#############################################
+  mgba_src\build\build.ninja:5395:# Custom command for qt\ui_PaletteView.h
+  mgba_src\build\build.ninja:5396:
+> mgba_src\build\build.ninja:5397:build qt\ui_PaletteView.h | 
+${cmake_ninja_workdir}qt\ui_PaletteView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\PaletteView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5398:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_PaletteView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/PaletteView.ui"
+  mgba_src\build\build.ninja:5399:  DESC = Generating ui_PaletteView.h
+  mgba_src\build\build.ninja:5400:  restat = 1
+  mgba_src\build\build.ninja:5401:
+  mgba_src\build\build.ninja:5402:
+  mgba_src\build\build.ninja:5403:#############################################
+  mgba_src\build\build.ninja:5404:# Custom command for qt\ui_PlacementControl.h
+  mgba_src\build\build.ninja:5405:
+> mgba_src\build\build.ninja:5406:build qt\ui_PlacementControl.h | 
+${cmake_ninja_workdir}qt\ui_PlacementControl.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\PlacementControl.ui 
+|| discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5407:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_PlacementControl.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/PlacementControl.ui"
+  mgba_src\build\build.ninja:5408:  DESC = Generating ui_PlacementControl.h
+  mgba_src\build\build.ninja:5409:  restat = 1
+  mgba_src\build\build.ninja:5410:
+  mgba_src\build\build.ninja:5411:
+  mgba_src\build\build.ninja:5412:#############################################
+  mgba_src\build\build.ninja:5413:# Custom command for qt\ui_PrinterView.h
+  mgba_src\build\build.ninja:5414:
+> mgba_src\build\build.ninja:5415:build qt\ui_PrinterView.h | 
+${cmake_ninja_workdir}qt\ui_PrinterView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\PrinterView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5416:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_PrinterView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/PrinterView.ui"
+  mgba_src\build\build.ninja:5417:  DESC = Generating ui_PrinterView.h
+  mgba_src\build\build.ninja:5418:  restat = 1
+  mgba_src\build\build.ninja:5419:
+  mgba_src\build\build.ninja:5420:
+  mgba_src\build\build.ninja:5421:#############################################
+  mgba_src\build\build.ninja:5422:# Custom command for qt\ui_ReportView.h
+  mgba_src\build\build.ninja:5423:
+> mgba_src\build\build.ninja:5424:build qt\ui_ReportView.h | 
+${cmake_ninja_workdir}qt\ui_ReportView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\ReportView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5425:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_ReportView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/ReportView.ui"
+  mgba_src\build\build.ninja:5426:  DESC = Generating ui_ReportView.h
+  mgba_src\build\build.ninja:5427:  restat = 1
+  mgba_src\build\build.ninja:5428:
+  mgba_src\build\build.ninja:5429:
+  mgba_src\build\build.ninja:5430:#############################################
+  mgba_src\build\build.ninja:5431:# Custom command for qt\ui_ROMInfo.h
+  mgba_src\build\build.ninja:5432:
+> mgba_src\build\build.ninja:5433:build qt\ui_ROMInfo.h | 
+${cmake_ninja_workdir}qt\ui_ROMInfo.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\ROMInfo.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5434:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_ROMInfo.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/ROMInfo.ui"
+  mgba_src\build\build.ninja:5435:  DESC = Generating ui_ROMInfo.h
+  mgba_src\build\build.ninja:5436:  restat = 1
+  mgba_src\build\build.ninja:5437:
+  mgba_src\build\build.ninja:5438:
+  mgba_src\build\build.ninja:5439:#############################################
+  mgba_src\build\build.ninja:5440:# Custom command for qt\ui_SaveConverter.h
+  mgba_src\build\build.ninja:5441:
+> mgba_src\build\build.ninja:5442:build qt\ui_SaveConverter.h | 
+${cmake_ninja_workdir}qt\ui_SaveConverter.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\SaveConverter.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5443:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_SaveConverter.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/SaveConverter.ui"
+  mgba_src\build\build.ninja:5444:  DESC = Generating ui_SaveConverter.h
+  mgba_src\build\build.ninja:5445:  restat = 1
+  mgba_src\build\build.ninja:5446:
+  mgba_src\build\build.ninja:5447:
+  mgba_src\build\build.ninja:5448:#############################################
+  mgba_src\build\build.ninja:5449:# Custom command for qt\ui_SensorView.h
+  mgba_src\build\build.ninja:5450:
+> mgba_src\build\build.ninja:5451:build qt\ui_SensorView.h | 
+${cmake_ninja_workdir}qt\ui_SensorView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\SensorView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5452:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_SensorView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/SensorView.ui"
+  mgba_src\build\build.ninja:5453:  DESC = Generating ui_SensorView.h
+  mgba_src\build\build.ninja:5454:  restat = 1
+  mgba_src\build\build.ninja:5455:
+  mgba_src\build\build.ninja:5456:
+  mgba_src\build\build.ninja:5457:#############################################
+  mgba_src\build\build.ninja:5458:# Custom command for qt\ui_SettingsView.h
+  mgba_src\build\build.ninja:5459:
+> mgba_src\build\build.ninja:5460:build qt\ui_SettingsView.h | 
+${cmake_ninja_workdir}qt\ui_SettingsView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\SettingsView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5461:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_SettingsView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/SettingsView.ui"
+  mgba_src\build\build.ninja:5462:  DESC = Generating ui_SettingsView.h
+  mgba_src\build\build.ninja:5463:  restat = 1
+  mgba_src\build\build.ninja:5464:
+  mgba_src\build\build.ninja:5465:
+  mgba_src\build\build.ninja:5466:#############################################
+  mgba_src\build\build.ninja:5467:# Custom command for qt\ui_ShaderSelector.h
+  mgba_src\build\build.ninja:5468:
+> mgba_src\build\build.ninja:5469:build qt\ui_ShaderSelector.h | 
+${cmake_ninja_workdir}qt\ui_ShaderSelector.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\ShaderSelector.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5470:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_ShaderSelector.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/ShaderSelector.ui"
+  mgba_src\build\build.ninja:5471:  DESC = Generating ui_ShaderSelector.h
+  mgba_src\build\build.ninja:5472:  restat = 1
+  mgba_src\build\build.ninja:5473:
+  mgba_src\build\build.ninja:5474:
+  mgba_src\build\build.ninja:5475:#############################################
+  mgba_src\build\build.ninja:5476:# Custom command for qt\ui_ShortcutView.h
+  mgba_src\build\build.ninja:5477:
+> mgba_src\build\build.ninja:5478:build qt\ui_ShortcutView.h | 
+${cmake_ninja_workdir}qt\ui_ShortcutView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\ShortcutView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5479:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_ShortcutView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/ShortcutView.ui"
+  mgba_src\build\build.ninja:5480:  DESC = Generating ui_ShortcutView.h
+  mgba_src\build\build.ninja:5481:  restat = 1
+  mgba_src\build\build.ninja:5482:
+  mgba_src\build\build.ninja:5483:
+  mgba_src\build\build.ninja:5484:#############################################
+  mgba_src\build\build.ninja:5485:# Custom command for qt\ui_TileView.h
+  mgba_src\build\build.ninja:5486:
+> mgba_src\build\build.ninja:5487:build qt\ui_TileView.h | 
+${cmake_ninja_workdir}qt\ui_TileView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\TileView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5488:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_TileView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/TileView.ui"
+  mgba_src\build\build.ninja:5489:  DESC = Generating ui_TileView.h
+  mgba_src\build\build.ninja:5490:  restat = 1
+  mgba_src\build\build.ninja:5491:
+  mgba_src\build\build.ninja:5492:
+  mgba_src\build\build.ninja:5493:#############################################
+  mgba_src\build\build.ninja:5494:# Custom command for qt\ui_VideoView.h
+  mgba_src\build\build.ninja:5495:
+> mgba_src\build\build.ninja:5496:build qt\ui_VideoView.h | 
+${cmake_ninja_workdir}qt\ui_VideoView.h: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\VideoView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5497:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_VideoView.h 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/VideoView.ui"
+  mgba_src\build\build.ninja:5498:  DESC = Generating ui_VideoView.h
+  mgba_src\build\build.ninja:5499:  restat = 1
+  mgba_src\build\build.ninja:5500:
+  mgba_src\build\build.ninja:5501:
+  mgba_src\build\build.ninja:5502:#############################################
+  mgba_src\build\build.ninja:5503:# Custom command for qt\ui_AutorunScriptView.h
+  mgba_src\build\build.ninja:5504:
+> mgba_src\build\build.ninja:5505:build qt\ui_AutorunScriptView.h | 
+${cmake_ninja_workdir}qt\ui_AutorunScriptView.h: CUSTOM_COMMAND C$:\PassionProjects\GBAEm
+u\PokemonQuetzal\mgba_src\src\platform\qt\scripting\AutorunScriptView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5506:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_AutorunScriptView.h C:/Pass
+ionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/scripting/AutorunScriptView.ui
+"
+  mgba_src\build\build.ninja:5507:  DESC = Generating ui_AutorunScriptView.h
+  mgba_src\build\build.ninja:5508:  restat = 1
+  mgba_src\build\build.ninja:5509:
+  mgba_src\build\build.ninja:5510:
+  mgba_src\build\build.ninja:5511:#############################################
+  mgba_src\build\build.ninja:5512:# Custom command for qt\ui_ScriptingView.h
+  mgba_src\build\build.ninja:5513:
+> mgba_src\build\build.ninja:5514:build qt\ui_ScriptingView.h | 
+${cmake_ninja_workdir}qt\ui_ScriptingView.h: CUSTOM_COMMAND C$:\PassionProjects\GBAEmu\Po
+kemonQuetzal\mgba_src\src\platform\qt\scripting\ScriptingView.ui || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll qt\mgba-qt_autogen 
+qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5515:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\uic.exe -o 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/ui_ScriptingView.h C:/PassionP
+rojects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/scripting/ScriptingView.ui"
+  mgba_src\build\build.ninja:5516:  DESC = Generating ui_ScriptingView.h
+  mgba_src\build\build.ninja:5517:  restat = 1
+  mgba_src\build\build.ninja:5518:
+  mgba_src\build\build.ninja:5519:
+  mgba_src\build\build.ninja:5520:#############################################
+  mgba_src\build\build.ninja:5521:# Custom command for qt\qrc_resources.cpp
+  mgba_src\build\build.ninja:5522:
+> mgba_src\build\build.ninja:5523:build qt\qrc_resources.cpp | 
+${cmake_ninja_workdir}qt\qrc_resources.cpp: CUSTOM_COMMAND 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\src\platform\qt\resources.qrc 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\mgba-1024.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\mgba-256.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\mgba-48.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\keymap.qpic 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\patrons.txt 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\no-cam.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gb-icon-256.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gb-icon-128.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gb-icon-32.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gb-icon-24.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gb-icon-16.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gb-icon.svg 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gbc-icon-256.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gbc-icon-128.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gbc-icon-32.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gbc-icon-24.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gbc-icon-16.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gbc-icon.svg 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\sgb-icon-256.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\sgb-icon-128.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\sgb-icon-32.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\sgb-icon-24.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\sgb-icon-16.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\sgb-icon.svg 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gba-icon-256.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gba-icon-128.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gba-icon-32.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gba-icon-24.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gba-icon-16.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\gba-icon.svg 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\exe4\chip-names.txt 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\exe4\placeholder.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\exe5\chip-names.txt 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\exe5\placeholder.png 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\exe6\chip-names.txt 
+C$:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\res\exe6\placeholder.png 
+qt\resources.qrc.depends || discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll 
+qt\mgba-qt_autogen qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5524:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\rcc.exe --name resources 
+--output C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/qrc_resources.cpp 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt/resources.qrc"
+  mgba_src\build\build.ninja:5525:  DESC = Generating qrc_resources.cpp
+  mgba_src\build\build.ninja:5526:  restat = 1
+  mgba_src\build\build.ninja:5527:
+  mgba_src\build\build.ninja:5528:
+  mgba_src\build\build.ninja:5529:#############################################
+  mgba_src\build\build.ninja:5530:# Custom command for qt\qrc_updater.cpp
+  mgba_src\build\build.ninja:5531:
+> mgba_src\build\build.ninja:5532:build qt\qrc_updater.cpp | 
+${cmake_ninja_workdir}qt\qrc_updater.cpp: CUSTOM_COMMAND qt\updater.qrc updater-stub.exe 
+qt\updater.qrc.depends || discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll 
+qt\mgba-qt_autogen qt\mgba-qt_autogen_timestamp_deps updater-stub.exe
+  mgba_src\build\build.ninja:5533:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\rcc.exe --name updater --output 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/qrc_updater.cpp 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/updater.qrc"
+  mgba_src\build\build.ninja:5534:  DESC = Generating qrc_updater.cpp
+  mgba_src\build\build.ninja:5535:  restat = 1
+  mgba_src\build\build.ninja:5536:
+  mgba_src\build\build.ninja:5537:
+  mgba_src\build\build.ninja:5538:#############################################
+  mgba_src\build\build.ninja:5539:# Custom command for qt\mgba-qt_autogen\timestamp
+  mgba_src\build\build.ninja:5540:
+> mgba_src\build\build.ninja:5541:build qt\mgba-qt_autogen\timestamp 
+qt\mgba-qt_autogen\mocs_compilation.cpp | 
+${cmake_ninja_workdir}qt\mgba-qt_autogen\timestamp 
+${cmake_ninja_workdir}qt\mgba-qt_autogen\mocs_compilation.cpp: CUSTOM_COMMAND C$:\Passion
+Projects\GBAEmu\PokemonQuetzal\vcpkg\installed\x64-windows\tools\qt5\bin\moc.exe || 
+discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll 
+qt\mgba-qt_autogen_timestamp_deps
+  mgba_src\build\build.ninja:5542:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\qt && C:\PassionProjects\GBAEmu\P
+okemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bi
+n\cmake.exe -E cmake_autogen C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/C
+MakeFiles/mgba-qt_autogen.dir/AutogenInfo.json Debug && C:\PassionProjects\GBAEmu\Pokemon
+Quetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bin\cmak
+e.exe -E touch 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/mgba-qt_autogen/timestamp && C
+:\PassionProjects\GBAEmu\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake
+-3.31.10-windows-x86_64\bin\cmake.exe -E cmake_transform_depfile Ninja gccdepfile 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/src/platform/qt 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt/mgba-qt_autogen/deps C:/Passio
+nProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CMakeFiles/d/c9d73de8d5b3885299256a96f7449
+b1e70b4e528f530e453e730edeea327b27b.d"
+  mgba_src\build\build.ninja:5543:  DESC = Automatic MOC for target mgba-qt
+  mgba_src\build\build.ninja:5544:  depfile = 
+CMakeFiles\d\c9d73de8d5b3885299256a96f7449b1e70b4e528f530e453e730edeea327b27b.d
+  mgba_src\build\build.ninja:5545:  deps = gcc
+  mgba_src\build\build.ninja:5546:  restat = 1
+  mgba_src\build\build.ninja:5547:
+  mgba_src\build\build.ninja:5548:
+  mgba_src\build\build.ninja:5549:#############################################
+  mgba_src\build\build.ninja:5550:# Phony custom command for 
+qt\CMakeFiles\mgba-qt_autogen
+  mgba_src\build\build.ninja:5551:
+> mgba_src\build\build.ninja:5552:build qt\CMakeFiles\mgba-qt_autogen | 
+${cmake_ninja_workdir}qt\CMakeFiles\mgba-qt_autogen: phony qt\mgba-qt_autogen\timestamp 
+|| discord-rpc\src\discord-rpc.lib mgba-version-info mgba.dll 
+qt\mgba-qt_autogen_timestamp_deps
+  mgba_src\build\build.ninja:5553:
+  mgba_src\build\build.ninja:5554:# 
+=============================================================================
+  mgba_src\build\build.ninja:5555:# Write statements declared in CMakeLists.txt:
+  mgba_src\build\build.ninja:5556:# 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/CMakeLists.txt
+  mgba_src\build\build.ninja:5557:# 
+=============================================================================
+  mgba_src\build\build.ninja:5558:
+  mgba_src\build\build.ninja:5559:
+  mgba_src\build\build.ninja:5560:#############################################
+  mgba_src\build\build.ninja:5561:# Utility command for package
+  mgba_src\build\build.ninja:5562:
+  mgba_src\build\build.ninja:5563:build test\CMakeFiles\package.util: CUSTOM_COMMAND 
+test\all
+  mgba_src\build\build.ninja:5564:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build && C:\PassionProjects\GBAEmu\Poke
+monQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bin\c
+pack.exe --config ./CPackConfig.cmake"
+  mgba_src\build\build.ninja:5565:  DESC = Run CPack packaging tool...
+  mgba_src\build\build.ninja:5566:  pool = console
+  mgba_src\build\build.ninja:5567:  restat = 1
+  mgba_src\build\build.ninja:5568:
+  mgba_src\build\build.ninja:5569:build test\package: phony test\CMakeFiles\package.util
+  mgba_src\build\build.ninja:5570:
+  mgba_src\build\build.ninja:5571:
+  mgba_src\build\build.ninja:5572:#############################################
+  mgba_src\build\build.ninja:5573:# Utility command for package_source
+  mgba_src\build\build.ninja:5574:
+  mgba_src\build\build.ninja:5575:build test\CMakeFiles\package_source.util: 
+CUSTOM_COMMAND
+  mgba_src\build\build.ninja:5576:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build && C:\PassionProjects\GBAEmu\Poke
+monQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\bin\c
+pack.exe --config ./CPackSourceConfig.cmake 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/CPackSourceConfig.cmake"
+  mgba_src\build\build.ninja:5577:  DESC = Run CPack packaging tool for source...
+  mgba_src\build\build.ninja:5578:  pool = console
+  mgba_src\build\build.ninja:5579:  restat = 1
+  mgba_src\build\build.ninja:5580:
+  mgba_src\build\build.ninja:5581:build test\package_source: phony 
+test\CMakeFiles\package_source.util
+  mgba_src\build\build.ninja:5582:
+  mgba_src\build\build.ninja:5583:
+  mgba_src\build\build.ninja:5584:#############################################
+  mgba_src\build\build.ninja:5585:# Utility command for edit_cache
+  mgba_src\build\build.ninja:5586:
+  mgba_src\build\build.ninja:5587:build test\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
+  mgba_src\build\build.ninja:5588:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\test && C:\PassionProjects\GBAEmu
+\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\
+bin\cmake-gui.exe -SC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src 
+-BC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build"
+  mgba_src\build\build.ninja:5589:  DESC = Running CMake cache editor...
+  mgba_src\build\build.ninja:5590:  pool = console
+  mgba_src\build\build.ninja:5591:  restat = 1
+  mgba_src\build\build.ninja:5592:
+  mgba_src\build\build.ninja:5593:build test\edit_cache: phony 
+test\CMakeFiles\edit_cache.util
+  mgba_src\build\build.ninja:5594:
+  mgba_src\build\build.ninja:5595:
+  mgba_src\build\build.ninja:5596:#############################################
+  mgba_src\build\build.ninja:5597:# Utility command for rebuild_cache
+  mgba_src\build\build.ninja:5598:
+  mgba_src\build\build.ninja:5599:build test\CMakeFiles\rebuild_cache.util: 
+CUSTOM_COMMAND
+  mgba_src\build\build.ninja:5600:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\test && C:\PassionProjects\GBAEmu
+\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\
+bin\cmake.exe --regenerate-during-build 
+-SC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src 
+-BC:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build"
+  mgba_src\build\build.ninja:5601:  DESC = Running CMake to regenerate build system...
+  mgba_src\build\build.ninja:5602:  pool = console
+  mgba_src\build\build.ninja:5603:  restat = 1
+  mgba_src\build\build.ninja:5604:
+  mgba_src\build\build.ninja:5605:build test\rebuild_cache: phony 
+test\CMakeFiles\rebuild_cache.util
+  mgba_src\build\build.ninja:5606:
+  mgba_src\build\build.ninja:5607:
+  mgba_src\build\build.ninja:5608:#############################################
+  mgba_src\build\build.ninja:5609:# Utility command for list_install_components
+  mgba_src\build\build.ninja:5610:
+  mgba_src\build\build.ninja:5611:build test\list_install_components: phony
+  mgba_src\build\build.ninja:5612:
+  mgba_src\build\build.ninja:5613:
+  mgba_src\build\build.ninja:5614:#############################################
+  mgba_src\build\build.ninja:5615:# Utility command for install
+  mgba_src\build\build.ninja:5616:
+  mgba_src\build\build.ninja:5617:build test\CMakeFiles\install.util: CUSTOM_COMMAND 
+test\all
+  mgba_src\build\build.ninja:5618:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\test && C:\PassionProjects\GBAEmu
+\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\
+bin\cmake.exe -P cmake_install.cmake"
+  mgba_src\build\build.ninja:5619:  DESC = Install the project...
+  mgba_src\build\build.ninja:5620:  pool = console
+  mgba_src\build\build.ninja:5621:  restat = 1
+  mgba_src\build\build.ninja:5622:
+  mgba_src\build\build.ninja:5623:build test\install: phony test\CMakeFiles\install.util
+  mgba_src\build\build.ninja:5624:
+  mgba_src\build\build.ninja:5625:
+  mgba_src\build\build.ninja:5626:#############################################
+  mgba_src\build\build.ninja:5627:# Utility command for install/local
+  mgba_src\build\build.ninja:5628:
+  mgba_src\build\build.ninja:5629:build test\CMakeFiles\install\local.util: 
+CUSTOM_COMMAND test\all
+  mgba_src\build\build.ninja:5630:  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D 
+C:\PassionProjects\GBAEmu\PokemonQuetzal\mgba_src\build\test && C:\PassionProjects\GBAEmu
+\PokemonQuetzal\vcpkg\downloads\tools\cmake-3.31.10-windows\cmake-3.31.10-windows-x86_64\
+bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  mgba_src\build\build.ninja:5631:  DESC = Installing only the local directory...
+  mgba_src\build\build.ninja:5632:  pool = console
+  mgba_src\build\build.ninja:5633:  restat = 1
+  mgba_src\build\build.ninja:5634:
+  mgba_src\build\build.ninja:5635:build test\install\local: phony 
+test\CMakeFiles\install\local.util
+  mgba_src\build\build.ninja:5636:
+  mgba_src\build\build.ninja:5637:# 
+=============================================================================
+  mgba_src\build\build.ninja:5638:# Target aliases.
+  mgba_src\build\build.ninja:5639:
+  mgba_src\build\build.ninja:5640:build agb001.shader: phony qt\agb001.shader
+  mgba_src\build\build.ninja:5641:
+  mgba_src\build\build.ninja:5642:build ags001.shader: phony qt\ags001.shader
+  mgba_src\build\build.ninja:5643:
+  mgba_src\build\build.ninja:5644:build discord-rpc: phony 
+discord-rpc\src\discord-rpc.lib
+  mgba_src\build\build.ninja:5645:
+  mgba_src\build\build.ninja:5646:build discord-rpc.lib: phony 
+discord-rpc\src\discord-rpc.lib
+  mgba_src\build\build.ninja:5647:
+  mgba_src\build\build.ninja:5648:build dslite-color.shader: phony qt\dslite-color.shader
+  mgba_src\build\build.ninja:5649:
+  mgba_src\build\build.ninja:5650:build fish.shader: phony qt\fish.shader
+  mgba_src\build\build.ninja:5651:
+  mgba_src\build\build.ninja:5652:build gb-micro-color.shader: phony 
+qt\gb-micro-color.shader
+> mgba_src\build\build.ninja:5664:build mgba: phony mgba.dll
+  mgba_src\build\build.ninja:5665:
+  mgba_src\build\build.ninja:5666:build mgba-qt: phony mGBA.exe
+  mgba_src\build\build.ninja:5667:
+  mgba_src\build\build.ninja:5668:build mgba-qt_autogen: phony qt\mgba-qt_autogen
+  mgba_src\build\build.ninja:5669:
+  mgba_src\build\build.ninja:5670:build mgba-qt_autogen_timestamp_deps: phony 
+qt\mgba-qt_autogen_timestamp_deps
+  mgba_src\build\build.ninja:5671:
+  mgba_src\build\build.ninja:5672:build mgba-sdl: phony mgba-sdl.exe
+  mgba_src\build\build.ninja:5673:
+  mgba_src\build\build.ninja:5674:build mmpx.shader: phony qt\mmpx.shader
+  mgba_src\build\build.ninja:5675:
+  mgba_src\build\build.ninja:5676:build motion_blur.shader: phony qt\motion_blur.shader
+  mgba_src\build\build.ninja:5677:
+  mgba_src\build\build.ninja:5678:build nds-color.shader: phony qt\nds-color.shader
+  mgba_src\build\build.ninja:5679:
+  mgba_src\build\build.ninja:5680:build nso-gba-color.shader: phony 
+qt\nso-gba-color.shader
+  mgba_src\build\build.ninja:5681:
+  mgba_src\build\build.ninja:5682:build nso-gbc-color.shader: phony 
+qt\nso-gbc-color.shader
+  mgba_src\build\build.ninja:5683:
+  mgba_src\build\build.ninja:5684:build omniscale.shader: phony qt\omniscale.shader
+  mgba_src\build\build.ninja:5685:
+  mgba_src\build\build.ninja:5686:build pixelate.shader: phony qt\pixelate.shader
+  mgba_src\build\build.ninja:5687:
+  mgba_src\build\build.ninja:5688:build scale2x.shader: phony qt\scale2x.shader
+  mgba_src\build\build.ninja:5689:
+  mgba_src\build\build.ninja:5690:build scale4x.shader: phony qt\scale4x.shader
+  mgba_src\build\build.ninja:5691:
+  mgba_src\build\build.ninja:5692:build scanlines.shader: phony qt\scanlines.shader
+  mgba_src\build\build.ninja:5693:
+  mgba_src\build\build.ninja:5694:build soften.shader: phony qt\soften.shader
+  mgba_src\build\build.ninja:5695:
+  mgba_src\build\build.ninja:5696:build sp101-color.shader: phony qt\sp101-color.shader
+  mgba_src\build\build.ninja:5697:
+  mgba_src\build\build.ninja:5698:build tv-mode.shader: phony qt\tv-mode.shader
+  mgba_src\build\build.ninja:5699:
+  mgba_src\build\build.ninja:5700:build updater-stub: phony updater-stub.exe
+  mgba_src\build\build.ninja:5701:
+  mgba_src\build\build.ninja:5702:build vba_pixelate.shader: phony qt\vba_pixelate.shader
+  mgba_src\build\build.ninja:5703:
+  mgba_src\build\build.ninja:5704:build vignette.shader: phony qt\vignette.shader
+  mgba_src\build\build.ninja:5705:
+  mgba_src\build\build.ninja:5706:build wiiu.shader: phony qt\wiiu.shader
+  mgba_src\build\build.ninja:5707:
+  mgba_src\build\build.ninja:5708:build xbr-lv2.shader: phony qt\xbr-lv2.shader
+  mgba_src\build\build.ninja:5709:
+  mgba_src\build\build.ninja:5710:build xbr-lv3.shader: phony qt\xbr-lv3.shader
+  mgba_src\build\build.ninja:5711:
+  mgba_src\build\build.ninja:5712:# 
+=============================================================================
+  mgba_src\build\build.ninja:5713:# Folder targets.
+  mgba_src\build\build.ninja:5714:
+  mgba_src\build\build.ninja:5715:# 
+=============================================================================
+  mgba_src\build\build.ninja:5716:
+  mgba_src\build\build.ninja:5717:#############################################
+  mgba_src\build\build.ninja:5718:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build
+  mgba_src\build\build.ninja:5719:
+> mgba_src\build\build.ninja:5720:build all: phony mgba-version-info mgba.dll 
+updater-stub.exe src\debugger\all src\feature\all src\script\all src\arm\all 
+src\core\all src\gb\all src\gba\all src\sm83\all src\util\all sdl\all qt\all test\all
+  mgba_src\build\build.ninja:5721:
+  mgba_src\build\build.ninja:5722:# 
+=============================================================================
+  mgba_src\build\build.ninja:5723:
+  mgba_src\build\build.ninja:5724:#############################################
+  mgba_src\build\build.ninja:5725:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/discord-rpc
+  mgba_src\build\build.ninja:5726:
+  mgba_src\build\build.ninja:5727:build discord-rpc\all: phony discord-rpc\src\all
+  mgba_src\build\build.ninja:5728:
+  mgba_src\build\build.ninja:5729:# 
+=============================================================================
+  mgba_src\build\build.ninja:5730:
+  mgba_src\build\build.ninja:5731:#############################################
+  mgba_src\build\build.ninja:5732:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/discord-rpc/src
+  mgba_src\build\build.ninja:5733:
+  mgba_src\build\build.ninja:5734:build discord-rpc\src\all: phony 
+discord-rpc\src\discord-rpc.lib
+  mgba_src\build\build.ninja:5735:
+  mgba_src\build\build.ninja:5736:# 
+=============================================================================
+  mgba_src\build\build.ninja:5737:
+  mgba_src\build\build.ninja:5738:#############################################
+  mgba_src\build\build.ninja:5739:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/qt
+  mgba_src\build\build.ninja:5740:
+  mgba_src\build\build.ninja:5741:build qt\all: phony qt\agb001.shader qt\ags001.shader 
+qt\dslite-color.shader qt\fish.shader qt\gb-micro-color.shader qt\gba-color.shader 
+qt\gbc-color.shader qt\gbc-lcd.shader qt\hq2x.shader qt\lcd.shader qt\mmpx.shader 
+qt\motion_blur.shader qt\nds-color.shader qt\nso-gba-color.shader 
+qt\nso-gbc-color.shader qt\omniscale.shader qt\pixelate.shader qt\scale2x.shader 
+qt\scale4x.shader qt\scanlines.shader qt\soften.shader qt\sp101-color.shader 
+qt\tv-mode.shader qt\vba_pixelate.shader qt\vignette.shader qt\wiiu.shader 
+qt\xbr-lv2.shader qt\xbr-lv3.shader mGBA.exe
+  mgba_src\build\build.ninja:5742:
+  mgba_src\build\build.ninja:5743:# 
+=============================================================================
+  mgba_src\build\build.ninja:5744:
+  mgba_src\build\build.ninja:5745:#############################################
+  mgba_src\build\build.ninja:5746:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/sdl
+  mgba_src\build\build.ninja:5747:
+  mgba_src\build\build.ninja:5748:build sdl\all: phony mgba-sdl.exe
+  mgba_src\build\build.ninja:5749:
+  mgba_src\build\build.ninja:5750:# 
+=============================================================================
+  mgba_src\build\build.ninja:5751:
+  mgba_src\build\build.ninja:5752:#############################################
+  mgba_src\build\build.ninja:5753:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/src/arm
+  mgba_src\build\build.ninja:5754:
+  mgba_src\build\build.ninja:5755:build src\arm\all: phony
+  mgba_src\build\build.ninja:5756:
+  mgba_src\build\build.ninja:5757:# 
+=============================================================================
+  mgba_src\build\build.ninja:5758:
+  mgba_src\build\build.ninja:5759:#############################################
+  mgba_src\build\build.ninja:5760:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/src/core
+  mgba_src\build\build.ninja:5761:
+  mgba_src\build\build.ninja:5762:build src\core\all: phony
+  mgba_src\build\build.ninja:5763:
+  mgba_src\build\build.ninja:5764:# 
+=============================================================================
+  mgba_src\build\build.ninja:5765:
+  mgba_src\build\build.ninja:5766:#############################################
+  mgba_src\build\build.ninja:5767:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/src/debugger
+  mgba_src\build\build.ninja:5768:
+  mgba_src\build\build.ninja:5769:build src\debugger\all: phony
+  mgba_src\build\build.ninja:5770:
+  mgba_src\build\build.ninja:5771:# 
+=============================================================================
+  mgba_src\build\build.ninja:5772:
+  mgba_src\build\build.ninja:5773:#############################################
+  mgba_src\build\build.ninja:5774:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/src/feature
+  mgba_src\build\build.ninja:5775:
+  mgba_src\build\build.ninja:5776:build src\feature\all: phony
+  mgba_src\build\build.ninja:5777:
+  mgba_src\build\build.ninja:5778:# 
+=============================================================================
+  mgba_src\build\build.ninja:5779:
+  mgba_src\build\build.ninja:5780:#############################################
+  mgba_src\build\build.ninja:5781:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/src/gb
+  mgba_src\build\build.ninja:5782:
+  mgba_src\build\build.ninja:5783:build src\gb\all: phony
+  mgba_src\build\build.ninja:5784:
+  mgba_src\build\build.ninja:5785:# 
+=============================================================================
+  mgba_src\build\build.ninja:5786:
+  mgba_src\build\build.ninja:5787:#############################################
+  mgba_src\build\build.ninja:5788:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/src/gba
+  mgba_src\build\build.ninja:5789:
+  mgba_src\build\build.ninja:5790:build src\gba\all: phony
+  mgba_src\build\build.ninja:5791:
+  mgba_src\build\build.ninja:5792:# 
+=============================================================================
+  mgba_src\build\build.ninja:5793:
+  mgba_src\build\build.ninja:5794:#############################################
+  mgba_src\build\build.ninja:5795:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/src/script
+  mgba_src\build\build.ninja:5796:
+  mgba_src\build\build.ninja:5797:build src\script\all: phony
+  mgba_src\build\build.ninja:5798:
+  mgba_src\build\build.ninja:5799:# 
+=============================================================================
+  mgba_src\build\build.ninja:5800:
+  mgba_src\build\build.ninja:5801:#############################################
+  mgba_src\build\build.ninja:5802:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/src/sm83
+  mgba_src\build\build.ninja:5803:
+  mgba_src\build\build.ninja:5804:build src\sm83\all: phony
+  mgba_src\build\build.ninja:5805:
+  mgba_src\build\build.ninja:5806:# 
+=============================================================================
+  mgba_src\build\build.ninja:5807:
+  mgba_src\build\build.ninja:5808:#############################################
+  mgba_src\build\build.ninja:5809:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/src/util
+  mgba_src\build\build.ninja:5810:
+  mgba_src\build\build.ninja:5811:build src\util\all: phony
+  mgba_src\build\build.ninja:5812:
+  mgba_src\build\build.ninja:5813:# 
+=============================================================================
+  mgba_src\build\build.ninja:5814:
+  mgba_src\build\build.ninja:5815:#############################################
+  mgba_src\build\build.ninja:5816:# Folder: 
+C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/test
+  mgba_src\build\build.ninja:5817:
+  mgba_src\build\build.ninja:5818:build test\all: phony
+  mgba_src\build\build.ninja:5819:
+  mgba_src\build\build.ninja:5820:# 
+=============================================================================
+
+
