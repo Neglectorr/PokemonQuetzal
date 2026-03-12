@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GBA Headless</title>
+  <style>
+    body { margin: 0; background: #000; overflow: hidden; color: white; font-family: sans-serif; }
+    canvas { display: block; image-rendering: pixelated; }
+    #status { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 10px; }
+  </style>
+
+</head>
+<body>
+  <div id="status">Waiting for mGBA...</div>
+  <canvas id="gba-canvas" width="240" height="160"></canvas>
+
+  <script type="module">
+    import mGBAFactory from '/mgba/mgba.js';
+
+    const canvas = document.getElementById('gba-canvas');
+    let mgba = null;
+    let frameBuffer = new Uint8ClampedArray(240 * 160 * 4);
+    const ctx = canvas.getContext('2d');
+
+    // ── GBA button name map (bitmask → mGBA name) ─────────────────────────
+    const BUTTON_MAP = [
+      { mask: 0x001, name: 'A' },
+      { mask: 0x002, name: 'B' },
+      { mask: 0x004, name: 'Select' },
+      { mask: 0x008, name: 'Start' },
+      { mask: 0x010, name: 'Right' },
+      { mask: 0x020, name: 'Left' },
+      { mask: 0x040, name: 'Up' },
+      { mask: 0x080, name: 'Down' },
+      { mask: 0x100, name: 'R' },
+      { mask: 0x200, name: 'L' },
+    ];
+
+    let lastButtons = 0;
+
+    // ── Initialize mGBA ────────────────────────────────────────────────────
+    async function init() {
+      try {
+        mgba = await mGBAFactory({
+          canvas,
+          coreSettings: {
+            audioSampleRate: 0,
+            audioSync: false,
+            videoSync: false
+          }
+        });
+        await mgba.FSInit();
+        mgba.setVolume(0);
+
+        window._mgbaReady = true;
+        window._mgbaError = null;
+        console.log('[GBA] mGBA ready, version:', mgba.version?.projectVersion);
+      } catch (err) {
+        window._mgbaError = err.message;
+        window._mgbaReady = false;
+        console.error('[GBA] Init error:', err);
+      }
+    }
+
+    // ── Load ROM from base64 ────────────────────────────────────────────────
+    window.loadRom = async (romBase64, romName, saveBase64) => {
+      if (!mgba) return { ok: false, error: 'mGBA not initialized' };
+      try {
+        const paths = mgba.filePaths();
+
+        const romBytes = Uint8Array.from(atob(romBase64), c => c.charCodeAt(0));
+        mgba.FS.writeFile(`${paths.gamePath}/${romName}`, romBytes);
+
+        if (saveBase64) {
+          const saveBytes = Uint8Array.from(atob(saveBase64), c => c.charCodeAt(0));
+          const saveName  = romName.replace(/\.[^.]+$/, '.sav');
+          mgba.FS.writeFile(`${paths.savePath}/${saveName}`, saveBytes);
+        }
+
+        // [TEST] Removed addCoreCallbacks to prove if it causes the crash
+        // mgba.addCoreCallbacks({
+        //   videoFrameEndedCallback: () => {
+        //     const imgData = ctx.getImageData(0, 0, 240, 160);
+        //     frameBuffer.set(imgData.data);
+        //     if (window._onFrame) window._onFrame(frameBuffer);
+        //   }
+        // });
+        
+        const ok = mgba.loadGame(`${paths.gamePath}/${romName}`);
+
+        // Kill any audio that started
+        try { mgba.pauseAudio(); } catch {}
+
+        return { ok, error: ok ? null : 'loadGame returned false' };
+      } catch (err) {
+        return { ok: false, error: err.message };
+      }
+    };
+
+    // ── Apply button bitmask ───────────────────────────────────────────────
+    window.setButtons = (buttons) => {
+      if (!mgba) return;
+      for (const { mask, name } of BUTTON_MAP) {
+        const nowPressed = (buttons    & mask) !== 0;
+        const wasPressed = (lastButtons & mask) !== 0;
+        if (nowPressed && !wasPressed) mgba.buttonPress(name);
+        if (!nowPressed && wasPressed) mgba.buttonUnpress(name);
+      }
+      lastButtons = buttons;
+    };
+
+    // ── Save state ─────────────────────────────────────────────────────────
+    window.saveState = (slot) => {
+      if (!mgba) return null;
+      mgba.saveState(slot);
+      try {
+        const paths = mgba.filePaths();
+        const data  = mgba.FS.readFile(`${paths.saveStatePath}/${mgba.gameName}.ss${slot}`);
+        return btoa(String.fromCharCode(...data));
+      } catch { return null; }
+    };
+
+    window.loadState = (slot) => mgba?.loadState(slot) ?? false;
+
+    // ── Get SRAM ───────────────────────────────────────────────────────────
+    window.getSave = () => {
+      if (!mgba) return null;
+      const data = mgba.getSave();
+      return data ? btoa(String.fromCharCode(...data)) : null;
+    };
+
+    // ── Game controls ──────────────────────────────────────────────────────
+    window.pauseGame  = () => { try { mgba?.pauseGame();  } catch {} };
+    window.resumeGame = () => { try { mgba?.resumeGame(); } catch {} };
+    window.quitGame   = () => { try { mgba?.quitGame();   } catch {} };
+
+    // ── Start ──────────────────────────────────────────────────────────────
+    init();
+  </script>
+</body>
+</html>

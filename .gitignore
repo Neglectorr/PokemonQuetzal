@@ -1,0 +1,9 @@
+node_modules/
+.env
+*.gba
+*.sav
+*.state
+saves/
+sessions/
+!saves/.gitkeep
+!roms/.gitkeep

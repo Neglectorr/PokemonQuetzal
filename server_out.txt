@@ -1,0 +1,10 @@
+
+  ╔══════════════════════════════════════════════╗
+  ║     Project Antigravity - GBA Cloud          ║
+  ║     Server running on port 3000              ║
+  ║     Mode: development                    ║
+  ║     Debug Auth: ENABLED                  ║
+  ╚══════════════════════════════════════════════╝
+  
+[Socket] Connected: Guest_GGJ63 (SaM7T9kusj-JWqL0AAAB)
+[Server] mGBA.js patched: SDL2 audio callbacks silenced for headless mode

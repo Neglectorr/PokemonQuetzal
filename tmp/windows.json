@@ -1,0 +1,177 @@
+[
+  {
+    "hwnd": 1050918,
+    "title": "",
+    "class": "ThumbnailDeviceHelperWnd",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 65950,
+    "title": "",
+    "class": "Shell_TrayWnd",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 65970,
+    "title": "",
+    "class": "Shell_SecondaryTrayWnd",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 655706,
+    "title": "hypervisor - Remote Desktop Connection",
+    "class": "TscShellContainerClass",
+    "pid": 13744,
+    "process": "mstsc.exe"
+  },
+  {
+    "hwnd": 2033942,
+    "title": "PokemonQuetzal - Antigravity - Implementation Plan",
+    "class": "Chrome_WidgetWin_1",
+    "pid": 30448,
+    "process": "Antigravity.exe"
+  },
+  {
+    "hwnd": 1313684,
+    "title": "localhost - Google Chrome",
+    "class": "Chrome_WidgetWin_1",
+    "pid": 2932,
+    "process": "chrome.exe"
+  },
+  {
+    "hwnd": 16910980,
+    "title": "Dashboard | Project Antigravity - Google Chrome",
+    "class": "Chrome_WidgetWin_1",
+    "pid": 2932,
+    "process": "chrome.exe"
+  },
+  {
+    "hwnd": 66800,
+    "title": "\"mgba.exe\" \"parameters\" - Google Zoeken - Google Chrome",
+    "class": "Chrome_WidgetWin_1",
+    "pid": 2932,
+    "process": "chrome.exe"
+  },
+  {
+    "hwnd": 9177824,
+    "title": "mGBA - 0.10.3",
+    "class": "Qt51511QWindowIcon",
+    "pid": 3892,
+    "process": "mGBA.exe"
+  },
+  {
+    "hwnd": 6162590,
+    "title": "mGBA-0.10.3-win64 and 1 more tab - File Explorer",
+    "class": "CabinetWClass",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 67292,
+    "title": "@DARKACE - Discord",
+    "class": "Chrome_WidgetWin_1",
+    "pid": 29116,
+    "process": "Discord.exe"
+  },
+  {
+    "hwnd": 918994,
+    "title": "Settings",
+    "class": "Windows.UI.Core.CoreWindow",
+    "pid": 10460,
+    "process": "SystemSettings.exe"
+  },
+  {
+    "hwnd": 1050462,
+    "title": "Settings",
+    "class": "ApplicationFrameWindow",
+    "pid": 18108,
+    "process": "ApplicationFrameHost.exe"
+  },
+  {
+    "hwnd": 655716,
+    "title": "Windows Input Experience",
+    "class": "Windows.UI.Core.CoreWindow",
+    "pid": 31588,
+    "process": "TextInputHost.exe"
+  },
+  {
+    "hwnd": 66142,
+    "title": "NVIDIA GeForce Overlay",
+    "class": "CEF-OSC-WIDGET",
+    "pid": 13912,
+    "process": "NVIDIA Overlay.exe"
+  },
+  {
+    "hwnd": 66134,
+    "title": "",
+    "class": "DummyDWMListenerWindow",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 66124,
+    "title": "",
+    "class": "EdgeUiInputTopWndClass",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 66106,
+    "title": "",
+    "class": "EdgeUiInputTopWndClass",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 66072,
+    "title": "",
+    "class": "DummyDWMListenerWindow",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 66070,
+    "title": "",
+    "class": "DummyDWMListenerWindow",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 66068,
+    "title": "",
+    "class": "DummyDWMListenerWindow",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 66066,
+    "title": "",
+    "class": "DummyDWMListenerWindow",
+    "pid": 22996,
+    "process": "explorer.exe"
+  },
+  {
+    "hwnd": 1379180,
+    "title": "qt.ini - Notepad",
+    "class": "Notepad",
+    "pid": 22396,
+    "process": "Notepad.exe"
+  },
+  {
+    "hwnd": 2493374,
+    "title": "C:\\PassionProjects\\GBAEmu\\PokemonQuetzal\\server\\spawn_multiplayer.py - Notepad++",
+    "class": "Notepad++",
+    "pid": 29112,
+    "process": "notepad++.exe"
+  },
+  {
+    "hwnd": 65996,
+    "title": "Program Manager",
+    "class": "Progman",
+    "pid": 22996,
+    "process": "explorer.exe"
+  }
+]

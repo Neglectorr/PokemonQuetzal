@@ -1,0 +1,36 @@
+{
+  "name": "project-antigravity",
+  "version": "1.0.0",
+  "description": "Multi-instance GBA Cloud Platform with server-side mGBA emulation and virtual link cable multiplayer",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon --ignore sessions/ --ignore roms/ server/index.js"
+  },
+  "keywords": [
+    "gba",
+    "emulator",
+    "multiplayer",
+    "mgba",
+    "link-cable"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@thenick775/mgba-wasm": "^2.4.1",
+    "7zip-bin": "^5.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "puppeteer": "^24.39.0",
+    "session-file-store": "^1.5.0",
+    "socket.io": "^4.8.1",
+    "uuid": "^11.1.0",
+    "web-worker": "^1.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

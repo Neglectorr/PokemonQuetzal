@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Project Antigravity - Game Room">
+  <title>Game Room | Project Antigravity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="room-page">
+  <!-- Room Header/Nav -->
+  <header class="room-header">
+    <div class="room-header-left">
+      <button class="back-btn" id="back-btn">← Back</button>
+      <h1 class="room-title" id="room-title">Loading...</h1>
+      <span class="room-status room-status--waiting" id="room-status-badge">WAITING</span>
+    </div>
+    <div class="room-header-right" style="display:flex;align-items:center;gap:10px;">
+      <div class="connection-status" id="connection-status">
+        <span class="connection-dot"></span>
+        <span class="connection-text">Connecting...</span>
+      </div>
+      <button class="btn btn-sm btn-success hidden" id="start-game-btn">▶ Start Game</button>
+      <button class="btn btn-sm btn-danger hidden" id="stop-game-btn">⏹ Stop</button>
+      <button class="btn btn-sm btn-secondary" id="controls-btn">⌨ Controls</button>
+      <button class="btn btn-sm btn-secondary" id="leave-room-btn">Leave</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="room-main">
+    <!-- Canvas Area -->
+    <div class="canvas-area" id="canvas-area">
+      <!-- Single Player View -->
+      <div id="single-view">
+        <div class="canvas-container" id="main-canvas-container">
+          <canvas class="gba-canvas" id="main-canvas" width="240" height="160"></canvas>
+          <div class="canvas-overlay" id="canvas-overlay">
+            <div class="canvas-overlay-text">
+              <h3>⏳ Waiting for game to start</h3>
+              <p>The host needs to start the game</p>
+              
+              <!-- Macro Progress Bar -->
+              <div class="macro-progress-container" id="macro-progress">
+                <div class="macro-progress-label">Initializing Emulators</div>
+                <div class="macro-progress-bar-bg">
+                  <div class="macro-progress-bar-fill" id="macro-progress-fill"></div>
+                </div>
+                <div class="macro-progress-status" id="macro-progress-status">Linking instances...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid View (2x2) -->
+      <div id="grid-view" class="grid-view hidden">
+        <div class="canvas-container" style="position:relative;">
+          <canvas class="gba-canvas" id="grid-canvas-1" width="240" height="160"></canvas>
+          <span class="grid-player-label" id="grid-label-1">Player 1</span>
+        </div>
+        <div class="canvas-container" style="position:relative;">
+          <canvas class="gba-canvas" id="grid-canvas-2" width="240" height="160"></canvas>
+          <span class="grid-player-label" id="grid-label-2">Player 2</span>
+        </div>
+        <div class="canvas-container" style="position:relative;">
+          <canvas class="gba-canvas" id="grid-canvas-3" width="240" height="160"></canvas>
+          <span class="grid-player-label" id="grid-label-3">Player 3</span>
+        </div>
+        <div class="canvas-container" style="position:relative;">
+          <canvas class="gba-canvas" id="grid-canvas-4" width="240" height="160"></canvas>
+          <span class="grid-player-label" id="grid-label-4">Player 4</span>
+        </div>
+      </div>
+
+      <!-- View Toggle -->
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" id="view-single" data-view="single">🎮 My Screen</button>
+        <button class="view-toggle-btn" id="view-grid" data-view="grid">📺 All Players</button>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="room-sidebar">
+      <!-- Players Section -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Players</h3>
+        <div class="player-list" id="player-list">
+          <!-- Player items dynamically added -->
+        </div>
+      </div>
+
+      <!-- Room Info -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Room Info</h3>
+        <div class="room-meta" id="room-info">
+          <div class="room-meta-row">
+            <span class="room-meta-icon">🎮</span>
+            <span id="room-rom-info">Loading...</span>
+          </div>
+          <div class="room-meta-row">
+            <span class="room-meta-icon">🔗</span>
+            <span id="room-connection-info">Link Cable + Wireless</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Section -->
+      <div class="chat-section sidebar-section" style="border-bottom:none;flex:1;">
+        <h3 class="sidebar-title">Chat</h3>
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-message chat-message--system">Welcome to the room!</div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chat-input" placeholder="Type a message..." maxlength="200" autocomplete="off">
+          <button class="btn btn-sm btn-primary" id="chat-send-btn">Send</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Mobile Touch Controls (EmulatorJS-style) -->
+  <div class="touch-controls" id="touch-controls">
+    <!-- L/R shoulder buttons -->
+    <div class="touch-shoulders">
+      <button class="touch-btn touch-shoulder" data-btn="L">L</button>
+      <button class="touch-btn touch-shoulder" data-btn="R">R</button>
+    </div>
+
+    <!-- D-Pad (left side) -->
+    <div class="touch-dpad" id="touch-dpad">
+      <button class="touch-btn touch-dpad-btn touch-dpad-up" data-btn="UP">▲</button>
+      <button class="touch-btn touch-dpad-btn touch-dpad-left" data-btn="LEFT">◀</button>
+      <div class="touch-dpad-center"></div>
+      <button class="touch-btn touch-dpad-btn touch-dpad-right" data-btn="RIGHT">▶</button>
+      <button class="touch-btn touch-dpad-btn touch-dpad-down" data-btn="DOWN">▼</button>
+    </div>
+
+    <!-- Face buttons (right side) -->
+    <div class="touch-face">
+      <button class="touch-btn touch-face-btn touch-btn-b" data-btn="B">B</button>
+      <button class="touch-btn touch-face-btn touch-btn-a" data-btn="A">A</button>
+    </div>
+
+    <!-- Start/Select (center bottom) -->
+    <div class="touch-center">
+      <button class="touch-btn touch-meta-btn" data-btn="SELECT">SELECT</button>
+      <button class="touch-btn touch-meta-btn" data-btn="START">START</button>
+    </div>
+  </div>
+
+  <!-- Mobile top bar (collapsed sidebar toggle) -->
+  <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
+  <button class="mobile-fullscreen-btn" id="mobile-fullscreen-btn">⛶</button>
+
+  <!-- Controls Modal -->
+  <div class="modal-overlay hidden" id="controls-modal">
+    <div class="modal-card controls-card">
+      <div class="modal-header">
+        <h3>Game Controls</h3>
+        <button class="modal-close" id="controls-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="controls-grid">
+          <div class="controls-section">
+            <h4>⌨ Keyboard (EmulatorJS)</h4>
+            <ul class="controls-list">
+              <li><span class="key">Arrows</span> Movement</li>
+              <li><span class="key">S</span> A Button</li>
+              <li><span class="key">A</span> B Button</li>
+              <li><span class="key">Q</span> L Shoulder</li>
+              <li><span class="key">W</span> R Shoulder</li>
+              <li><span class="key">Enter</span> Start</li>
+              <li><span class="key">Shift</span> Select</li>
+            </ul>
+          </div>
+          <div class="controls-section">
+            <h4>🎮 Gamepad</h4>
+            <ul class="controls-list">
+              <li><span class="key">D-Pad / Stick</span> Movement</li>
+              <li><span class="key">A / B</span> GBA A/B</li>
+              <li><span class="key">LB / RB</span> GBA L/R</li>
+              <li><span class="key">Start / Back</span> Start / Select</li>
+            </ul>
+          </div>
+          <div class="controls-section full-width">
+            <h4>💾 Shortcuts</h4>
+            <ul class="controls-list horizontal">
+              <li><span class="key">Ctrl + S</span> Quick Save</li>
+              <li><span class="key">Ctrl + L</span> Quick Load</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/input.js"></script>
+  <script src="/js/room.js"></script>
+</body>
+</html>
