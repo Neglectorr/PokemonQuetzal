@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, readdirSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { spawnSync } from 'child_process';
@@ -21,6 +21,30 @@ const COLORS = {
 
 function log(msg, color = COLORS.reset) {
   console.log(`${color}${msg}${COLORS.reset}`);
+}
+
+/**
+ * Helper to patch INI files
+ */
+function applyIniPatches(content, patches) {
+  let newContent = content;
+  for (const [section, settings] of Object.entries(patches)) {
+    if (!newContent.includes(section)) {
+      newContent += `\n${section}\n`;
+    }
+    for (const [key, value] of Object.entries(settings)) {
+      const regex = new RegExp(`^${key}=.*$`, 'm');
+      if (newContent.match(regex)) {
+        newContent = newContent.replace(regex, `${key}=${value}`);
+      } else {
+        // Find section and insert after header
+        const sectionPos = newContent.indexOf(section);
+        const nextLinePos = newContent.indexOf('\n', sectionPos) + 1;
+        newContent = newContent.slice(0, nextLinePos) + `${key}=${value}\n` + newContent.slice(nextLinePos);
+      }
+    }
+  }
+  return newContent;
 }
 
 async function setup() {
@@ -49,7 +73,6 @@ async function setup() {
   } else if (existsSync(archive)) {
     log("  📦 Extracting mGBA.7z...", COLORS.yellow);
     try {
-      // Import 7zip-bin dynamically to avoid issues if not yet installed (though postinstall runs after)
       const { createRequire } = await import('module');
       const require = createRequire(import.meta.url);
       const { path7za } = require('7zip-bin');
@@ -58,45 +81,6 @@ async function setup() {
       
       if (result.status === 0) {
         log("  ✅ Extraction successful!", COLORS.green);
-        
-        // 2a. Patch config.ini for headless/server stability
-        log("  🔧 Patching mGBA config.ini...", COLORS.cyan);
-        const configPath = path.join(rootDir, 'mgba_native', 'mGBA-0.10.3-win64', 'config.ini');
-        let config = existsSync(configPath) ? readFileSync(configPath, 'utf8') : '';
-        
-        const patches = {
-          '[ports.qt]': {
-            'videoBackend': 'software',
-            'pauseOnFocusLost': '0',
-            'mute': '1',
-            'hwaccelVideo': '0',
-            'fpsTarget': '60'
-          },
-          '[shortcuts.qt]': {
-            'newMultiplayerWindow': 'Ctrl+M'
-          }
-        };
-
-        for (const [section, settings] of Object.entries(patches)) {
-          if (!config.includes(section)) {
-            config += `\n${section}\n`;
-          }
-          for (const [key, value] of Object.entries(settings)) {
-            const regex = new RegExp(`^${key}=.*$`, 'm');
-            if (config.match(regex)) {
-              config = config.replace(regex, `${key}=${value}`);
-            } else {
-              // Insert after section header
-              config = config.replace(section, `${section}\n${key}=${value}`);
-            }
-          }
-        }
-        
-        import('fs').then(({ writeFileSync }) => {
-          writeFileSync(configPath, config.trim() + '\n');
-          log("  ✅ mGBA configured for server use (Software Rendering + Ctrl+M).", COLORS.green);
-        });
-
       } else {
         log(`  ❌ Extraction failed with status ${result.status}`, COLORS.red);
         console.error(result.stderr.toString());
@@ -106,6 +90,51 @@ async function setup() {
     }
   } else {
     log("  ⚠️  mGBA.7z not found. Manual installation may be required.", COLORS.yellow);
+  }
+
+  // 2b. Always Patch config.ini and qt.ini if mGBA exists (Ensures settings are forced)
+  if (existsSync(mgbaExe)) {
+    log("\n🔧 Ensuring mGBA is configured correctly...", COLORS.bright + COLORS.cyan);
+    const mgbaDir = path.dirname(mgbaExe);
+    
+    // Patch config.ini
+    const configPath = path.join(mgbaDir, 'config.ini');
+    try {
+      let config = existsSync(configPath) ? readFileSync(configPath, 'utf8') : '';
+      const configPatches = {
+        '[ports.qt]': {
+          'videoBackend': 'software',
+          'pauseOnFocusLost': '0',
+          'mute': '1',
+          'hwaccelVideo': '0',
+          'fpsTarget': '60'
+        }
+      };
+      config = applyIniPatches(config, configPatches);
+      writeFileSync(configPath, config.trim() + '\n');
+      log("  ✅ mGBA config.ini patched (Software Rendering + Server Settings).", COLORS.green);
+    } catch (err) {
+      log(`  ❌ Failed to patch config.ini: ${err.message}`, COLORS.red);
+    }
+
+    // Patch qt.ini (Shortcuts and Display Driver)
+    const qtPath = path.join(mgbaDir, 'qt.ini');
+    try {
+      let qt = existsSync(qtPath) ? readFileSync(qtPath, 'utf8') : '';
+      const qtPatches = {
+        '[General]': {
+          'displayDriver': '0' // 0 = Software
+        },
+        '[shortcutKey]': {
+          'multiWindow': 'Ctrl+M'
+        }
+      };
+      qt = applyIniPatches(qt, qtPatches);
+      writeFileSync(qtPath, qt.trim() + '\n');
+      log("  ✅ mGBA qt.ini patched (Shortcuts: Ctrl+M + Display Driver).", COLORS.green);
+    } catch (err) {
+      log(`  ❌ Failed to patch qt.ini: ${err.message}`, COLORS.red);
+    }
   }
 
   // 3. Environment Check
@@ -164,7 +193,6 @@ async function setup() {
   // 5. ROMs Check
   log("\n🕹️  Checking ROMs...", COLORS.bright);
   const romsDir = path.join(rootDir, 'roms');
-  // Check if directory is empty
   const roms = existsSync(romsDir) ? readdirSync(romsDir) || [] : [];
   if (roms.length === 0) {
     log("  ⚠️  No ROMs found in /roms directory.", COLORS.yellow);
