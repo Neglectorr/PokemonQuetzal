@@ -14,9 +14,6 @@ import soundcard as sc
 import ctypes
 
 def get_hwnds_for_pid(pid):
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    log_path = os.path.join(script_dir, '..', 'tmp', 'wrapper_search.log')
-    
     def callback(hwnd, hwnds):
         _, found_pid = win32process.GetWindowThreadProcessId(hwnd)
         if found_pid == pid:
@@ -25,18 +22,16 @@ def get_hwnds_for_pid(pid):
             rect = win32gui.GetClientRect(hwnd)
             w, h = rect[2] - rect[0], rect[3] - rect[1]
             
-            with open(log_path, "a") as f:
-                f.write(f"HWND {hwnd}: PID={found_pid}, Class={class_name}, Title='{title}', Dim={w}x{h}\n")
+            # Use stderr for direct visibility in server logs
+            sys.stderr.write(f"DEBUG: HWND {hwnd} | Class: {class_name} | Title: '{title}' | Size: {w}x{h}\n")
             
-            # More lenient check: any window with dimensions might be it
+            # Any window with a Qt class or mGBA in title belongs to us
             is_mgba = ("qt" in class_name.lower()) or ("mgba" in title.lower()) or (title == "")
             
-            if is_mgba and w > 50 and h > 50:
+            # Even hidden windows (w=0) might be our P1 before show()
+            if is_mgba:
                 hwnds.append(hwnd)
         return True
-        
-    with open(log_path, "a") as f:
-        f.write(f"--- Searching for PID {pid} at {time.ctime()} ---\n")
         
     hwnds = []
     win32gui.EnumWindows(callback, hwnds)
