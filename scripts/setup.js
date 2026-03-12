@@ -79,15 +79,18 @@ async function setup() {
     }
   });
 
-  // 2. Extract mGBA if needed
+  // 2. Extract mGBA if needed (Legacy / Optional)
   log("\n🎮 Checking mGBA binaries...", COLORS.bright);
-  const mgbaExe = path.join(rootDir, 'mgba_native', 'mGBA-0.10.3-win64', 'mGBA.exe');
+  const mgbaCustomExe = path.join(rootDir, 'mgba_native', 'mGBA-custom', 'mGBA.exe');
+  const mgbaStockExe = path.join(rootDir, 'mgba_native', 'mGBA-0.10.3-win64', 'mGBA.exe');
   const archive = path.join(rootDir, 'mGBA.7z');
 
-  if (existsSync(mgbaExe)) {
-    log("  ✅ mGBA is already extracted.", COLORS.green);
+  if (existsSync(mgbaCustomExe)) {
+    log("  ✅ Custom mGBA is already present.", COLORS.green);
+  } else if (existsSync(mgbaStockExe)) {
+    log("  ℹ️  Stock mGBA found, but Custom mGBA is preferred for Link Cable support.", COLORS.yellow);
   } else if (existsSync(archive)) {
-    log("  📦 Extracting mGBA.7z...", COLORS.yellow);
+    log("  📦 Extracting mGBA.7z as fallback...", COLORS.yellow);
     try {
       const { createRequire } = await import('module');
       const require = createRequire(import.meta.url);
@@ -105,54 +108,57 @@ async function setup() {
       log(`  ❌ Error during extraction: ${err.message}`, COLORS.red);
     }
   } else {
-    log("  ⚠️  mGBA.7z not found. Manual installation may be required.", COLORS.yellow);
+    log("  ⚠️  mGBA binaries not found. Manual installation required if not pulled via Git.", COLORS.yellow);
   }
 
-  // 2b. Always Patch config.ini and qt.ini if mGBA exists (Ensures settings are forced)
-  if (existsSync(mgbaExe)) {
-    log("\n🔧 Ensuring mGBA is configured correctly...", COLORS.bright + COLORS.cyan);
-    const mgbaDir = path.dirname(mgbaExe);
-    
-    // Patch config.ini
-    const configPath = path.join(mgbaDir, 'config.ini');
-    try {
-      let config = existsSync(configPath) ? readFileSync(configPath, 'utf8') : '';
-      const configPatches = {
-        '[ports.qt]': {
-          'videoBackend': 'software',
-          'pauseOnFocusLost': '0',
-          'mute': '1',
-          'hwaccelVideo': '0',
-          'fpsTarget': '60'
-        }
-      };
-      config = applyIniPatches(config, configPatches);
-      writeFileSync(configPath, config.trim() + '\n');
-      log("  ✅ mGBA config.ini patched (Software Rendering + Server Settings).", COLORS.green);
-    } catch (err) {
-      log(`  ❌ Failed to patch config.ini: ${err.message}`, COLORS.red);
-    }
+  // 2b. Always Patch config.ini and qt.ini if any mGBA exists (Ensures settings are forced)
+  const targetExes = [mgbaCustomExe, mgbaStockExe];
+  targetExes.forEach(exePath => {
+    if (existsSync(exePath)) {
+      log(`\n🔧 Ensuring mGBA is configured correctly at ${path.basename(path.dirname(exePath))}...`, COLORS.bright + COLORS.cyan);
+      const mgbaDir = path.dirname(exePath);
+      
+      // Patch config.ini
+      const configPath = path.join(mgbaDir, 'config.ini');
+      try {
+        let config = existsSync(configPath) ? readFileSync(configPath, 'utf8') : '';
+        const configPatches = {
+          '[ports.qt]': {
+            'videoBackend': 'software',
+            'pauseOnFocusLost': '0',
+            'mute': '1',
+            'hwaccelVideo': '0',
+            'fpsTarget': '60'
+          }
+        };
+        config = applyIniPatches(config, configPatches);
+        writeFileSync(configPath, config.trim() + '\n');
+        log(`  ✅ ${path.basename(mgbaDir)} config.ini patched.`, COLORS.green);
+      } catch (err) {
+        log(`  ❌ Failed to patch config.ini at ${mgbaDir}: ${err.message}`, COLORS.red);
+      }
 
-    // Patch qt.ini (Shortcuts and Display Driver)
-    const qtPath = path.join(mgbaDir, 'qt.ini');
-    try {
-      let qt = existsSync(qtPath) ? readFileSync(qtPath, 'utf8') : '';
-      const qtPatches = {
-        '[General]': {
-          'displayDriver': '0' // 0 = Software
-        },
-        '[shortcutKey]': {
-          'multiWindow': 'F12',
-          'loadROM': 'F11'
-        }
-      };
-      qt = applyIniPatches(qt, qtPatches);
-      writeFileSync(qtPath, qt.trim() + '\n');
-      log("  ✅ mGBA qt.ini patched (Shortcuts: F12=New, F11=Open + Display Driver).", COLORS.green);
-    } catch (err) {
-      log(`  ❌ Failed to patch qt.ini: ${err.message}`, COLORS.red);
+      // Patch qt.ini (Shortcuts and Display Driver)
+      const qtPath = path.join(mgbaDir, 'qt.ini');
+      try {
+        let qt = existsSync(qtPath) ? readFileSync(qtPath, 'utf8') : '';
+        const qtPatches = {
+          '[General]': {
+            'displayDriver': '0' // 0 = Software
+          },
+          '[shortcutKey]': {
+            'multiWindow': 'F12',
+            'loadROM': 'F11'
+          }
+        };
+        qt = applyIniPatches(qt, qtPatches);
+        writeFileSync(qtPath, qt.trim() + '\n');
+        log(`  ✅ ${path.basename(mgbaDir)} qt.ini patched.`, COLORS.green);
+      } catch (err) {
+        log(`  ❌ Failed to patch qt.ini at ${mgbaDir}: ${err.message}`, COLORS.red);
+      }
     }
-  }
+  });
 
   // 3. Environment Check
   log("\n🔐 Checking environment...", COLORS.bright);

@@ -107,7 +107,7 @@ function ensureAuth(req, res, next) {
 
 // Middleware for auto-login in dev mode
 function autoLogin(req, res, next) {
-  if (process.env.NODE_ENV === 'development' && (!req.isAuthenticated || !req.isAuthenticated())) {
+  if (process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTO_LOGIN !== 'true' && (!req.isAuthenticated || !req.isAuthenticated())) {
     const id = 'debug_testuser';
     let user = users.get(id);
     if (!user) {

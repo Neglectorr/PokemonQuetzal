@@ -184,11 +184,7 @@ function init(socketIo, lobby) {
         room.id,
         room.maxPlayers,
         (slot, b64Frame, width, height) => {
-          // Only broadcast if the slot is occupied by a player
-          const isSlotActive = Array.from(room.players.values()).some(p => p.slot === slot);
-          if (isSlotActive) {
-            io.to(mapping.roomId).emit('frame', { slot, data: b64Frame, width, height, raw: !!width });
-          }
+          io.to(mapping.roomId).emit('frame', { slot, data: b64Frame, width, height, raw: !!width });
         },
         (slot, audioBuffer) => {
           // Broadcast raw PCM audio to all users with slot info

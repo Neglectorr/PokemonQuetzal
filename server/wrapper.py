@@ -12,31 +12,59 @@ import numpy as np
 import cv2
 import soundcard as sc
 import ctypes
+from ctypes import wintypes
+
+# Windows API for better text extraction
+def get_window_text_recursive(hwnd):
+    texts = []
+    def callback(child_hwnd, _):
+        length = win32gui.SendMessage(child_hwnd, win32con.WM_GETTEXTLENGTH, 0, 0)
+        if length > 0:
+            buffer = ctypes.create_unicode_buffer(length + 1)
+            win32gui.SendMessage(child_hwnd, win32con.WM_GETTEXT, length + 1, buffer)
+            txt = buffer.value.strip()
+            if txt and len(txt) > 2:
+                texts.append(txt)
+        return True
+    try:
+        win32gui.EnumChildWindows(hwnd, callback, None)
+    except:
+        pass
+    return " | ".join(texts)
 
 def get_hwnds_for_pid(pid):
+    error_hwnds = []
+    
     def callback(hwnd, hwnds):
         _, found_pid = win32process.GetWindowThreadProcessId(hwnd)
         if found_pid == pid:
             class_name = win32gui.GetClassName(hwnd)
-            title = win32gui.GetWindowText(hwnd)
+            title = win32gui.GetWindowText(hwnd).strip()
+            
+            # Auto-capture and close "An error occurred" windows
+            if "error" in title.lower() or "occurred" in title.lower():
+                error_text = get_window_text_recursive(hwnd)
+                sys.stderr.write(f"ERROR WINDOW DETECTED: {title} -> {error_text}\n")
+                error_hwnds.append(hwnd)
+                return True
+
             rect = win32gui.GetClientRect(hwnd)
             w, h = rect[2] - rect[0], rect[3] - rect[1]
             
-            # Use stderr for direct visibility in server logs
-            sys.stderr.write(f"DEBUG: HWND {hwnd} | Class: {class_name} | Title: '{title}' | Size: {w}x{h}\n")
-            
             # Any window with a Qt class or mGBA in title belongs to us
-            # BUT exclude error dialogs
-            is_error = "error" in title.lower() or "occurred" in title.lower()
-            is_mgba = (("qt" in class_name.lower()) or ("mgba" in title.lower()) or (title == "")) and not is_error
+            is_mgba = (("qt" in class_name.lower()) or ("mgba" in title.lower()) or (title == ""))
             
-            # Even hidden windows (w=0) might be our P1 before show()
             if is_mgba:
                 hwnds.append(hwnd)
         return True
         
     hwnds = []
     win32gui.EnumWindows(callback, hwnds)
+    
+    # Actually close the error windows
+    for eh in error_hwnds:
+        win32gui.PostMessage(eh, win32con.WM_CLOSE, 0, 0)
+        
     return hwnds
 
 def capture_window(hwnd):
@@ -85,20 +113,24 @@ def capture_window(hwnd):
         return None
         
     # Extract the GBA 1.5 Aspect Ratio bounding box.
-    # mGBA keeps the menu bar at the top, so the game is generally horizontally centered and bottom aligned.
+    # mGBA window has a menu bar and borders. 
+    # PrintWindow with 2 (PW_RENDERFULLCONTENT) captures the FULL window, 
+    # but we are selecting into a client-sized bitmap.
+    
     gw = client_width
     gh = int(gw / 1.5)
     if gh > client_height:
         gh = client_height
         gw = int(gh * 1.5)
     
+    # User's GBA content is horizontally centered and BOTTOM aligned
+    # This strips the top menu bar perfectly on Windows/Qt.
     start_x = (client_width - gw) // 2
-    # Vertically bottom align to strip the top menu bar, but keep any pillarboxing stripped.
-    start_y = client_height - gh 
-    
+    start_y = client_height - gh
+
     img = img[start_y:start_y+gh, start_x:start_x+gw]
 
-    # Resize to exactly 240x160 to save bandwidth
+    # Resize to exactly 240x160 for the streamer protocol
     img = cv2.resize(img, (240, 160), interpolation=cv2.INTER_NEAREST)
 
     # Convert BGRA to BGR
@@ -287,6 +319,14 @@ def main():
     
     sys.stderr.write(f"Found {len(multi_hwnds)} mGBA windows: {final_dict}\n")
     
+    # Session 0 Simulation: Move windows off-screen to verify PrintWindow(..., 2) capture
+    if os.environ.get('WRAPPER_HIDE_WINDOWS', '0') == '1':
+        time.sleep(2) # Extra 2s for Qt software renderer to settle
+        sys.stderr.write("!!! SESSION 0 SIMULATION ACTIVE: Moving mGBA windows off-screen !!!\n")
+        for slot, h in multi_hwnds:
+            # -3000, -3000 is safely off any desktop
+            win32gui.SetWindowPos(h, 0, -3000, -3000, 0, 0, win32con.SWP_NOSIZE | win32con.SWP_NOZORDER)
+
     # Start input listening thread
     t = threading.Thread(target=input_thread, args=(final_dict,), daemon=True)
     t.start()
@@ -309,7 +349,7 @@ def main():
                 img = capture_window(h)
                 if img is not None:
                     # Encode PNG for lossless pixel art quality
-                    encode_param = [int(cv2.IMWRITE_PNG_COMPRESSION), 1]
+                    encode_param = [int(cv2.IMWRITE_PNG_COMPRESSION), 0]
                     result, encimg = cv2.imencode('.png', img, encode_param)
                     if result:
                         data = encimg.tobytes()

@@ -52,42 +52,30 @@ class EmulatorInstance {
         }
 
         const ROMS_DIR = path.join(__dirname, '..', 'roms');
-        const romBase = romFilename.replace(/\.gba$/i, '');
-        const SAVES_ROOT = path.join(__dirname, '..', 'saves');
+        const LOBBIES_DIR = path.join(__dirname, '..', 'lobbies');
+        const lobbyDir = path.join(LOBBIES_DIR, this.roomId);
         
-        // Use a single Hard Link for the entire room to ensure unique saves without duplication
-        const roomRomName = `${romBase}_${this.roomId}.gba`;
-        const roomRomPath = path.join(ROMS_DIR, roomRomName);
-        
-        if (!fs.existsSync(roomRomPath)) {
-            try {
-                fs.linkSync(romPath, roomRomPath);
-                console.log(`[Room ${this.roomId}] Created hard link for room ROM.`);
-            } catch (e) {
-                console.log(`[Room ${this.roomId}] Hard link failed, falling back to copy:`, e.message);
-                fs.copyFileSync(romPath, roomRomPath);
-            }
-        }
+        if (!fs.existsSync(lobbyDir)) fs.mkdirSync(lobbyDir, { recursive: true });
 
-        // Pipe name base for this lobby
+        // USE THE ORIGINAL ROM DIRECTLY - NO COPIES
+        const roomRomPath = romPath;
+
         const pipeBase = `streamer_${this.roomId}`;
         this.pipeBridges = [];
+        this.lastRomBase = romFilename.replace(/\.gba$/i, ''); 
 
-        // 1. Prepare per-player saves (mGBA handles suffixes .sav, .sa2, etc. based on the ROM basename)
+        // 1. Prepare per-player saves in the lobby directory
         for (let slot = 1; slot <= this.maxPlayers; slot++) {
             const player = players.find(p => p.slot === slot);
             if (player) {
-                // Suffixes based on roomRomPath base
-                this.syncUserSaveToSlot(slot, player.userId, roomRomName.replace(/\.gba$/i, ''));
+                this.syncUserSaveToSlot(slot, player.userId, this.lastRomBase, lobbyDir);
             }
 
             // Setup Pipe Bridge for this slot
             const PipeBridge = require('./pipeBridge');
             const bridge = new PipeBridge(`${pipeBase}_${slot-1}`, slot);
             bridge.on('video', (data) => {
-                // emit RGBA frame to frontend
                 if (this.onFrame) {
-                    // Send as raw Buffer for better performance
                     this.onFrame(slot, data.data, data.width, data.height);
                 }
             });
@@ -100,16 +88,20 @@ class EmulatorInstance {
 
         console.log(`[Room ${this.roomId}] Launching custom mGBA with on-demand streaming...`);
         
-        // Spawn mGBA with --stream-pipe and config override for headless audio.
-        // We only need the ONE ROM path.
+        // 2. Launch mGBA with --stream-pipe and --sav-path overrides.
+        // All instances share the 'roomRomPath' (the original ROM).
         const mgbaArgs = [
             '-m', this.maxPlayers.toString(), 
             '-C', 'audio.driver=dummy',
+            '-C', 'qt.displayDriver=0', // Force Qt Software rendering (0=QT, 1=OPENGL)
+            '-C', 'syncToVideo=1',
+            '-C', 'syncToAudio=0',
             '--stream-pipe', pipeBase, 
+            '--sav-path', lobbyDir,
             roomRomPath
         ];
         this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
-            cwd: path.dirname(mgbaExe),
+            cwd: lobbyDir,
             stdio: ['ignore', 'pipe', 'pipe']
         });
         
@@ -129,9 +121,9 @@ class EmulatorInstance {
             this.kill();
         });
 
-        // 2. Wait for stabilization (Our custom -m handles window linking and loading internally)
+        // 3. Wait for mGBA windows to stabilize
         console.log(`[Room ${this.roomId}] Waiting for custom mGBA windows to stabilize...`);
-        await new Promise(r => setTimeout(r, 4000));
+        await new Promise(resolve => setTimeout(resolve, 12000));
 
         // 3. Spawn Python wrapper - now passing expected window count and disabling legacy capture
         const wrapperScript = path.join(__dirname, 'wrapper.py');
@@ -164,9 +156,10 @@ class EmulatorInstance {
                     buffer = buffer.slice(expectedSize);
                     expectedSize = -1;
                     if (expectedSlot === 0) {
-                        // Audio is disabled, but if we ever re-enable it:
-                        // if (this.onAudio) this.onAudio(frameData);
+                        // Audio is disabled
                     } else if (this.onFrame) {
+                        // wrapper.py encodes to PNG and writes raw binary to stdout.
+                        // We need to convert that binary frameData to base64 for the socket.
                         this.onFrame(expectedSlot, frameData.toString('base64'));
                     }
                 } else break;
@@ -196,30 +189,29 @@ class EmulatorInstance {
         return [`.sa${slot}`, '.sav']; // Check .saX first, then .sav as fallback
     }
 
-    syncUserSaveToSlot(slot, userId, roomRomBase) {
+    syncUserSaveToSlot(slot, userId, romBase, lobbyDir) {
         const SAVES_ROOT = path.join(__dirname, '..', 'saves');
-        const ROMS_DIR = path.join(__dirname, '..', 'roms');
         
-        this.slots[slot] = { userId, romBase: roomRomBase.split('_')[0] }; // Original ROM name for user dir
+        this.slots[slot] = { userId, romBase }; // Original ROM name for user dir
 
         try {
             const userDir = path.join(SAVES_ROOT, userId);
             if (!fs.existsSync(userDir)) fs.mkdirSync(userDir, { recursive: true });
 
-            const userSave = path.join(userDir, `${this.slots[slot].romBase}.sav`);
-            const userState = path.join(userDir, `${this.slots[slot].romBase}.state`);
+            const userSave = path.join(userDir, `${romBase}.sav`);
+            const userState = path.join(userDir, `${romBase}.state`);
 
             if (fs.existsSync(userSave)) {
-                // Determine target suffix (.sav, .sa2, etc.)
+                // Determine target suffix (.sav, .sa2, etc.) in the lobbyDir
                 const ext = slot === 1 ? '.sav' : `.sa${slot}`;
-                const targetPath = path.join(ROMS_DIR, `${roomRomBase}${ext}`);
+                const targetPath = path.join(lobbyDir, `${romBase}${ext}`);
                 fs.copyFileSync(userSave, targetPath);
                 console.log(`[Room ${this.roomId}] Syncing SRAM for P${slot} (${userId}) -> ${ext}`);
             }
 
-            // state sync is lobby-specific for now, we point .ss1 to the room ROM base
-            const pStatePath = path.join(ROMS_DIR, `${roomRomBase}.ss1`);
-            if (fs.existsSync(userState) && slot === 1) { // Only P1 state sync for now to avoid mess
+            // state sync is lobby-specific for now
+            const pStatePath = path.join(lobbyDir, `${romBase}.ss1`);
+            if (fs.existsSync(userState) && slot === 1) { 
                 fs.copyFileSync(userState, pStatePath);
                 console.log(`[Room ${this.roomId}] Syncing State for P${slot} (${userId})`);
             }
@@ -230,24 +222,23 @@ class EmulatorInstance {
 
 
     async syncSavesBack(targetSlot = null) {
-        const ROMS_DIR = path.join(__dirname, '..', 'roms');
         const SAVES_ROOT = path.join(__dirname, '..', 'saves');
+        const LOBBIES_DIR = path.join(__dirname, '..', 'lobbies');
+        const lobbyDir = path.join(LOBBIES_DIR, this.roomId);
 
-        // We need the roomRomBase
-        const roomRomName = `${this.lastRomBase}_${this.roomId}.gba`;
-        const roomRomBase = roomRomName.replace(/\.gba$/i, '');
+        if (!fs.existsSync(lobbyDir)) return;
 
         const slotsToSync = targetSlot ? [[targetSlot, this.slots[targetSlot]]] : Object.entries(this.slots);
 
         for (const [slotStr, data] of slotsToSync) {
             const slot = parseInt(slotStr);
             if (!data) continue;
-            const { userId, romBase } = data; // original romBase (e.g. "PokemonQuetzal")
+            const { userId, romBase } = data; 
             
-            // mGBA Suffixes
+            // mGBA Suffixes in lobbyDir
             const ext = slot === 1 ? '.sav' : `.sa${slot}`;
-            const pSavePath = path.join(ROMS_DIR, `${roomRomBase}${ext}`);
-            const pStatePath = path.join(ROMS_DIR, `${roomRomBase}.ss1`);
+            const pSavePath = path.join(lobbyDir, `${romBase}${ext}`);
+            const pStatePath = path.join(lobbyDir, `${romBase}.ss1`);
             
             const userDir = path.join(SAVES_ROOT, userId);
             const userSave = path.join(userDir, `${romBase}.sav`);
@@ -262,7 +253,6 @@ class EmulatorInstance {
                     }
                 }
                 
-                // State Sync (only P1 for now to keep it simple)
                 if (slot === 1 && fs.existsSync(pStatePath)) {
                     const stats = fs.statSync(pStatePath);
                     if (stats.size > 10000) {
@@ -276,16 +266,17 @@ class EmulatorInstance {
         }
         
         // Final cleanup on room destruction
-        if (!targetSlot && this.lastRomBase) {
-            console.log(`[Room ${this.roomId}] Final cleanup of temporary room files...`);
-            const base = path.join(ROMS_DIR, `${this.lastRomBase}_${this.roomId}`);
-            const extensions = ['.gba', '.sav', '.ss1', '.state', '.sa1', '.sa2', '.sa3', '.sa4'];
-            extensions.forEach(ext => {
-                const fp = base + ext;
-                if (fs.existsSync(fp)) {
-                    try { fs.unlinkSync(fp); } catch(e) {}
+        if (!targetSlot) {
+            console.log(`[Room ${this.roomId}] Cleaning up lobby directory...`);
+            const LOBBIES_DIR = path.join(__dirname, '..', 'lobbies');
+            const lobbyDir = path.join(LOBBIES_DIR, this.roomId);
+            if (fs.existsSync(lobbyDir)) {
+                try {
+                    fs.rmSync(lobbyDir, { recursive: true, force: true });
+                } catch (e) {
+                    console.error(`[Room ${this.roomId}] Cleanup failed:`, e.message);
                 }
-            });
+            }
         }
     }
 
