@@ -1,65 +1,63 @@
-const fs = require('fs');
+const net = require('net');
 const EventEmitter = require('events');
 
 /**
  * PipeBridge
  * Connects to an mGBA named pipe and parses the STRM protocol.
- * Protocol:
- * [Magic (4b: "STRM")][Type (1b: 0=Video, 1=Audio)][Size (4b LE)][Payload (Size bytes)]
- * Video Payload: [Width (4b)][Height (4b)][Raw Pixels (W*H*4 bytes)]
  */
 class PipeBridge extends EventEmitter {
     constructor(pipeName, slot) {
         super();
         this.pipePath = `\\\\.\\pipe\\${pipeName}`;
         this.slot = slot;
-        this.stream = null;
+        this.socket = null;
         this.buffer = Buffer.alloc(0);
         this.connected = false;
         this.reconnectTimer = null;
+        this.destroyed = false;
     }
 
     connect() {
+        if (this.destroyed) return;
         console.log(`[PipeBridge P${this.slot}] Connecting to ${this.pipePath}...`);
         
-        try {
-            this.stream = fs.createReadStream(this.pipePath);
-            
-            this.stream.on('data', (chunk) => {
-                if (!this.connected) {
-                    this.connected = true;
-                    console.log(`[PipeBridge P${this.slot}] Stream pipe connected.`);
-                    this.emit('connected');
-                }
-                this.handleData(chunk);
-            });
+        this.socket = net.createConnection(this.pipePath);
 
-            this.stream.on('error', (err) => {
-                if (err.code === 'ENOENT') {
-                    // Pipe not ready yet, retry
-                    this.retry();
-                } else {
-                    console.error(`[PipeBridge P${this.slot}] Error:`, err.message);
-                    this.emit('error', err);
-                    this.retry();
-                }
-            });
+        this.socket.on('connect', () => {
+            if (this.reconnectTimer) {
+                clearTimeout(this.reconnectTimer);
+                this.reconnectTimer = null;
+            }
+            this.connected = true;
+            console.log(`[PipeBridge P${this.slot}] Stream pipe connected via NET.`);
+            this.emit('connected');
+        });
 
-            this.stream.on('end', () => {
-                console.log(`[PipeBridge P${this.slot}] Stream ended.`);
-                this.connected = false;
+        this.socket.on('data', (chunk) => {
+            this.handleData(chunk);
+        });
+
+        this.socket.on('error', (err) => {
+            if (!this.connected) {
+                // Initial connection failed, silently retry
                 this.retry();
-            });
+            } else {
+                console.error(`[PipeBridge P${this.slot}] Socket Error:`, err.message);
+                this.retry();
+            }
+        });
 
-        } catch (e) {
-            console.error(`[PipeBridge P${this.slot}] Connection failed:`, e.message);
+        this.socket.on('close', () => {
+            if (this.connected) {
+                console.log(`[PipeBridge P${this.slot}] Stream pipe closed.`);
+                this.connected = false;
+            }
             this.retry();
-        }
+        });
     }
 
     retry() {
-        if (this.reconnectTimer) return;
-        this.connected = false;
+        if (this.reconnectTimer || this.destroyed) return;
         this.reconnectTimer = setTimeout(() => {
             this.reconnectTimer = null;
             this.connect();

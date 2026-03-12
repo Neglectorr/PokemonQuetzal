@@ -100,9 +100,14 @@ class EmulatorInstance {
 
         console.log(`[Room ${this.roomId}] Launching custom mGBA with on-demand streaming...`);
         
-        // Spawn mGBA with --stream-pipe. We only need the ONE ROM path.
-        // mGBA -m 4 path.gba will open 4 windows all loading that path.
-        const mgbaArgs = ['-m', this.maxPlayers.toString(), '--stream-pipe', pipeBase, roomRomPath];
+        // Spawn mGBA with --stream-pipe and -a dummy for headless audio.
+        // We only need the ONE ROM path.
+        const mgbaArgs = [
+            '-m', this.maxPlayers.toString(), 
+            '-a', 'dummy',
+            '--stream-pipe', pipeBase, 
+            roomRomPath
+        ];
         this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
             cwd: path.dirname(mgbaExe),
             stdio: ['ignore', 'pipe', 'pipe']
@@ -191,63 +196,32 @@ class EmulatorInstance {
         return [`.sa${slot}`, '.sav']; // Check .saX first, then .sav as fallback
     }
 
-    syncUserSaveToSlot(slot, userId, romBase) {
+    syncUserSaveToSlot(slot, userId, roomRomBase) {
         const SAVES_ROOT = path.join(__dirname, '..', 'saves');
         const ROMS_DIR = path.join(__dirname, '..', 'roms');
         
-        const pRomPath = path.join(ROMS_DIR, `${romBase}_${this.roomId}_P${slot}.gba`);
-        const pSavePath = path.join(ROMS_DIR, `${romBase}_${this.roomId}_P${slot}.sav`);
-        const pStatePath = path.join(ROMS_DIR, `${romBase}_${this.roomId}_P${slot}.ss1`);
-
-        this.slots[slot] = { userId, romBase };
+        this.slots[slot] = { userId, romBase: roomRomBase.split('_')[0] }; // Original ROM name for user dir
 
         try {
-            // Ensure ROM exists for this slot
-            const baseRomPath = path.join(ROMS_DIR, `${romBase}.gba`);
-            if (!fs.existsSync(pRomPath)) {
-                fs.copyFileSync(baseRomPath, pRomPath);
-            }
-
             const userDir = path.join(SAVES_ROOT, userId);
             if (!fs.existsSync(userDir)) fs.mkdirSync(userDir, { recursive: true });
 
-            const userSave = path.join(userDir, `${romBase}.sav`);
-            const userState = path.join(userDir, `${romBase}.state`);
+            const userSave = path.join(userDir, `${this.slots[slot].romBase}.sav`);
+            const userState = path.join(userDir, `${this.slots[slot].romBase}.state`);
 
             if (fs.existsSync(userSave)) {
-                // To be safe, we sync to BOTH .sav and the .saX variant so mGBA finds it
-                const extensions = this.getSlotSaveExtensions(slot);
-                const baseRomPath = path.join(ROMS_DIR, `${romBase}.gba`);
-                extensions.forEach(ext => {
-                    const targetPath = baseRomPath.replace(/\.gba$/i, `_${this.roomId}_P${slot}${ext}`);
-                    fs.copyFileSync(userSave, targetPath);
-                });
-                console.log(`[Room ${this.roomId}] Syncing SRAM for P${slot} (${userId})`);
-            } else {
-                // Remove any existing temporary saves if user has none
-                const extensions = this.getSlotSaveExtensions(slot);
-                const baseRomPath = path.join(ROMS_DIR, `${romBase}.gba`);
-                extensions.forEach(ext => {
-                    const targetPath = baseRomPath.replace(/\.gba$/i, `_${this.roomId}_P${slot}${ext}`);
-                    if (fs.existsSync(targetPath)) fs.unlinkSync(targetPath);
-                });
+                // Determine target suffix (.sav, .sa2, etc.)
+                const ext = slot === 1 ? '.sav' : `.sa${slot}`;
+                const targetPath = path.join(ROMS_DIR, `${roomRomBase}${ext}`);
+                fs.copyFileSync(userSave, targetPath);
+                console.log(`[Room ${this.roomId}] Syncing SRAM for P${slot} (${userId}) -> ${ext}`);
             }
 
-            if (fs.existsSync(userState)) {
+            // state sync is lobby-specific for now, we point .ss1 to the room ROM base
+            const pStatePath = path.join(ROMS_DIR, `${roomRomBase}.ss1`);
+            if (fs.existsSync(userState) && slot === 1) { // Only P1 state sync for now to avoid mess
                 fs.copyFileSync(userState, pStatePath);
                 console.log(`[Room ${this.roomId}] Syncing State for P${slot} (${userId})`);
-                
-                // If game is already playing, trigger the load
-                if (this.state === 'playing') {
-                    setTimeout(() => this.quickLoad(slot), 500);
-                }
-            } else {
-                // CRITICAL: If player has no state, remove any stale state in this slot
-                // to prevent loading someone else's progress
-                if (fs.existsSync(pStatePath)) {
-                    fs.unlinkSync(pStatePath);
-                    console.log(`[Room ${this.roomId}] Cleared stale state for P${slot}`);
-                }
             }
         } catch (e) {
             console.error(`[Room ${this.roomId}] Sync failed for P${slot}:`, e);
@@ -259,61 +233,59 @@ class EmulatorInstance {
         const ROMS_DIR = path.join(__dirname, '..', 'roms');
         const SAVES_ROOT = path.join(__dirname, '..', 'saves');
 
-        let lastRomBase = null;
+        // We need the roomRomBase
+        const roomRomName = `${this.lastRomBase}_${this.roomId}.gba`;
+        const roomRomBase = roomRomName.replace(/\.gba$/i, '');
+
         const slotsToSync = targetSlot ? [[targetSlot, this.slots[targetSlot]]] : Object.entries(this.slots);
 
-        for (const [slot, data] of slotsToSync) {
+        for (const [slotStr, data] of slotsToSync) {
+            const slot = parseInt(slotStr);
             if (!data) continue;
-            const { userId, romBase } = data;
-            lastRomBase = romBase;
+            const { userId, romBase } = data; // original romBase (e.g. "PokemonQuetzal")
             
-            const pSave = path.join(ROMS_DIR, `${romBase}_${this.roomId}_P${slot}.sav`);
-            const pState = path.join(ROMS_DIR, `${romBase}_${this.roomId}_P${slot}.ss1`);
+            // mGBA Suffixes
+            const ext = slot === 1 ? '.sav' : `.sa${slot}`;
+            const pSavePath = path.join(ROMS_DIR, `${roomRomBase}${ext}`);
+            const pStatePath = path.join(ROMS_DIR, `${roomRomBase}.ss1`);
             
             const userDir = path.join(SAVES_ROOT, userId);
             const userSave = path.join(userDir, `${romBase}.sav`);
             const userState = path.join(userDir, `${romBase}.state`);
 
             try {
-                // SRAM Verification: Ensure file actually has data. Check both .sav and .saX
-                const extensions = this.getSlotSaveExtensions(slot);
-                for (const ext of extensions) {
-                    const pSaveExt = path.join(ROMS_DIR, `${romBase}_${this.roomId}_P${slot}${ext}`);
-                    if (fs.existsSync(pSaveExt)) {
-                        const stats = fs.statSync(pSaveExt);
-                        if (stats.size > 0) {
-                            fs.copyFileSync(pSaveExt, userSave);
-                            break; // Priority found
-                        }
+                if (fs.existsSync(pSavePath)) {
+                    const stats = fs.statSync(pSavePath);
+                    if (stats.size > 0) {
+                        fs.copyFileSync(pSavePath, userSave);
+                        console.log(`[Room ${this.roomId}] Synced SRAM back for P${slot} (${userId})`);
                     }
                 }
                 
-                // State Verification: Savestates for GBA are typically > 100KB
-                if (fs.existsSync(pState)) {
-                    const stats = fs.statSync(pState);
-                    if (stats.size > 10000) { // Safety threshold
-                        fs.copyFileSync(pState, userState);
+                // State Sync (only P1 for now to keep it simple)
+                if (slot === 1 && fs.existsSync(pStatePath)) {
+                    const stats = fs.statSync(pStatePath);
+                    if (stats.size > 10000) {
+                        fs.copyFileSync(pStatePath, userState);
+                        console.log(`[Room ${this.roomId}] Synced State back for P${slot} (${userId})`);
                     }
                 }
-                console.log(`[Room ${this.roomId}] Bulletproof sync complete for ${userId} (Slot ${slot})`);
             } catch (e) {
-                console.error(`[Room ${this.roomId}] CRITICAL: Sync failed for ${userId}:`, e);
+                console.error(`[Room ${this.roomId}] Sync back failed for ${userId}:`, e);
             }
         }
         
         // Final cleanup on room destruction
-        if (!targetSlot && lastRomBase) {
+        if (!targetSlot && this.lastRomBase) {
             console.log(`[Room ${this.roomId}] Final cleanup of temporary room files...`);
-            for (let slot = 1; slot <= this.maxPlayers; slot++) {
-                try {
-                    const base = path.join(ROMS_DIR, `${lastRomBase}_${this.roomId}_P${slot}`);
-                    const extensions = ['.gba', '.sav', '.ss1', '.state', '.sa1', '.sa2', '.sa3', '.sa4'];
-                    extensions.forEach(ext => {
-                        const fp = base + ext;
-                        if (fs.existsSync(fp)) fs.unlinkSync(fp);
-                    });
-                } catch(e) {}
-            }
+            const base = path.join(ROMS_DIR, `${this.lastRomBase}_${this.roomId}`);
+            const extensions = ['.gba', '.sav', '.ss1', '.state', '.sa1', '.sa2', '.sa3', '.sa4'];
+            extensions.forEach(ext => {
+                const fp = base + ext;
+                if (fs.existsSync(fp)) {
+                    try { fs.unlinkSync(fp); } catch(e) {}
+                }
+            });
         }
     }
 
