@@ -95,6 +95,9 @@ class EmulatorInstance {
         });
 
         // 2. Run the Macro to link windows and load ROMs
+        console.log(`[Room ${this.roomId}] Waiting for mGBA GUI to stabilize...`);
+        await new Promise(r => setTimeout(r, 2000));
+
         console.log(`[Room ${this.roomId}] Executing spawn_multiplayer.py...`);
         const multiScript = path.join(__dirname, 'spawn_multiplayer.py');
         await new Promise((resolve) => {

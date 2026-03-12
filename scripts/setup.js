@@ -58,6 +58,45 @@ async function setup() {
       
       if (result.status === 0) {
         log("  ✅ Extraction successful!", COLORS.green);
+        
+        // 2a. Patch config.ini for headless/server stability
+        log("  🔧 Patching mGBA config.ini...", COLORS.cyan);
+        const configPath = path.join(rootDir, 'mgba_native', 'mGBA-0.10.3-win64', 'config.ini');
+        let config = existsSync(configPath) ? readFileSync(configPath, 'utf8') : '';
+        
+        const patches = {
+          '[ports.qt]': {
+            'videoBackend': 'software',
+            'pauseOnFocusLost': '0',
+            'mute': '1',
+            'hwaccelVideo': '0',
+            'fpsTarget': '60'
+          },
+          '[shortcuts.qt]': {
+            'newMultiplayerWindow': 'Ctrl+M'
+          }
+        };
+
+        for (const [section, settings] of Object.entries(patches)) {
+          if (!config.includes(section)) {
+            config += `\n${section}\n`;
+          }
+          for (const [key, value] of Object.entries(settings)) {
+            const regex = new RegExp(`^${key}=.*$`, 'm');
+            if (config.match(regex)) {
+              config = config.replace(regex, `${key}=${value}`);
+            } else {
+              // Insert after section header
+              config = config.replace(section, `${section}\n${key}=${value}`);
+            }
+          }
+        }
+        
+        import('fs').then(({ writeFileSync }) => {
+          writeFileSync(configPath, config.trim() + '\n');
+          log("  ✅ mGBA configured for server use (Software Rendering + Ctrl+M).", COLORS.green);
+        });
+
       } else {
         log(`  ❌ Extraction failed with status ${result.status}`, COLORS.red);
         console.error(result.stderr.toString());

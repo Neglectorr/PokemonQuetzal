@@ -551,7 +551,7 @@
     status.textContent = 'Spawning instances...';
 
     const startTime = Date.now();
-    const duration = 15000; // Estimated 15s for 4 players
+    const duration = 20000; // Estimated 20s for 4 players (increased due to server delays)
 
     if (macroProgressInterval) clearInterval(macroProgressInterval);
     

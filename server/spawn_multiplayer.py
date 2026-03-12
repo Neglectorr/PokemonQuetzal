@@ -107,7 +107,7 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
         return
 
     logging.info(f"Connecting to mGBA PID {pid} (Verified)...")
-    time.sleep(2) # Wait for initial GUI
+    time.sleep(4) # Wait for initial GUI to be responsive on slow servers
     
     app = Application(backend="uia").connect(process=pid)
     
