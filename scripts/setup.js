@@ -126,12 +126,13 @@ async function setup() {
           'displayDriver': '0' // 0 = Software
         },
         '[shortcutKey]': {
-          'multiWindow': 'Ctrl+M'
+          'multiWindow': 'F12',
+          'loadROM': 'F11'
         }
       };
       qt = applyIniPatches(qt, qtPatches);
       writeFileSync(qtPath, qt.trim() + '\n');
-      log("  ✅ mGBA qt.ini patched (Shortcuts: Ctrl+M + Display Driver).", COLORS.green);
+      log("  ✅ mGBA qt.ini patched (Shortcuts: F12=New, F11=Open + Display Driver).", COLORS.green);
     } catch (err) {
       log(`  ❌ Failed to patch qt.ini: ${err.message}`, COLORS.red);
     }

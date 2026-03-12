@@ -176,21 +176,31 @@ def input_thread(hwnds_dict):
 
 def audio_thread():
     try:
-        # Get the default speaker and its corresponding loopback microphone
+        # Get the default speaker
         speaker = sc.default_speaker()
-        mic = sc.default_microphone()
-        # In soundcard, to get loopback, we often just use the speaker as if it's a mic
-        # but let's be explicit if possible. sc.all_microphones(include_loopback=True)
+        if not speaker:
+            sys.stderr.write("Audio Thread: No default speaker found. Audio capture disabled.\n")
+            return
+
+        # Attempt to get loopback microphone
         loopback = None
-        for m in sc.all_microphones(include_loopback=True):
-            if m.isloopback and speaker.name in m.name:
-                loopback = m
-                break
+        try:
+            for m in sc.all_microphones(include_loopback=True):
+                if m.isloopback and speaker.name in m.name:
+                    loopback = m
+                    break
+        except:
+            pass
         
         if not loopback:
-            # Fallback to default microphone if no explicit loopback found
-            # (though sc.default_speaker().microphone is usually loopback)
-            loopback = speaker.microphone
+            try:
+                loopback = speaker.microphone
+            except:
+                pass
+            
+        if not loopback:
+            sys.stderr.write("Audio Thread: No loopback device found. Audio capture disabled.\n")
+            return
             
         sys.stderr.write(f"Starting audio capture on: {loopback.name}\n")
         
@@ -198,6 +208,7 @@ def audio_thread():
         with loopback.recorder(samplerate=44100, channels=1) as recorder:
             while True:
                 data = recorder.record(numframes=1024)
+                if data is None: continue
                 # Convert float32 to int16
                 audio_int16 = (data * 32767).astype(np.int16)
                 audio_bytes = audio_int16.tobytes()
@@ -231,24 +242,25 @@ def main():
         hwnds = get_hwnds_for_pid(pid)
         hwnds_dict = {}
         for h in hwnds:
-            if not win32gui.IsWindowVisible(h):
-                continue
+            # REMOVED IsWindowVisible: Headless sessions often report windows as invisible
             title = win32gui.GetWindowText(h)
-            if "- mGBA" in title or "mGBA" in title:
-                slot = 1
-                if "Player 2" in title: slot = 2
-                elif "Player 3" in title: slot = 3
-                elif "Player 4" in title: slot = 4
-                
-                rect = win32gui.GetClientRect(h)
-                area = (rect[2] - rect[0]) * (rect[3] - rect[1])
-                
-                if slot not in hwnds_dict or area > hwnds_dict[slot]['area']:
-                    hwnds_dict[slot] = {'hwnd': h, 'area': area, 'title': title}
+            
+            # Identify slots by window title
+            slot = 1
+            if "Player 2" in title: slot = 2
+            elif "Player 3" in title: slot = 3
+            elif "Player 4" in title: slot = 4
+            
+            rect = win32gui.GetClientRect(h)
+            area = (rect[2] - rect[0]) * (rect[3] - rect[1])
+            
+            # Prioritize larger windows for the same slot (mGBA sometimes has utility windows)
+            if slot not in hwnds_dict or area > hwnds_dict[slot]['area']:
+                hwnds_dict[slot] = {'hwnd': h, 'area': area, 'title': title}
                     
         if len(hwnds_dict) >= expected_count:
             break
-        time.sleep(0.1)
+        time.sleep(0.5)
         
     with open(log_path, "a") as f:
         f.write(f"Found {len(hwnds_dict)} windows: {[(s, d['title']) for s, d in hwnds_dict.items()]}\n")

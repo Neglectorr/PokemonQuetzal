@@ -34,9 +34,9 @@ def get_hwnds_for_pid(pid):
     win32gui.EnumWindows(callback, hwnds)
     return hwnds
 
-def blind_send_key(hwnd, vk, is_down=True):
+def blind_key(hwnd, vk, is_down=True):
     """
-    Sends a key to a window using PostMessage (doesn't require focus).
+    Sends a key to a window using PostMessage.
     """
     scan_code = win32api.MapVirtualKey(vk, 0)
     lParam = 0x0001 | (scan_code << 16)
@@ -47,37 +47,26 @@ def blind_send_key(hwnd, vk, is_down=True):
         msg = win32con.WM_KEYDOWN
     win32api.PostMessage(hwnd, msg, vk, lParam)
 
-def blind_send_shortcut(hwnd, modifier_vk, key_vk):
-    """
-    Sends a modifier + key shortcut (e.g. Ctrl+M).
-    """
-    blind_send_key(hwnd, modifier_vk, True)  # Modifier Down
-    time.sleep(0.05)
-    blind_send_key(hwnd, key_vk, True)       # Key Down
-    time.sleep(0.05)
-    blind_send_key(hwnd, key_vk, False)      # Key Up
-    time.sleep(0.05)
-    blind_send_key(hwnd, modifier_vk, False) # Modifier Up
-
 def blind_type_string(hwnd, text):
     """
-    Types a string into a window using WM_CHAR (doesn't require focus).
+    Types a string into a window using WM_CHAR.
     """
     for char in text:
         win32api.PostMessage(hwnd, win32con.WM_CHAR, ord(char), 0)
         time.sleep(0.01)
     # Send Enter
-    blind_send_key(hwnd, win32con.VK_RETURN, True)
+    blind_key(hwnd, win32con.VK_RETURN, True)
     time.sleep(0.05)
-    blind_send_key(hwnd, win32con.VK_RETURN, False)
+    blind_key(hwnd, win32con.VK_RETURN, False)
 
 def blind_send_esc(hwnd):
     """
     Sends ESC key to clear menus.
     """
-    blind_send_key(hwnd, win32con.VK_ESCAPE, True)
+    blind_key(hwnd, win32con.VK_ESCAPE, True)
     time.sleep(0.05)
-    blind_send_key(hwnd, win32con.VK_ESCAPE, False)
+    blind_key(hwnd, win32con.VK_ESCAPE, False)
+
 
 def spawn_multiplayer(pid, rom_paths, mute_indexes):
     # 0. Strict Process Verification
@@ -120,11 +109,12 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
         attempts += 1
         logging.info(f"Spawning window {len(current_hwnds)+1} (Attempt {attempts})...")
         
-        # Send Ctrl+M blindly
-        blind_send_shortcut(parent_hwnd, win32con.VK_CONTROL, ord('M'))
+        # Trigger "New multiplayer window" via F12 shortcut
+        blind_key(parent_hwnd, win32con.VK_F12, True)
+        time.sleep(0.05)
+        blind_key(parent_hwnd, win32con.VK_F12, False)
         
-        # Increase timing: wait for linking and window initialization
-        time.sleep(4.0) 
+        time.sleep(4.0) # Wait for linking and window initialization
     
     # Ensure all menus are closed before ROM loading
     for h in get_hwnds_for_pid(pid):
@@ -133,8 +123,7 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
 
     # 3. Target windows for ROM loading
     # Sort: parent first, then others by creation (handle)
-    all_hwnds_raw = get_hwnds_for_pid(pid)
-    all_hwnds = sorted(all_hwnds_raw, key=lambda h: (0 if h == parent_hwnd else 1, h))
+    all_hwnds = sorted(get_hwnds_for_pid(pid))
     
     if len(all_hwnds) < target_count:
         logging.error(f"Initialization failed: Only {len(all_hwnds)} windows available.")
@@ -145,14 +134,15 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
         player_num = i + 1
         logging.info(f"--- Loading Player {player_num} (HWND: {target_hwnd}) ---")
         
-        # blind_send_shortcut Ctrl+O to open ROM dialog
-        blind_send_shortcut(target_hwnd, win32con.VK_CONTROL, ord('O'))
+        # Trigger "Open ROM" via F11 shortcut
+        blind_key(target_hwnd, win32con.VK_F11, True)
+        time.sleep(0.05)
+        blind_key(target_hwnd, win32con.VK_F11, False)
         
-        logging.info("Waiting 2s for dialog...")
-        time.sleep(2.0)
+        logging.info("Waiting 2.5s for dialog...")
+        time.sleep(2.5)
         
         # In Session 0 / Blind mode, we just type into the target_hwnd.
-        # mGBA usually focuses the filename field by default.
         logging.info(f"Typing ROM path: {rom_path}")
         blind_type_string(target_hwnd, rom_path)
             
@@ -161,12 +151,7 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
         # 4. Mute logic
         if player_num in mute_indexes:
             logging.info(f"Muting Player {player_num}...")
-            # Alt+A then 'm' (blindly)
-            blind_send_shortcut(target_hwnd, win32con.VK_MENU, ord('A'))
-            time.sleep(0.5)
-            blind_send_key(target_hwnd, ord('M'), True)
-            time.sleep(0.05)
-            blind_send_key(target_hwnd, ord('M'), False)
+            blind_command(target_hwnd, cmd_mute)
             time.sleep(0.5)
             blind_send_esc(target_hwnd)
 
@@ -176,7 +161,7 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         sys.exit(1)
     target_pid = int(sys.argv[1])
+    # Fix: target_roms is a list, and we need to pass it as such
     target_roms = sys.argv[2:]
     default_mute = [2, 3, 4] # Player 1 is audible for loopback
     spawn_multiplayer(target_pid, target_roms, default_mute)
-
