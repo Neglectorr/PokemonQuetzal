@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>4-Player Multi-View Verification</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: 'Outfit', sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1000px; }
+        .slot-container { background: #1e293b; padding: 10px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        canvas { background: black; width: 480px; height: 320px; image-rendering: pixelated; }
+        .label { text-align: center; font-weight: bold; margin-bottom: 5px; color: #38bdf8; }
+        .status { margin-top: 10px; font-size: 0.9em; color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <h1>Multiplayer Stream Verification</h1>
+    <div class="grid">
+        <div class="slot-container">
+            <div class="label">PLAYER 1</div>
+            <canvas id="canvas-1"></canvas>
+        </div>
+        <div class="slot-container">
+            <div class="label">PLAYER 2</div>
+            <canvas id="canvas-2"></canvas>
+        </div>
+        <div class="slot-container">
+            <div class="label">PLAYER 3</div>
+            <canvas id="canvas-3"></canvas>
+        </div>
+        <div class="slot-container">
+            <div class="label">PLAYER 4</div>
+            <canvas id="canvas-4"></canvas>
+        </div>
+    </div>
+    <div class="status" id="status">Connecting to server...</div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const canvases = {
+            1: document.getElementById('canvas-1'),
+            2: document.getElementById('canvas-2'),
+            3: document.getElementById('canvas-3'),
+            4: document.getElementById('canvas-4')
+        };
+        const ctxs = {
+            1: canvases[1].getContext('2d'),
+            2: canvases[2].getContext('2d'),
+            3: canvases[3].getContext('2d'),
+            4: canvases[4].getContext('2d')
+        };
+
+        // Initialize with black
+        Object.values(ctxs).forEach(ctx => {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, 240, 160);
+        });
+
+        const socket = io();
+        socket.on('connect', () => {
+            document.getElementById('status').innerText = 'Connected! Join a room to see streams.';
+            
+            // Auto-join a debug room if URL has it
+            const urlParams = new URLSearchParams(window.location.search);
+            const roomId = urlParams.get('room');
+            if (roomId) {
+                socket.emit('join-room', { roomId, role: 'spectator' });
+                document.getElementById('status').innerText = `Joined room ${roomId} as spectator. Waiting for frames...`;
+            }
+        });
+
+        socket.on('frame', (data) => {
+            const ctx = ctxs[data.slot];
+            if (ctx) {
+                const img = new Image();
+                img.onload = () => ctx.drawImage(img, 0, 0);
+                img.src = data.data; // data.data is base64
+            }
+        });
+
+        socket.on('room-state', (state) => {
+            document.getElementById('status').innerText = `Room: ${state.name} | Status: ${state.status} | Players: ${state.players.length}`;
+        });
+    </script>
+</body>
+</html>
