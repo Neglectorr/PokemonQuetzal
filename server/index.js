@@ -37,8 +37,7 @@ try {
     path: path.join(__dirname, '..', 'sessions'),
     ttl: 86400,
     retries: 5,
-    reapInterval: -1, // Disable automatic cleanup to prevent race conditions on Windows
-    secret: process.env.SESSION_SECRET || 'dev-secret-change-me'
+    reapInterval: -1 // Disable automatic cleanup to prevent race conditions on Windows
   });
 } catch (e) {
   console.warn('File session store unavailable, using memory store:', e.message);
