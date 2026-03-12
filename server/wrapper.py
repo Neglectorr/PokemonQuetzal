@@ -14,22 +14,30 @@ import soundcard as sc
 import ctypes
 
 def get_hwnds_for_pid(pid):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    log_path = os.path.join(script_dir, '..', 'tmp', 'wrapper_search.log')
+    
     def callback(hwnd, hwnds):
-        # On some server environments, IsWindowVisible can be unreliable or windows 
-        # might be reported as invisible initially. We check dimensions instead.
         _, found_pid = win32process.GetWindowThreadProcessId(hwnd)
         if found_pid == pid:
             class_name = win32gui.GetClassName(hwnd)
-            title = win32gui.GetWindowText(hwnd).lower()
+            title = win32gui.GetWindowText(hwnd)
             rect = win32gui.GetClientRect(hwnd)
             w, h = rect[2] - rect[0], rect[3] - rect[1]
             
-            # Look for typical Qt/mGBA characteristics but be more lenient
-            is_mgba = ("qt" in class_name.lower()) or ("mgba" in title) or (title == "")
+            with open(log_path, "a") as f:
+                f.write(f"HWND {hwnd}: PID={found_pid}, Class={class_name}, Title='{title}', Dim={w}x{h}\n")
             
-            if is_mgba and w > 100 and h > 100:
+            # More lenient check: any window with dimensions might be it
+            is_mgba = ("qt" in class_name.lower()) or ("mgba" in title.lower()) or (title == "")
+            
+            if is_mgba and w > 50 and h > 50:
                 hwnds.append(hwnd)
         return True
+        
+    with open(log_path, "a") as f:
+        f.write(f"--- Searching for PID {pid} at {time.ctime()} ---\n")
+        
     hwnds = []
     win32gui.EnumWindows(callback, hwnds)
     return hwnds
