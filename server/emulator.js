@@ -105,12 +105,20 @@ class EmulatorInstance {
         const mgbaArgs = ['-m', this.maxPlayers.toString(), '--stream-pipe', pipeBase, roomRomPath];
         this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
             cwd: path.dirname(mgbaExe),
-            stdio: 'ignore'
+            stdio: ['ignore', 'pipe', 'pipe']
         });
         
         const mGbaPid = this.mGBAProcess.pid;
-        console.log(`[Room ${this.roomId}] mGBA spawned with PID:`, mGbaPid);
+        console.log(`[Room ${this.roomId}] mGBA spawned with PID: ${mGbaPid}`);
+
+        this.mGBAProcess.stdout.on('data', (data) => console.log(`[mGBA ${this.roomId}]`, data.toString().trim()));
+        this.mGBAProcess.stderr.on('data', (data) => console.error(`[mGBA ${this.roomId} ERR]`, data.toString().trim()));
         
+        this.mGBAProcess.on('error', (err) => {
+            console.error(`[Room ${this.roomId}] Failed to spawn mGBA:`, err);
+            if (this.onError) this.onError(`Spawn error: ${err.message}`);
+        });
+
         this.mGBAProcess.on('exit', (code) => {
             console.log(`[Room ${this.roomId}] mGBA process exited with code`, code);
             this.kill();
