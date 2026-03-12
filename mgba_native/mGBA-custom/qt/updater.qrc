@@ -1,5 +1,0 @@
-<RCC>
-	<qresource>
-		<file alias="updater">C:/PassionProjects/GBAEmu/PokemonQuetzal/mgba_src/build/updater-stub.exe</file>
-	</qresource>
-</RCC>
