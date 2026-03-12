@@ -100,11 +100,11 @@ class EmulatorInstance {
 
         console.log(`[Room ${this.roomId}] Launching custom mGBA with on-demand streaming...`);
         
-        // Spawn mGBA with --stream-pipe and -a dummy for headless audio.
+        // Spawn mGBA with --stream-pipe and --audio-driver dummy for headless audio.
         // We only need the ONE ROM path.
         const mgbaArgs = [
             '-m', this.maxPlayers.toString(), 
-            '-a', 'dummy',
+            '--audio-driver', 'dummy',
             '--stream-pipe', pipeBase, 
             roomRomPath
         ];
