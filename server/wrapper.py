@@ -1,4 +1,5 @@
 import sys
+import os
 import time
 import struct
 import threading
@@ -138,7 +139,8 @@ def send_key(hwnd, key_name, is_down):
     win32api.PostMessage(hwnd, msg, vk, lParam)
 
 def input_thread(hwnds_dict):
-    log_path = r"c:\PassionProjects\GBAEmu\PokemonQuetzal\tmp\wrapper_input.log"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    log_path = os.path.join(script_dir, '..', 'tmp', 'wrapper_input.log')
     with open(log_path, "a") as f:
         f.write(f"--- Input thread started at {time.ctime()} ---\n")
         f.flush()
@@ -216,7 +218,8 @@ def main():
     
     # Wait for windows to appear, or timeout after 10 seconds
     hwnds_dict = {}
-    log_path = r"c:\PassionProjects\GBAEmu\PokemonQuetzal\tmp\wrapper_input.log"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    log_path = os.path.join(script_dir, '..', 'tmp', 'wrapper_input.log')
     with open(log_path, "a") as f:
         f.write(f"--- Window Detection started for PID {pid} ---\n")
         

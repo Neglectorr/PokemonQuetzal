@@ -13,29 +13,23 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
 def get_hwnds_for_pid(pid):
     def callback(hwnd, hwnds):
-        if win32gui.IsWindowVisible(hwnd):
-            _, found_pid = win32process.GetWindowThreadProcessId(hwnd)
-            if found_pid == pid:
-                # Filter by Window Class (mGBA uses Qt)
-                class_name = win32gui.GetClassName(hwnd)
-                title = win32gui.GetWindowText(hwnd).lower()
-                
-                # mGBA windows typically have "Qt" in the class name
-                # and "mgba" in the title. We must be STRICT.
-                is_mgba_class = "Qt" in class_name
-                is_mgba_title = "mgba" in title or title == "mgba" or title == ""
-                
-                # Double check: if it's the primary window, it MUST have mGBA in title or class
-                if is_mgba_class and is_mgba_title:
-                    rect = win32gui.GetClientRect(hwnd)
-                    # Ignore tiny/hidden-but-visible utility windows
-                    if (rect[2] - rect[0]) > 200 and (rect[3] - rect[1]) > 200:
-                        logging.info(f"Identified mGBA window: HWND {hwnd}, Class {class_name}, Title '{title}'")
-                        hwnds.append(hwnd)
-                    else:
-                        logging.debug(f"Ignoring small window: {hwnd}, Rect {rect}")
-                else:
-                    logging.debug(f"Ignoring non-mGBA candidate: {hwnd}, Class {class_name}, Title '{title}'")
+        # On some server environments, IsWindowVisible can be unreliable or windows 
+        # might be reported as invisible initially. We check dimensions instead.
+        _, found_pid = win32process.GetWindowThreadProcessId(hwnd)
+        if found_pid == pid:
+            class_name = win32gui.GetClassName(hwnd)
+            title = win32gui.GetWindowText(hwnd).lower()
+            rect = win32gui.GetClientRect(hwnd)
+            w, h = rect[2] - rect[0], rect[3] - rect[1]
+            
+            # Look for typical Qt/mGBA characteristics but be more lenient
+            is_mgba = ("qt" in class_name.lower()) or ("mgba" in title) or (title == "")
+            
+            if is_mgba and w > 100 and h > 100:
+                logging.info(f"Found mGBA window candidate: HWND {hwnd}, Class {class_name}, Title '{title}', Size {w}x{h}")
+                hwnds.append(hwnd)
+            else:
+                logging.debug(f"Ignoring window for PID {pid}: HWND {hwnd}, Class {class_name}, Title '{title}', Size {w}x{h}")
         return True
     hwnds = []
     win32gui.EnumWindows(callback, hwnds)
@@ -44,55 +38,52 @@ def get_hwnds_for_pid(pid):
 def force_focus(hwnd, expected_pid=None):
     """
     Tries to bring window to foreground and verifies it's actually focused.
-    Uses more aggressive methods to bypass Windows focus stealing restrictions.
     """
     try:
-        # 1. Basic Restore/Show
+        if not win32gui.IsWindow(hwnd):
+            return False
+
+        # Basic Restore/Show
         if win32gui.IsIconic(hwnd):
             win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
         else:
             win32gui.ShowWindow(hwnd, win32con.SW_SHOW)
         
-        # 2. Try the Alt-key trick to trick Windows into allowing focus change
-        # (This helps when the script process isn't the foreground process)
-        import win32com.client
-        try:
-            shell = win32com.client.Dispatch("WScript.Shell")
-            shell.SendKeys('%') # Send Alt
-        except:
-            pass
-
-        # 3. Bring to front
+        # Bring to front
         try:
             win32gui.SetForegroundWindow(hwnd)
         except Exception as e:
             logging.debug(f"SetForegroundWindow failed: {e}")
-            # Try a second time after a tiny sleep
             time.sleep(0.1)
             try: win32gui.SetForegroundWindow(hwnd)
             except: pass
         
-        # 4. Wait for focus with timeout
+        # Wait for focus with timeout
         for _ in range(15):
             curr_hwnd = win32gui.GetForegroundWindow()
             if curr_hwnd == hwnd:
-                # Extra check: ensure it belongs to the right process
                 if expected_pid:
                     _, pid = win32process.GetWindowThreadProcessId(curr_hwnd)
                     if pid == expected_pid:
                         return True
                 else:
                     return True
-            
-            # Alternative: check if the focus is on a child/dialog of the window
-            # but usually hwnd is what we want.
-            
             time.sleep(0.1)
         
-        logging.warning(f"force_focus: Window {hwnd} failed to gain focus after 1.5s")
         return False
     except Exception as e:
-        logging.warning(f"force_focus failed for {hwnd}: {e}")
+        logging.warning(f"force_focus failed: {e}")
+        return False
+
+def safe_send_keys(hwnd, keys, expected_pid):
+    """
+    Sends keys only if the target window is still in focus.
+    """
+    if force_focus(hwnd, expected_pid):
+        send_keys(keys)
+        return True
+    else:
+        logging.error(f"SAFETY ABORT: Target window {hwnd} lost focus! Refusing to send keys '{keys}'.")
         return False
 
 def spawn_multiplayer(pid, rom_paths, mute_indexes):
@@ -107,9 +98,7 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
         return
 
     logging.info(f"Connecting to mGBA PID {pid} (Verified)...")
-    time.sleep(4) # Wait for initial GUI to be responsive on slow servers
-    
-    app = Application(backend="uia").connect(process=pid)
+    time.sleep(4) # Wait for initial GUI to be responsive
     
     # 1. Identify Parent Window
     parent_hwnds = []
@@ -138,22 +127,17 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
         attempts += 1
         logging.info(f"Spawning window {len(current_hwnds)+1} (Attempt {attempts})...")
         
-        # Ensure we have focus before sending Ctrl+M
-        if not force_focus(parent_hwnd, expected_pid=pid):
-            logging.error("Failed to focus parent window. Aborting key send to prevent misclicks.")
-            continue
-
-        # Use Ctrl+M (as bound by user) for "New multiplayer window"
-        send_keys('^m')
+        # Use safe wrapper for shortcut
+        if not safe_send_keys(parent_hwnd, '^m', pid):
+            break
         
         # Increase timing: wait for linking and window initialization
         time.sleep(4.0) 
     
     # Ensure all menus are closed before ROM loading
     for h in get_hwnds_for_pid(pid):
-        if force_focus(h, expected_pid=pid):
-            send_keys('{ESC}{ESC}') # Clear any lingering menus
-            time.sleep(0.2)
+        safe_send_keys(h, '{ESC}{ESC}', pid)
+        time.sleep(0.1)
 
     # 3. Target windows for ROM loading
     # Sort: parent first, then others by creation (handle)
@@ -166,20 +150,31 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
     for i, rom_path in enumerate(rom_paths):
         if i >= len(all_hwnds): break
         target_hwnd = all_hwnds[i]
-        logging.info(f"--- Loading Player {i+1} (HWND: {target_hwnd}) ---")
+        player_num = i + 1
+        logging.info(f"--- Loading Player {player_num} (HWND: {target_hwnd}) ---")
         
-        # Ensure target window is focused
-        if not force_focus(target_hwnd, expected_pid=pid):
-            logging.error(f"Failed to focus window for Player {i+1}. Skipping ROM load.")
+        # Verify focus before starting the sequence
+        if not force_focus(target_hwnd, pid):
+            logging.error(f"SAFETY ABORT: Failed to focus window for Player {player_num}. Skipping.")
             continue
 
         time.sleep(0.5)
-        send_keys('^o') # Ctrl+O to open ROM dialog
+        # Ctrl+O to open ROM dialog
+        if not safe_send_keys(target_hwnd, '^o', pid):
+            continue
         
-        # Wait for dialog to open and focus the filename field (auto-focused in mGBA)
         logging.info("Waiting 1.5s for dialog...")
         time.sleep(1.5)
         
+        # We assume the dialog has focus now. 
+        # mGBA dialogs are owned by the same PID.
+        # To be extra safe, we check if the foreground window STILL belongs to our PID
+        curr_hwnd = win32gui.GetForegroundWindow()
+        _, curr_pid = win32process.GetWindowThreadProcessId(curr_hwnd)
+        if curr_pid != pid:
+            logging.error(f"SAFETY ABORT: Focus moved to PID {curr_pid} during ROM load! Aborting type.")
+            continue
+
         # Type the path and hit Enter
         logging.info(f"Typing ROM path: {rom_path}")
         keyboard.write(rom_path)
@@ -189,22 +184,20 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
         time.sleep(4.0) # Wait for game to load
 
         # 4. Mute logic
-        if (i+1) in mute_indexes:
-            logging.info(f"Muting Player {i+1}...")
-            if force_focus(target_hwnd, expected_pid=pid):
-                send_keys('%a') # Audio/Video menu
-                time.sleep(1.0) # wait for menu
-                send_keys('m') # Mute hotkey
-                time.sleep(1.0)
-                send_keys('{ESC}{ESC}') # Ensure menu is closed
+        if player_num in mute_indexes:
+            logging.info(f"Muting Player {player_num}...")
+            # Alt+A (menu), then 'm' (mute)
+            if safe_send_keys(target_hwnd, '%am', pid):
+                time.sleep(0.5)
+                safe_send_keys(target_hwnd, '{ESC}{ESC}', pid)
 
     logging.info("Multiplayer sequence complete.")
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         sys.exit(1)
-    pid = int(sys.argv[1])
-    roms = sys.argv[2:]
-    mute_indexes = [2, 3, 4] # Player 1 is audible for loopback
-    spawn_multiplayer(pid, roms, mute_indexes)
+    target_pid = int(sys.argv[1])
+    target_roms = sys.argv[2:]
+    default_mute = [2, 3, 4] # Player 1 is audible for loopback
+    spawn_multiplayer(target_pid, target_roms, default_mute)
 
