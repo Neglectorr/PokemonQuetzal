@@ -26,7 +26,9 @@ def get_hwnds_for_pid(pid):
             sys.stderr.write(f"DEBUG: HWND {hwnd} | Class: {class_name} | Title: '{title}' | Size: {w}x{h}\n")
             
             # Any window with a Qt class or mGBA in title belongs to us
-            is_mgba = ("qt" in class_name.lower()) or ("mgba" in title.lower()) or (title == "")
+            # BUT exclude error dialogs
+            is_error = "error" in title.lower() or "occurred" in title.lower()
+            is_mgba = (("qt" in class_name.lower()) or ("mgba" in title.lower()) or (title == "")) and not is_error
             
             # Even hidden windows (w=0) might be our P1 before show()
             if is_mgba:
@@ -254,10 +256,11 @@ def main():
             rect = win32gui.GetClientRect(h)
             area = (rect[2] - rect[0]) * (rect[3] - rect[1])
             
-            # Default slot by order
+            # Default slot by order (fallback)
             slot = i + 1
             # Override if title specifically mentions player
-            if "player 2" in title: slot = 2
+            if "player 1" in title: slot = 1
+            elif "player 2" in title: slot = 2
             elif "player 3" in title: slot = 3
             elif "player 4" in title: slot = 4
             
