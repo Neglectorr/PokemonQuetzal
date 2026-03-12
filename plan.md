@@ -1,7 +1,4 @@
-This is a rock-solid foundation. I have translated the plan into English and refined the technical specifications to ensure an AI Agent (like Cursor, Windsurf, or a custom GPT) can interpret the requirements with high precision.
-
-I also added a specific section for Caddy/Proxy headers to ensure your socket connections and OAuth callbacks don't break in production.
-
+7
 plan.md: Project Antigravity – Multi-instance GBA Cloud Platform
 1. Project Vision
 A high-performance, server-side emulation platform for GBA multiplayer (focused on Pokémon Quetzal). The server handles all game logic and "Virtual Link Cable" synchronization, while the client acts as a "Thin Client" for input handling and canvas rendering.
