@@ -15,15 +15,19 @@ import ctypes
 
 def get_hwnds_for_pid(pid):
     def callback(hwnd, hwnds):
+        # On some server environments, IsWindowVisible can be unreliable or windows 
+        # might be reported as invisible initially. We check dimensions instead.
         _, found_pid = win32process.GetWindowThreadProcessId(hwnd)
         if found_pid == pid:
-            # We must filter out hidden helper widgets by checking visibility and dimensions.
-            # But earlier we found IsWindowVisible sometimes failed if the window was minimized.
-            # Instead, let's verify it actually has a client rect area suitable for capturing
+            class_name = win32gui.GetClassName(hwnd)
+            title = win32gui.GetWindowText(hwnd).lower()
             rect = win32gui.GetClientRect(hwnd)
-            width = rect[2] - rect[0]
-            height = rect[3] - rect[1]
-            if width > 0 and height > 0:
+            w, h = rect[2] - rect[0], rect[3] - rect[1]
+            
+            # Look for typical Qt/mGBA characteristics but be more lenient
+            is_mgba = ("qt" in class_name.lower()) or ("mgba" in title) or (title == "")
+            
+            if is_mgba and w > 100 and h > 100:
                 hwnds.append(hwnd)
         return True
     hwnds = []

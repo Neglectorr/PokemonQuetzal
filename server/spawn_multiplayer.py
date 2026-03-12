@@ -5,9 +5,8 @@ import logging
 import win32gui
 import win32con
 import win32process
+import win32api
 import psutil
-from pywinauto import Application
-from pywinauto.keyboard import send_keys
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
@@ -35,56 +34,50 @@ def get_hwnds_for_pid(pid):
     win32gui.EnumWindows(callback, hwnds)
     return hwnds
 
-def force_focus(hwnd, expected_pid=None):
+def blind_send_key(hwnd, vk, is_down=True):
     """
-    Tries to bring window to foreground and verifies it's actually focused.
+    Sends a key to a window using PostMessage (doesn't require focus).
     """
-    try:
-        if not win32gui.IsWindow(hwnd):
-            return False
-
-        # Basic Restore/Show
-        if win32gui.IsIconic(hwnd):
-            win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
-        else:
-            win32gui.ShowWindow(hwnd, win32con.SW_SHOW)
-        
-        # Bring to front
-        try:
-            win32gui.SetForegroundWindow(hwnd)
-        except Exception as e:
-            logging.debug(f"SetForegroundWindow failed: {e}")
-            time.sleep(0.1)
-            try: win32gui.SetForegroundWindow(hwnd)
-            except: pass
-        
-        # Wait for focus with timeout
-        for _ in range(15):
-            curr_hwnd = win32gui.GetForegroundWindow()
-            if curr_hwnd == hwnd:
-                if expected_pid:
-                    _, pid = win32process.GetWindowThreadProcessId(curr_hwnd)
-                    if pid == expected_pid:
-                        return True
-                else:
-                    return True
-            time.sleep(0.1)
-        
-        return False
-    except Exception as e:
-        logging.warning(f"force_focus failed: {e}")
-        return False
-
-def safe_send_keys(hwnd, keys, expected_pid):
-    """
-    Sends keys only if the target window is still in focus.
-    """
-    if force_focus(hwnd, expected_pid):
-        send_keys(keys)
-        return True
+    scan_code = win32api.MapVirtualKey(vk, 0)
+    lParam = 0x0001 | (scan_code << 16)
+    if not is_down:
+        lParam |= (1 << 30) | (1 << 31)
+        msg = win32con.WM_KEYUP
     else:
-        logging.error(f"SAFETY ABORT: Target window {hwnd} lost focus! Refusing to send keys '{keys}'.")
-        return False
+        msg = win32con.WM_KEYDOWN
+    win32api.PostMessage(hwnd, msg, vk, lParam)
+
+def blind_send_shortcut(hwnd, modifier_vk, key_vk):
+    """
+    Sends a modifier + key shortcut (e.g. Ctrl+M).
+    """
+    blind_send_key(hwnd, modifier_vk, True)  # Modifier Down
+    time.sleep(0.05)
+    blind_send_key(hwnd, key_vk, True)       # Key Down
+    time.sleep(0.05)
+    blind_send_key(hwnd, key_vk, False)      # Key Up
+    time.sleep(0.05)
+    blind_send_key(hwnd, modifier_vk, False) # Modifier Up
+
+def blind_type_string(hwnd, text):
+    """
+    Types a string into a window using WM_CHAR (doesn't require focus).
+    """
+    for char in text:
+        win32api.PostMessage(hwnd, win32con.WM_CHAR, ord(char), 0)
+        time.sleep(0.01)
+    # Send Enter
+    blind_send_key(hwnd, win32con.VK_RETURN, True)
+    time.sleep(0.05)
+    blind_send_key(hwnd, win32con.VK_RETURN, False)
+
+def blind_send_esc(hwnd):
+    """
+    Sends ESC key to clear menus.
+    """
+    blind_send_key(hwnd, win32con.VK_ESCAPE, True)
+    time.sleep(0.05)
+    blind_send_key(hwnd, win32con.VK_ESCAPE, False)
 
 def spawn_multiplayer(pid, rom_paths, mute_indexes):
     # 0. Strict Process Verification
@@ -127,16 +120,15 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
         attempts += 1
         logging.info(f"Spawning window {len(current_hwnds)+1} (Attempt {attempts})...")
         
-        # Use safe wrapper for shortcut
-        if not safe_send_keys(parent_hwnd, '^m', pid):
-            break
+        # Send Ctrl+M blindly
+        blind_send_shortcut(parent_hwnd, win32con.VK_CONTROL, ord('M'))
         
         # Increase timing: wait for linking and window initialization
         time.sleep(4.0) 
     
     # Ensure all menus are closed before ROM loading
     for h in get_hwnds_for_pid(pid):
-        safe_send_keys(h, '{ESC}{ESC}', pid)
+        blind_send_esc(h)
         time.sleep(0.1)
 
     # 3. Target windows for ROM loading
@@ -153,43 +145,30 @@ def spawn_multiplayer(pid, rom_paths, mute_indexes):
         player_num = i + 1
         logging.info(f"--- Loading Player {player_num} (HWND: {target_hwnd}) ---")
         
-        # Verify focus before starting the sequence
-        if not force_focus(target_hwnd, pid):
-            logging.error(f"SAFETY ABORT: Failed to focus window for Player {player_num}. Skipping.")
-            continue
-
-        time.sleep(0.5)
-        # Ctrl+O to open ROM dialog
-        if not safe_send_keys(target_hwnd, '^o', pid):
-            continue
+        # blind_send_shortcut Ctrl+O to open ROM dialog
+        blind_send_shortcut(target_hwnd, win32con.VK_CONTROL, ord('O'))
         
-        logging.info("Waiting 1.5s for dialog...")
-        time.sleep(1.5)
+        logging.info("Waiting 2s for dialog...")
+        time.sleep(2.0)
         
-        # We assume the dialog has focus now. 
-        # mGBA dialogs are owned by the same PID.
-        # To be extra safe, we check if the foreground window STILL belongs to our PID
-        curr_hwnd = win32gui.GetForegroundWindow()
-        _, curr_pid = win32process.GetWindowThreadProcessId(curr_hwnd)
-        if curr_pid != pid:
-            logging.error(f"SAFETY ABORT: Focus moved to PID {curr_pid} during ROM load! Aborting type.")
-            continue
-
-        # Type the path and hit Enter
+        # In Session 0 / Blind mode, we just type into the target_hwnd.
+        # mGBA usually focuses the filename field by default.
         logging.info(f"Typing ROM path: {rom_path}")
-        keyboard.write(rom_path)
-        time.sleep(0.5)
-        send_keys('{ENTER}')
+        blind_type_string(target_hwnd, rom_path)
             
         time.sleep(4.0) # Wait for game to load
 
         # 4. Mute logic
         if player_num in mute_indexes:
             logging.info(f"Muting Player {player_num}...")
-            # Alt+A (menu), then 'm' (mute)
-            if safe_send_keys(target_hwnd, '%am', pid):
-                time.sleep(0.5)
-                safe_send_keys(target_hwnd, '{ESC}{ESC}', pid)
+            # Alt+A then 'm' (blindly)
+            blind_send_shortcut(target_hwnd, win32con.VK_MENU, ord('A'))
+            time.sleep(0.5)
+            blind_send_key(target_hwnd, ord('M'), True)
+            time.sleep(0.05)
+            blind_send_key(target_hwnd, ord('M'), False)
+            time.sleep(0.5)
+            blind_send_esc(target_hwnd)
 
     logging.info("Multiplayer sequence complete.")
 
