@@ -86,22 +86,39 @@ async function setup() {
 
   // 4. Python Dependencies
   log("\n🐍 Checking Python dependencies...", COLORS.bright + COLORS.blue);
+  const pythonDeps = [
+    { module: 'keyboard', package: 'keyboard' },
+    { module: 'win32gui', package: 'pywin32' },
+    { module: 'psutil', package: 'psutil' },
+    { module: 'pywinauto', package: 'pywinauto' },
+    { module: 'numpy', package: 'numpy' },
+    { module: 'cv2', package: 'opencv-python' },
+    { module: 'soundcard', package: 'soundcard' }
+  ];
+
   try {
-    const pythonCheck = spawnSync('python', ['-c', 'import keyboard, win32gui; print("OK")']);
-    if (pythonCheck.status === 0) {
-      log("  ✅ Python dependencies (keyboard, pywin32) are installed.", COLORS.green);
+    const missingDeps = [];
+    for (const dep of pythonDeps) {
+      const check = spawnSync('python', ['-c', `import ${dep.module}`]);
+      if (check.status !== 0) {
+        missingDeps.push(dep.package);
+      }
+    }
+
+    if (missingDeps.length === 0) {
+      log("  ✅ All Python dependencies are installed.", COLORS.green);
     } else {
-      log("  📦 Installing Python dependencies...", COLORS.yellow);
-      const pipResult = spawnSync('pip', ['install', 'keyboard', 'pywin32']);
+      log(`  📦 Installing missing Python dependencies: ${missingDeps.join(', ')}...`, COLORS.yellow);
+      const pipResult = spawnSync('pip', ['install', ...missingDeps]);
       if (pipResult.status === 0) {
         log("  ✅ Python dependencies installed successfully!", COLORS.green);
       } else {
         log("  ❌ Failed to install Python dependencies via pip.", COLORS.red);
-        log("     Please run: pip install keyboard pywin32", COLORS.bright + COLORS.yellow);
+        log(`     Please run: pip install ${missingDeps.join(' ')}`, COLORS.bright + COLORS.yellow);
       }
     }
   } catch (err) {
-    log("  ⚠️  Python or pip not found. Native multiplayer macros may not work.", COLORS.yellow);
+    log("  ⚠️  Python or pip not found. Native multiplayer macros will not work.", COLORS.yellow);
     log("     Ensure Python 3 is installed and in your PATH.", COLORS.cyan);
   }
 
