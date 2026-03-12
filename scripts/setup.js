@@ -84,7 +84,28 @@ async function setup() {
     }
   }
 
-  // 4. ROMs Check
+  // 4. Python Dependencies
+  log("\n🐍 Checking Python dependencies...", COLORS.bright + COLORS.blue);
+  try {
+    const pythonCheck = spawnSync('python', ['-c', 'import keyboard, win32gui; print("OK")']);
+    if (pythonCheck.status === 0) {
+      log("  ✅ Python dependencies (keyboard, pywin32) are installed.", COLORS.green);
+    } else {
+      log("  📦 Installing Python dependencies...", COLORS.yellow);
+      const pipResult = spawnSync('pip', ['install', 'keyboard', 'pywin32']);
+      if (pipResult.status === 0) {
+        log("  ✅ Python dependencies installed successfully!", COLORS.green);
+      } else {
+        log("  ❌ Failed to install Python dependencies via pip.", COLORS.red);
+        log("     Please run: pip install keyboard pywin32", COLORS.bright + COLORS.yellow);
+      }
+    }
+  } catch (err) {
+    log("  ⚠️  Python or pip not found. Native multiplayer macros may not work.", COLORS.yellow);
+    log("     Ensure Python 3 is installed and in your PATH.", COLORS.cyan);
+  }
+
+  // 5. ROMs Check
   log("\n🕹️  Checking ROMs...", COLORS.bright);
   const romsDir = path.join(rootDir, 'roms');
   // Check if directory is empty

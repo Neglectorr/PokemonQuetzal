@@ -36,7 +36,9 @@ try {
   sessionStore = new FileStore({
     path: path.join(__dirname, '..', 'sessions'),
     ttl: 86400,
-    retries: 2
+    retries: 5,
+    reapInterval: -1, // Disable automatic cleanup to prevent race conditions on Windows
+    secret: process.env.SESSION_SECRET || 'dev-secret-change-me'
   });
 } catch (e) {
   console.warn('File session store unavailable, using memory store:', e.message);

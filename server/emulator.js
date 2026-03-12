@@ -193,16 +193,18 @@ class EmulatorInstance {
             if (fs.existsSync(userSave)) {
                 // To be safe, we sync to BOTH .sav and the .saX variant so mGBA finds it
                 const extensions = this.getSlotSaveExtensions(slot);
+                const baseRomPath = path.join(ROMS_DIR, `${romBase}.gba`);
                 extensions.forEach(ext => {
-                    const targetPath = romPath.replace(/\.gba$/i, `_${this.roomId}_P${slot}${ext}`);
+                    const targetPath = baseRomPath.replace(/\.gba$/i, `_${this.roomId}_P${slot}${ext}`);
                     fs.copyFileSync(userSave, targetPath);
                 });
                 console.log(`[Room ${this.roomId}] Syncing SRAM for P${slot} (${userId})`);
             } else {
                 // Remove any existing temporary saves if user has none
                 const extensions = this.getSlotSaveExtensions(slot);
+                const baseRomPath = path.join(ROMS_DIR, `${romBase}.gba`);
                 extensions.forEach(ext => {
-                    const targetPath = romPath.replace(/\.gba$/i, `_${this.roomId}_P${slot}${ext}`);
+                    const targetPath = baseRomPath.replace(/\.gba$/i, `_${this.roomId}_P${slot}${ext}`);
                     if (fs.existsSync(targetPath)) fs.unlinkSync(targetPath);
                 });
             }
