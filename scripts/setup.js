@@ -50,6 +50,22 @@ function applyIniPatches(content, patches) {
 async function setup() {
   log("\n🚀 Starting Project Antigravity Setup...", COLORS.bright + COLORS.cyan);
 
+  // 0. Git Submodule Update (Ensures mgba_src is ready)
+  log("\n📦 Checking Git submodules...", COLORS.bright + COLORS.blue);
+  try {
+    const gitSub = spawnSync('git', ['submodule', 'update', '--init', '--recursive'], { 
+      cwd: rootDir,
+      stdio: 'inherit' 
+    });
+    if (gitSub.status === 0) {
+      log("  ✅ Submodules are up to date.", COLORS.green);
+    } else {
+      log("  ⚠️  Submodule update finished with non-zero status.", COLORS.yellow);
+    }
+  } catch (err) {
+    log("  ⚠️  Git command failed. If you downloaded as a ZIP, submodules must be handled manually.", COLORS.yellow);
+  }
+
   // 1. Ensure Directories Exist
   const dirs = ['roms', 'saves', 'sessions', 'tmp', 'mgba_native'];
   log("\n📁 Checking directories...", COLORS.bright);
