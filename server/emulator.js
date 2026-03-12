@@ -130,7 +130,7 @@ class EmulatorInstance {
 
         // 3. Spawn Python wrapper - now passing expected window count and disabling legacy capture
         const wrapperScript = path.join(__dirname, 'wrapper.py');
-        this.wrapperProcess = spawn('python', ['-u', wrapperScript, mGbaPid.toString(), this.maxPlayers.toString(), '--no-capture'], {
+        this.wrapperProcess = spawn('python', ['-u', wrapperScript, mGbaPid.toString(), this.maxPlayers.toString()], {
             stdio: ['pipe', 'pipe', 'pipe']
         });
 
