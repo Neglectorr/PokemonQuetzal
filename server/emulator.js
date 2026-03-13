@@ -2,6 +2,8 @@ const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const rootDir = path.resolve(__dirname, '..');
+const LOBBIES_DIR = path.join(rootDir, 'lobbies');
+const SAVES_ROOT = path.join(rootDir, 'saves');
 
 class EmulatorInstance {
     constructor(roomId, maxPlayers, onFrame, onAudio, onReady, onError) {
@@ -109,8 +111,7 @@ class EmulatorInstance {
                 QT_QPA_PLATFORM: 'windows',
                 QT_QPA_PLATFORM_PLUGIN_PATH: path.dirname(mgbaExe),
                 QT_OPENGL: 'software',
-                LIBGL_ALWAYS_SOFTWARE: '1',
-                QT_DEBUG_PLUGINS: '1'
+                LIBGL_ALWAYS_SOFTWARE: '1'
             },
             windowsHide: true
         });
@@ -120,10 +121,7 @@ class EmulatorInstance {
             if (this.onError) this.onError(`Process spawn error: ${err.message}`);
         });
         
-        console.log(`[Room ${this.roomId}] mGBA spawned with PID: ${this.mGBAProcess.pid} (Offscreen)`);
-
-        this.mGBAProcess.stdout.on('data', (data) => console.log(`[mGBA ${this.roomId} OUT]`, data.toString().trim()));
-        this.mGBAProcess.stderr.on('data', (data) => console.log(`[mGBA ${this.roomId} ERR]`, data.toString().trim()));
+        console.log(`[Room ${this.roomId}] mGBA spawned with PID: ${this.mGBAProcess.pid}`);
         
         this.mGBAProcess.on('exit', (code) => {
             console.log(`[Room ${this.roomId}] mGBA process exited with code`, code);
@@ -171,8 +169,8 @@ class EmulatorInstance {
         return [`.sa${slot}`, '.sav']; // Check .saX first, then .sav as fallback
     }
 
-    syncUserSaveToSlot(slot, userId, romBase, lobbyDir) {
-        const SAVES_ROOT = path.join(__dirname, '..', 'saves');
+    syncUserSaveToSlot(slot, userId, romBase, lobbyDir = null) {
+        if (!lobbyDir) lobbyDir = path.join(LOBBIES_DIR, this.roomId);
         
         this.slots[slot] = { userId, romBase }; // Original ROM name for user dir
 
@@ -204,8 +202,6 @@ class EmulatorInstance {
 
 
     async syncSavesBack(targetSlot = null) {
-        const SAVES_ROOT = path.join(__dirname, '..', 'saves');
-        const LOBBIES_DIR = path.join(__dirname, '..', 'lobbies');
         const lobbyDir = path.join(LOBBIES_DIR, this.roomId);
 
         if (!fs.existsSync(lobbyDir)) return;
