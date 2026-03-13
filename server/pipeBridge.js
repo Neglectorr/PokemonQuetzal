@@ -16,6 +16,9 @@ class PipeBridge extends EventEmitter {
         this.totalLen = 0;
         this.connected = false;
         this.destroyed = false;
+        this.lastFrameHash = null;
+        this.frameCount = 0;
+        this.skippedCount = 0;
 
         // Encoder setup for 50x bandwidth reduction
         this.encoder = new VideoEncoder({ slot: this.slot });
@@ -152,6 +155,17 @@ class PipeBridge extends EventEmitter {
                 if (payload.length >= 8) {
                     // Start after width/height header
                     const pixelData = payload.slice(8);
+                    
+                    // Simple buffer comparison is extremely fast in Node.js
+                    if (this.lastPixelBuffer && this.lastPixelBuffer.equals(pixelData)) {
+                        this.skippedCount++;
+                        if (this.skippedCount % 300 === 0) {
+                            console.log(`[PipeBridge P${this.slot}] Optimization: Skipped ${this.skippedCount} identical frames.`);
+                        }
+                        return; // Skip encoding/sending identical frames
+                    }
+                    this.lastPixelBuffer = Buffer.from(pixelData); // Clone for comparison
+
                     if (this.encoder && this.encoder.isActive) {
                         const ok = this.encoder.write(pixelData);
                         if (!ok && this.frameCount % 60 === 0) {

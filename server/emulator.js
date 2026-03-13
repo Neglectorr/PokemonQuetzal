@@ -97,7 +97,8 @@ class EmulatorInstance {
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
             '-C', 'syncToVideo=0',
-            '-C', 'syncToAudio=1',
+            '-C', 'syncToAudio=0',
+            '-C', 'unlimited=0',
             '-C', 'audio.bufferSamples=1024',
             '-C', 'fpsTarget=60',
             '-C', 'frameskip=0',
@@ -118,6 +119,12 @@ class EmulatorInstance {
             },
             windowsHide: true
         });
+        
+        // DRAIN logs to prevent pipe-clogging slowdowns (CRITICAL for speed)
+        this.mGBAProcess.stdout.on('data', () => {}); 
+        this.mGBAProcess.stderr.on('data', () => {});
+        this.mGBAProcess.stdout.resume();
+        this.mGBAProcess.stderr.resume();
 
         // Use High Priority to ensure stable clockspeed on Server
         try {

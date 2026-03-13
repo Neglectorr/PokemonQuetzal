@@ -55,8 +55,10 @@ class VideoEncoder extends EventEmitter {
             '-i', '-',
             '-f', 'image2pipe',
             '-vcodec', 'mjpeg',
-            '-q:v', '2', // Very high quality
-            '-threads', '1',
+            '-q:v', '5', // Good balance of speed/quality
+            '-threads', '0', // AUTO-THREADS for maximum speed
+            '-preset', 'ultrafast',
+            '-an', '-sn',
             '-'
         ];
 
@@ -70,6 +72,12 @@ class VideoEncoder extends EventEmitter {
         try {
             this.ffmpeg = spawn(this.ffmpegPath, args, { windowsHide: true });
             this.isActive = true;
+
+            // Set encoder priority lower to ensure mGBA isn't starved
+            try {
+                const os = require('os');
+                os.setPriority(this.ffmpeg.pid, os.constants.priority.PRIORITY_BELOW_NORMAL);
+            } catch (e) {}
 
             this.ffmpeg.on('error', (err) => {
                 console.error(`[VideoEncoder P${this.options.slot || '?'}] Spawn error:`, err.message);
@@ -119,9 +127,10 @@ class VideoEncoder extends EventEmitter {
      * Handle the output stream of encoded MJPEG images.
      */
     handleEncodedData(chunk) {
-        this.buffer = Buffer.concat([this.buffer, chunk]);
+        if (!chunk) return;
+        this.buffer = this.buffer.length ? Buffer.concat([this.buffer, chunk]) : chunk;
 
-        // MJPEG frames start with 0xFF 0xD8 (SOI) and end with 0xFF 0xD9 (EOI)
+        // Skip manual parsing if possible, but for MJPEG we need to find boundaries
         while (this.buffer.length > 4) {
             const startIdx = this.buffer.indexOf(Buffer.from([0xFF, 0xD8]));
             if (startIdx === -1) {
@@ -138,13 +147,18 @@ class VideoEncoder extends EventEmitter {
 
             const frameSize = endIdx + 2;
             const frame = this.buffer.slice(0, frameSize);
+            
+            // Slice the buffer BEFORE emitting to avoid re-concats if emission is slow
             this.buffer = this.buffer.slice(frameSize);
 
             this.emittedCount++;
-            if (this.emittedCount % 120 === 0) {
-                console.log(`[VideoEncoder P${this.options.slot || '?'}] Encoded ${this.emittedCount} MJPEG frames.`);
+            if (this.emittedCount % 300 === 0) {
+                console.log(`[VideoEncoder P${this.options.slot || '?'}] Stream health OK: ${this.emittedCount} frames.`);
             }
             this.emit('frame', frame);
+            
+            // Limit loop to prevent long-running blocking
+            if (this.emittedCount % 60 === 0) break; 
         }
     }
 
