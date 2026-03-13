@@ -94,10 +94,11 @@ class EmulatorInstance {
         
         const mgbaArgs = [
             '-m', this.maxPlayers.toString(), 
-            '-C', 'ports.qt.videoBackend=software',
-            '-C', 'pauseOnInactive=0',
+            '-C', 'ports.qt.videoBackend=opengl',
+            '-C', 'pauseOnFocusLost=0',
+            '-C', 'muteOnFocusLost=0',
             '-C', 'syncToVideo=0',
-            '-C', 'syncToAudio=0',
+            '-C', 'syncToAudio=1',
             '-C', 'limitSpeed=1',
             '-C', 'unlimited=0',
             '-C', 'audio.bufferSamples=1024',
@@ -126,6 +127,11 @@ class EmulatorInstance {
         
         // No drainage needed for 'ignore'
 
+        // ⚡ CRITICAL: Disable Windows Efficiency Mode / Power Throttling
+        // This is what was causing the 10.1 FPS cap in background mode.
+        const fixScript = path.join(__dirname, 'fix_throttling.py');
+        spawn('python', [fixScript, this.mGBAProcess.pid], { stdio: 'inherit' });
+        
         // Use High Priority to ensure stable clockspeed on Server
         try {
             os.setPriority(this.mGBAProcess.pid, os.constants.priority.PRIORITY_HIGH);
