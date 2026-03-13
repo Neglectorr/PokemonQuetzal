@@ -243,6 +243,16 @@
     document.getElementById('back-btn').addEventListener('click', () => window.location.href = '/dashboard');
     document.getElementById('leave-room-btn').addEventListener('click', () => window.location.href = '/dashboard');
 
+    document.getElementById('fullscreen-btn').addEventListener('click', () => {
+        const elem = document.querySelector('.game-column');
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+    });
+
+    document.getElementById('toggle-gamepad-btn').addEventListener('click', () => {
+        document.getElementById('virtual-gamepad').classList.toggle('hidden');
+    });
+
     document.getElementById('chat-send-btn').addEventListener('click', sendMessage);
     document.getElementById('chat-input').addEventListener('keypress', e => e.key === 'Enter' && sendMessage());
 

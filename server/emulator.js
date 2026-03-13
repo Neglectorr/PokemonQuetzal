@@ -89,10 +89,9 @@ class EmulatorInstance {
 
         console.log(`[Room ${this.roomId}] Launching truly headless mGBA...`);
         
-        // 2. Launch mGBA with -platform offscreen for Session 0 compatibility.
-        // We force software rendering and sync to audio for stable headless performance.
+        // 2. Launch mGBA. We rely on the 'windows' platform (available in this build)
+        // but force software rendering to ensure it works in Session 0/headless.
         const mgbaArgs = [
-            '-platform', 'offscreen',
             '-m', this.maxPlayers.toString(), 
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
