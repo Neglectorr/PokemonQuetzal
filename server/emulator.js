@@ -133,18 +133,27 @@ class EmulatorInstance {
         this.state = 'playing';
         
         // 3. Spawn Input Proxy after a short delay for windows to be created
-        setTimeout(() => {
-            const proxyScript = path.join(__dirname, 'input_proxy.py');
+        this.proxyTimeout = setTimeout(() => {
+            if (!this.mGBAProcess || this.state === 'dead') return;
+            
+            const proxyScript = path.resolve(__dirname, 'input_proxy.py');
             if (!fs.existsSync(proxyScript)) {
                 console.error(`[Room ${this.roomId}] Input proxy script NOT FOUND at ${proxyScript}`);
                 return;
             }
+
+            console.log(`[Room ${this.roomId}] Spawning Input Proxy for PID ${this.mGBAProcess.pid}...`);
             this.inputProxy = spawn('python', ['-u', proxyScript, this.mGBAProcess.pid.toString(), this.maxPlayers.toString()], {
                 stdio: ['pipe', 'pipe', 'pipe']
             });
+
             this.inputProxy.stdout.on('data', (data) => console.log(`[InputProxy ${this.roomId}]`, data.toString().trim()));
             this.inputProxy.stderr.on('data', (data) => console.error(`[InputProxy ${this.roomId} ERR]`, data.toString().trim()));
-        }, 8000); // 8s delay to ensure mGBA windows exist in Session 0
+            
+            this.inputProxy.on('error', (err) => {
+                console.error(`[Room ${this.roomId}] FAILED to spawn Input Proxy:`, err.message);
+            });
+        }, 8000); // 8s delay for Session 0 window creation
 
         // Auto-load save states for assigned slots after a delay
         setTimeout(() => {
@@ -309,6 +318,8 @@ class EmulatorInstance {
     async kill() {
         if (this.state === 'dead') return;
         this.state = 'dead';
+
+        if (this.proxyTimeout) clearTimeout(this.proxyTimeout);
 
         // 1. Trigger Quick Save for all ACTIVE slots
         for (const slot of Object.keys(this.slots)) {
