@@ -1,183 +1,102 @@
+const fs = require('fs');
+const path = require('path');
+const lobbyModule = require('./lobby');
+const { io } = require('./index');
+
 /**
  * Socket.io Event Handlers
- * Real-time room management, player sync, heartbeat, and emulator bridge
  */
-const { v4: uuidv4 } = require('uuid');
-
-// Track socket -> user/room mappings
-const socketUsers = new Map(); // socketId -> { userId, username, roomId, role }
-const disconnectTimers = new Map(); // userId -> timeout
-
-let io;
-let lobbyModule;
-
-function init(socketIo, lobby) {
-  io = socketIo;
-  lobbyModule = lobby;
-
+function setupSockets(io, socketUsers, lobbies) {
   io.on('connection', (socket) => {
-    const session = socket.request.session;
-    const passportUser = session?.passport?.user;
-    const debugMode = process.env.DEBUG_AUTH === 'true';
+    let userData = null;
 
-    // Resolve user from session (passport may or may not have run on the WS upgrade)
-    const auth = require('./auth');
-    let userData = passportUser ? auth.users.get(passportUser) : null;
+    // Handle initial auth
+    socket.on('auth', (data) => {
+      userData = data;
+      socketUsers.set(socket.id, { ...data, socketId: socket.id });
+      console.log(`[Socket] Connected: ${data.username} (${socket.id})`);
+    });
 
-    // In debug mode: if we still have no user, create a transient guest keyed by session ID
-    if (!userData && debugMode) {
-      const sid = session?.id || socket.id;
-      const guestId = `debug_guest_${sid.substring(0, 8)}`;
-      userData = auth.users.get(guestId);
-      if (!userData) {
-        userData = { id: guestId, username: `Guest_${sid.substring(0, 5)}`, avatar: null, provider: 'debug' };
-        auth.users.set(guestId, userData);
-      }
-    }
-
-    if (userData) {
-      console.log(`[Socket] Connected: ${userData.username} (${socket.id})`);
-      if (disconnectTimers.has(userData.id)) {
-        clearTimeout(disconnectTimers.get(userData.id));
-        disconnectTimers.delete(userData.id);
-        console.log(`[Socket] Reconnection: ${userData.username} - cancelling disconnect timer`);
-      }
-    } else {
-      console.log(`[Socket] Anonymous lobby connection (${socket.id})`);
-    }
-
-    // ═══════════════════════════════════════
-    // JOIN ROOM
-    // ═══════════════════════════════════════
-    socket.on('join-room', ({ roomId, role, rom }) => {
-      if (!userData) {
-        socket.emit('error', { message: 'Authentication required to join a room' });
-        return;
-      }
-
-      const room = lobbyModule.getRoom(roomId);
-      if (!room) {
-        socket.emit('error', { message: 'Room not found' });
-        return;
-      }
-
-      // Leave any previous room
-      leaveCurrentRoom(socket);
-
-      if (role === 'spectator') {
-        room.spectators.set(socket.id, {
-          id: userData.id,
-          username: userData.username,
-          avatar: userData.avatar
-        });
-        socketUsers.set(socket.id, { userId: userData.id, username: userData.username, roomId, role: 'spectator' });
-      } else {
-        // Check player capacity
-        if (room.players.size >= room.maxPlayers) {
-          socket.emit('error', { message: 'Room is full' });
-          return;
-        }
-
-        // ROM compatibility check
-        if (rom && room.rom) {
-          const romMatcher = require('./romMatcher');
-          const result = romMatcher.canConnect(rom, room.rom);
-          if (!result.compatible) {
-            socket.emit('error', { message: `ROM "${rom}" is not compatible with room ROM "${room.rom}"` });
-            return;
+    socket.on('disconnect', () => {
+      if (userData) {
+        console.log(`[Socket] Disconnected: ${userData.username} (${socket.id})`);
+        
+        // Find if user was in a room
+        const mapping = socketUsers.get(socket.id);
+        if (mapping && mapping.roomId) {
+          const room = lobbyModule.getRoom(mapping.roomId);
+          if (room) {
+            room.players.delete(userData.id);
+            if (room.players.size === 0) {
+              // Kill emulator if room empty
+              if (room.emulator) room.emulator.stop();
+              lobbyModule.deleteRoom(room.id);
+            } else {
+              // Re-assign host if needed
+              if (room.host.id === userData.id) {
+                room.host = Array.from(room.players.values())[0];
+              }
+              broadcastRoomState(room.id);
+            }
           }
         }
+        socketUsers.delete(socket.id);
+      }
+    });
 
-        // Assign player slot (1-based, host is always slot 1)
-        const usedSlots = new Set();
-        for (const [, p] of room.players) usedSlots.add(p.slot);
-        let slot = 1;
-        while (usedSlots.has(slot)) slot++;
+    // ═══════════════════════════════════════
+    // LOBBY ACTIONS
+    // ═══════════════════════════════════════
 
-        room.players.set(socket.id, {
-          id: userData.id,
-          username: userData.username,
-          avatar: userData.avatar,
-          slot,
-          rom: rom || room.rom
-        });
-        socketUsers.set(socket.id, { userId: userData.id, username: userData.username, roomId, role: 'player', slot });
+    socket.on('join-room', (roomId) => {
+      if (!userData) return;
+      const room = lobbyModule.getRoom(roomId);
+      if (!room) return;
 
-        // If the game is already playing, sync this player's save to the emulator instance
-        if (room.status === 'playing' && room.emulator) {
-          room.emulator.syncUserSaveToSlot(slot, userData.id, room.rom);
-        }
+      if (room.players.size >= room.maxPlayers) {
+        socket.emit('error', { message: 'Room is full' });
+        return;
       }
 
+      // Assign first available slot
+      const usedSlots = Array.from(room.players.values()).map(p => p.slot);
+      let slot = 1;
+      while (usedSlots.includes(slot)) slot++;
+
+      const playerInfo = { ...userData, slot };
+      room.players.set(userData.id, playerInfo);
+      
+      const mapping = socketUsers.get(socket.id);
+      mapping.roomId = roomId;
+      mapping.slot = slot;
+
       socket.join(roomId);
+      console.log(`[Socket] ${userData.username} joined room "${room.name}" as player ${slot}`);
+
       broadcastRoomState(roomId);
-
-      console.log(`[Socket] ${userData.username} joined room "${room.name}" as ${role || 'player'}`);
+      socket.emit('joined-room', { roomId, slot });
     });
 
-    // ═══════════════════════════════════════
-    // LEAVE ROOM
-    // ═══════════════════════════════════════
-    socket.on('leave-room', () => {
-      leaveCurrentRoom(socket);
-    });
+    function broadcastRoomState(roomId) {
+      const room = lobbyModule.getRoom(roomId);
+      if (room) {
+        io.to(roomId).emit('room-update', {
+          id: room.id,
+          name: room.name,
+          host: room.host,
+          status: room.status,
+          players: Array.from(room.players.values()),
+          maxPlayers: room.maxPlayers,
+          rom: room.rom
+        });
+      }
+    }
 
     // ═══════════════════════════════════════
-    // PLAYER INPUT (GBA buttons)
+    // GAME ACTIONS
     // ═══════════════════════════════════════
-    socket.on('player-input', (inputData) => {
-      const mapping = socketUsers.get(socket.id);
-      if (!mapping || mapping.role !== 'player') return;
 
-      const room = lobbyModule.getRoom(mapping.roomId);
-      if (!room || !room.emulator) return;
-
-      // Forward input to the emulator bridge
-      // inputData = { buttons: number } (bitmask of GBA button states)
-      room.emulator.sendInput(mapping.slot, inputData.buttons);
-    });
-
-    // ═══════════════════════════════════════
-    // LINK RELAY
-    // ═══════════════════════════════════════
-    // --- HYPER-LINK WASM RELAY ---
-    socket.on('link-data', (data) => {
-        const mapping = socketUsers.get(socket.id);
-        if (!mapping || !mapping.roomId) return;
-
-        const room = lobbyModule.getRoom(mapping.roomId);
-        if (room) {
-            // Send the raw GBA link bytes to everyone else in the room
-            socket.to(room.id).emit('link-data', {
-                from: socket.id,
-                payload: data
-            });
-        }
-    });
-
-    // ═══════════════════════════════════════
-    // CHAT MESSAGE
-    // ═══════════════════════════════════════
-    socket.on('chat-message', ({ message }) => {
-      if (!userData) return;
-      const mapping = socketUsers.get(socket.id);
-      if (!mapping) return;
-
-      const cleanMsg = (message || '').trim().substring(0, 200);
-      if (!cleanMsg) return;
-
-      io.to(mapping.roomId).emit('chat-message', {
-        userId: userData.id,
-        username: userData.username,
-        message: cleanMsg,
-        timestamp: Date.now()
-      });
-    });
-
-    // ═══════════════════════════════════════
-    // START GAME (host only)
-    // ═══════════════════════════════════════
-    socket.on('start-game', () => {
+    socket.on('start-game', async () => {
       if (!userData) return;
       const mapping = socketUsers.get(socket.id);
       if (!mapping || !mapping.roomId) return;
@@ -185,237 +104,71 @@ function init(socketIo, lobby) {
       const room = lobbyModule.getRoom(mapping.roomId);
       if (!room) return;
 
-      console.log(`[Socket] Request to START game in room "${room.name}" from ${userData.username}`);
+      if (room.host.id !== userData.id) return;
+      if (room.status === 'playing') return;
 
-      // Verify host
-      if (room.host.id !== userData.id) {
-        socket.emit('error', { message: 'Only the host can start the game' });
-        return;
-      }
+      console.log(`[Socket] Starting HYPER-WASM Core for room "${room.name}"`);
 
-      if (room.status === 'playing') {
-        socket.emit('error', { message: 'Game already in progress' });
-        return;
-      }
+      // Launch Server-Side WASM Core
+      const WasmEmulator = require('./wasmEmulator');
+      room.emulator = new WasmEmulator(room.id, room.maxPlayers);
+      
+      room.status = 'playing';
+      broadcastRoomState(room.id);
 
-      // Start the emulation bridge
-      const EmulatorInstance = require('./emulator');
-      room.emulator = new EmulatorInstance(
-        room.id,
-        room.maxPlayers,
-        (slot, frameBuffer, width, height) => {
-          io.to(mapping.roomId).emit('frame', { slot, data: frameBuffer, width, height });
-        },
-        (slot, audioBuffer) => {
-          io.to(mapping.roomId).emit('audio', { slot, data: audioBuffer });
-        },
-        () => {
-          room.status = 'playing';
-          broadcastRoomState(mapping.roomId);
-          io.to(mapping.roomId).emit('emulator-ready', { players: room.players.size });
-          console.log(`[Socket] Headless Emulator Ready in room "${room.name}"`);
-        },
-        (err) => {
-          console.error(`[Socket] Emulator error in room "${room.name}":`, err);
-          io.to(mapping.roomId).emit('emulator-error', { message: err });
-          room.status = 'waiting';
-          broadcastRoomState(mapping.roomId);
-        },
-        (percent, status) => {
-          io.to(mapping.roomId).emit('emulator-progress', { percent, status });
-        }
-      );
-
-      // Collect player info for save syncing
-      const players = [];
-      for (const [, p] of room.players) {
-        players.push({ slot: p.slot, userId: p.id });
-      }
-
-      room.emulator.loadRom(room.rom, players).then((ok) => {
-        if (!ok) {
-          socket.emit('error', { message: 'Failed to launch Native mGBA backend.' });
-        }
+      room.emulator.on('frame', (buffer) => {
+          // Broadcast raw binary frame to all portal users
+          io.to(room.id).emit('frame', {
+              slot: 1,
+              data: buffer.toString('base64'),
+              type: 'rgba'
+          });
       });
-    });
 
-    // ═══════════════════════════════════════
-    // QUICK SAVE / LOAD
-    // ═══════════════════════════════════════
-    socket.on('quick-save', () => {
-      const mapping = socketUsers.get(socket.id);
-      if (!mapping || !mapping.roomId) return;
-      const room = lobbyModule.getRoom(mapping.roomId);
-      if (room && room.emulator && mapping.slot) {
-        room.emulator.quickSave(mapping.slot);
+      try {
+          await room.emulator.start(room.rom.path);
+          io.to(room.id).emit('game-started', { mode: 'WASM' });
+      } catch (err) {
+          console.error("Failed to start WASM Core:", err);
+          io.to(room.id).emit('error', { message: 'WASM Core Failure' });
+          room.status = 'waiting';
+          broadcastRoomState(room.id);
       }
     });
 
-    socket.on('quick-load', () => {
-      const mapping = socketUsers.get(socket.id);
-      if (!mapping || !mapping.roomId) return;
-      const room = lobbyModule.getRoom(mapping.roomId);
-      if (room && room.emulator && mapping.slot) {
-        room.emulator.quickLoad(mapping.slot);
-      }
-    });
-
-    // ═══════════════════════════════════════
-    // STOP GAME (host only)
-    // ═══════════════════════════════════════
-    socket.on('stop-game', () => {
-      if (!userData) return;
-      const mapping = socketUsers.get(socket.id);
-      if (!mapping) return;
-
-      const room = lobbyModule.getRoom(mapping.roomId);
-      if (!room || room.host.id !== userData.id) return;
-
-      if (room.emulator) {
-        room.emulator.kill();
-        room.emulator = null;
-      }
-      room.status = 'waiting';
-      broadcastRoomState(mapping.roomId);
-      console.log(`[Socket] Game stopped in room "${room.name}"`);
-    });
-
-    // ═══════════════════════════════════════
-    // DISCONNECT
-    // ═══════════════════════════════════════
-    socket.on('disconnect', () => {
-      if (!userData) return; // anonymous lobby connection, nothing to clean up
-      console.log(`[Socket] Disconnected: ${userData.username} (${socket.id})`);
-
-      const mapping = socketUsers.get(socket.id);
-      if (!mapping) return;
-
-      // Start 30-second grace period for reconnection
-      const timer = setTimeout(() => {
-        console.log(`[Socket] Grace period expired for ${userData.username} - auto-saving and removing`);
-        disconnectTimers.delete(userData.id);
-
-        // Auto-save state on timeout
-        const room = lobbyModule.getRoom(mapping.roomId);
-        if (room && room.emulator && mapping.slot) {
-          room.emulator.handlePlayerLeave(mapping.slot);
-        }
-
-        // Remove from room
-        if (room) {
-          room.players.delete(socket.id);
-          room.spectators.delete(socket.id);
-
-          // If host left, either transfer or close room
-          if (room.host.id === userData.id) {
-            if (room.players.size > 0) {
-              const newHost = room.players.values().next().value;
-              room.host = { id: newHost.id, username: newHost.username, avatar: newHost.avatar };
-              console.log(`[Socket] Host transferred to ${newHost.username}`);
-            } else {
-              // No players left, clean up
-              if (room.emulator) {
-                room.emulator.kill();
-              }
-              lobbyModule.deleteRoom(room.id);
-              console.log(`[Socket] Room "${room.name}" closed (host left, no players)`);
+    // Input relay (Prototype: Player 1 controls the master instance)
+    socket.on('player-input', (data) => {
+        const mapping = socketUsers.get(socket.id);
+        if (mapping && mapping.roomId) {
+            const room = lobbyModule.getRoom(mapping.roomId);
+            if (room && room.emulator && room.emulator.page) {
+                // Relay keypress to Headless Browser
+                // Simplified for prototype: we don't handle complex button mapping here yet
+                // The portal.html handles local keys, but for server-side it's direct.
             }
-          }
-
-          broadcastRoomState(mapping.roomId);
         }
-
-        socketUsers.delete(socket.id);
-      }, 30000); // 30 second grace period
-
-      disconnectTimers.set(userData.id, timer);
     });
-  });
-}
 
-function leaveCurrentRoom(socket) {
-  const mapping = socketUsers.get(socket.id);
-  if (!mapping) return;
+    // ═══════════════════════════════════════
+    // LINK RELAY
+    // ═══════════════════════════════════════
+    socket.on('link-data', (data) => {
+        const mapping = socketUsers.get(socket.id);
+        if (!mapping || !mapping.roomId) return;
+        socket.to(mapping.roomId).emit('link-data', { from: socket.id, payload: data });
+    });
 
-  const room = lobbyModule.getRoom(mapping.roomId);
-  if (room) {
-    if (room.emulator && mapping.slot) {
-      room.emulator.handlePlayerLeave(mapping.slot);
-    }
-    
-    room.players.delete(socket.id);
-    room.spectators.delete(socket.id);
-    socket.leave(mapping.roomId);
-    
-    // Check if room is completely empty
-    if (room.players.size === 0) {
-      if (room.emulator) {
-        room.emulator.kill();
-        room.emulator = null;
-      }
-      lobbyModule.deleteRoom(room.id);
-      console.log(`[Socket] Room "${room.name}" closed (last player left)`);
-    } else {
-      // If host left but room isn't empty, transfer host
-      if (room.host.id === mapping.userId) { // fallback
-        const newHost = room.players.values().next().value;
-        room.host = { id: newHost.id, username: newHost.username, avatar: newHost.avatar };
-        console.log(`[Socket] Host transferred to ${newHost.username}`);
-      }
-      broadcastRoomState(mapping.roomId);
-    }
-  }
-  socketUsers.delete(socket.id);
-}
-
-function broadcastRoomState(roomId) {
-  const room = lobbyModule.getRoom(roomId);
-  if (!room) return;
-
-  const players = [];
-  for (const [sid, p] of room.players) {
-    players.push({ id: p.id, username: p.username, avatar: p.avatar, slot: p.slot, rom: p.rom, socketId: sid });
-  }
-
-  const spectators = [];
-  for (const [, s] of room.spectators) {
-    spectators.push({ id: s.id, username: s.username, avatar: s.avatar });
-  }
-
-  // We emit individually to each socket so they get their PERSONAL isHost/mySlot status
-  const roomSockets = io.sockets.adapter.rooms.get(roomId);
-  if (roomSockets) {
-    for (const sid of roomSockets) {
-      const mapping = socketUsers.get(sid);
-      const s = io.sockets.sockets.get(sid);
-      if (s && mapping) {
-        s.emit('room-state', {
-          id: room.id,
-          name: room.name,
-          host: room.host,
-          players,
-          spectators,
-          maxPlayers: room.maxPlayers,
-          rom: room.rom,
-          status: room.status,
-          isHost: room.host.id === mapping.userId,
-          mySlot: mapping.slot
+    socket.on('chat-message', ({ message }) => {
+      const mapping = socketUsers.get(socket.id);
+      if (mapping && mapping.roomId) {
+        io.to(mapping.roomId).emit('chat-message', {
+          username: userData.username,
+          message: message,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         });
       }
-    }
-  }
-
-  // Also broadcast to lobby for room list updates (non-personalized)
-  io.emit('room-list-update', {
-    id: room.id,
-    name: room.name,
-    host: room.host,
-    playerCount: players.length,
-    spectatorCount: spectators.length,
-    maxPlayers: room.maxPlayers,
-    rom: room.rom,
-    status: room.status
+    });
   });
 }
 
-module.exports = { init };
+module.exports = setupSockets;
