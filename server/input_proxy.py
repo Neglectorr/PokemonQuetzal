@@ -71,7 +71,10 @@ def main():
     # mGBA windows are usually ordered by slot in the Enum order or title
     hwnds.sort(key=lambda x: win32gui.GetWindowText(x))
     
-    print(f"[InputProxy] Found {len(hwnds)} windows. Ready for input.")
+    print(f"[InputProxy] Found {len(hwnds)} windows:")
+    for h in hwnds:
+        print(f"  - HWND: {h}, Title: '{win32gui.GetWindowText(h)}'")
+    
     sys.stdout.flush()
 
     while True:

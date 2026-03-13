@@ -333,4 +333,10 @@
     // Global Input Integration (assumes input.js is loaded)
     window.addEventListener('keydown', () => initAudio(), { once: true });
 
+    GBAInput.init((buttons) => {
+        if (mySlot) {
+            socket.emit('player-input', { buttons });
+        }
+    });
+
 })();

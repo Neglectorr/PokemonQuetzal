@@ -94,7 +94,8 @@ class EmulatorInstance {
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
             '-C', 'syncToVideo=0',
-            '-C', 'syncToAudio=1',
+            '-C', 'syncToAudio=0',
+            '-C', 'fpsTarget=60',
             '--stream-pipe', pipeBase, 
             '--sav-path', lobbyDir,
             romPath
