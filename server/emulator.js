@@ -77,7 +77,7 @@ class EmulatorInstance {
         
         const mgbaArgs = [
             '-m', this.maxPlayers.toString(), 
-            '-C', 'ports.qt.videoBackend=opengl',
+            '-C', 'ports.qt.videoBackend=software',
             '-C', 'pauseOnFocusLost=0',
             '-C', 'muteOnFocusLost=0',
             '-C', 'syncToVideo=0',
@@ -165,6 +165,7 @@ class EmulatorInstance {
 
             // Binary parser for wrapper output: [Slot (1b)][Size (4b LE)][PNG Data]
             let buffer = Buffer.alloc(0);
+            let frameCount = 0;
             this.inputProxy.stdout.on('data', (chunk) => {
                 buffer = Buffer.concat([buffer, chunk]);
                 
@@ -175,6 +176,11 @@ class EmulatorInstance {
                     if (buffer.length < 5 + size) break;
                     
                     const frameData = buffer.slice(5, 5 + size);
+                    frameCount++;
+                    if (frameCount % 60 === 0) {
+                        console.log(`[Emulator ${this.roomId}] Received Frame ${frameCount} for P${slot} (${frameData.length} bytes)`);
+                    }
+
                     if (this.onFrame) {
                         this.onFrame(slot, frameData, 240, 160, 'png'); // label as png
                     }

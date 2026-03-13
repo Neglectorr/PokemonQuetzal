@@ -32,24 +32,6 @@ def get_window_text_recursive(hwnd):
         pass
     return " | ".join(texts)
 
-def find_game_child(parent_hwnd):
-    """Find the largest child window which likely contains the game pixels."""
-    children = []
-    def callback(hwnd, l):
-        if win32gui.IsWindowVisible(hwnd):
-            rect = win32gui.GetClientRect(hwnd)
-            area = (rect[2] - rect[0]) * (rect[3] - rect[1])
-            l.append((hwnd, area))
-        return True
-    try:
-        win32gui.EnumChildWindows(parent_hwnd, callback, children)
-    except:
-        pass
-    if not children: return parent_hwnd
-    # Return child with largest area
-    children.sort(key=lambda x: x[1], reverse=True)
-    return children[0][0]
-
 def get_hwnds_for_pid(pid):
     def callback(hwnd, hwnds):
         _, found_pid = win32process.GetWindowThreadProcessId(hwnd)
@@ -57,20 +39,21 @@ def get_hwnds_for_pid(pid):
             class_name = win32gui.GetClassName(hwnd)
             title = win32gui.GetWindowText(hwnd).strip()
             
-            # Any window with a Qt class or mGBA in title belongs to us
-            is_mgba = (("qt" in class_name.lower()) or ("mgba" in title.lower()) or (title == ""))
+            # Match top-level mGBA windows
+            is_mgba = ("qt" in class_name.lower()) or ("mgba" in title.lower())
             
+            # Filter out tiny helper windows
             if is_mgba:
-                # Find the actual game child
-                child_hwnd = find_game_child(hwnd)
-                hwnds.append(child_hwnd)
+                rect = win32gui.GetClientRect(hwnd)
+                if (rect[2] - rect[0]) > 100:
+                    hwnds.append(hwnd)
         return True
         
     hwnds = []
     win32gui.EnumWindows(callback, hwnds)
     return hwnds
 
-def capture_window(hwnd, last_flag=3):
+def capture_window(hwnd, slot, last_flag=3):
     try:
         rect = win32gui.GetClientRect(hwnd)
         w, h = rect[2] - rect[0], rect[3] - rect[1]
@@ -88,7 +71,7 @@ def capture_window(hwnd, last_flag=3):
     img = None
     final_flag = last_flag
 
-    # Attempt 1: Direct BitBlt (Often works best for software-rendered Qt in Session 0)
+    # Attempt 1: BitBlt
     try:
         saveDC.BitBlt((0, 0), (w, h), mfcDC, (0, 0), win32con.SRCCOPY)
         bmpstr = saveBitMap.GetBitmapBits(True)
@@ -99,20 +82,18 @@ def capture_window(hwnd, last_flag=3):
     except:
         pass
 
-    # Attempt 2: PrintWindow Fallback
+    # Attempt 2: PrintWindow
     if img is None:
-        flags_to_try = [last_flag, 3, 2, 0]
-        for flag in flags_to_try:
+        for flag in [last_flag, 3, 2, 0]:
             try:
-                result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), flag)
-                if result != 1: continue
-                bmpstr = saveBitMap.GetBitmapBits(True)
-                temp_img = np.frombuffer(bmpstr, dtype='uint8')
-                temp_img.shape = (h, w, 4)
-                if np.max(temp_img) > 0:
-                    img = temp_img
-                    final_flag = flag
-                    break
+                if ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), flag) == 1:
+                    bmpstr = saveBitMap.GetBitmapBits(True)
+                    temp_img = np.frombuffer(bmpstr, dtype='uint8')
+                    temp_img.shape = (h, w, 4)
+                    if np.max(temp_img) > 0:
+                        img = temp_img
+                        final_flag = flag
+                        break
             except:
                 continue
 
@@ -127,6 +108,8 @@ def capture_window(hwnd, last_flag=3):
         
     try:
         img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
+        # Crop: software-rendered mGBA usually has the game at the BOTTOM 
+        # and centered horizontally within the client area.
         target_h = int(w / 1.5)
         if target_h > h: target_h = h
         start_y = h - target_h
@@ -341,17 +324,16 @@ def main():
                    win32gui.InvalidateRect(h, None, True)
                    win32gui.UpdateWindow(h)
                 
-                img, flag = capture_window(h, last_flags.get(slot, 3))
+                img, flag = capture_window(h, slot, last_flags.get(slot, 3))
                 if img is not None:
+                    if nudge_counter % 60 == 0:
+                        sys.stderr.write(f"[Wrapper P{slot}] EMITTING FRAME (Size: {len(img.tobytes())}, flag={flag})\n")
+                        sys.stderr.flush()
+                        
                     last_flags[slot] = flag
                     # Encode PNG
-                    encode_param = [int(cv2.IMWRITE_PNG_COMPRESSION), 1] 
-                    _, encimg = cv2.imencode('.png', img, encode_param)
+                    _, encimg = cv2.imencode('.png', img, [int(cv2.IMWRITE_PNG_COMPRESSION), 1])
                     data = encimg.tobytes()
-                    
-                    if nudge_counter % 30 == 0:
-                        sys.stderr.write(f"[Wrapper P{slot}] EMITTING FRAME (Size: {len(data)})\n")
-                        sys.stderr.flush()
 
                     sys.stdout.buffer.write(struct.pack('<BI', slot, len(data)))
                     sys.stdout.buffer.write(data)
