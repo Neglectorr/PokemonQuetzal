@@ -16,3 +16,5 @@ tmp/
 vcpkg/
 mgba_native/*/
 !mgba_native/mGBA-custom/mGBA.exe
+!mgba_native/mGBA-custom/platforms/
+!mgba_native/mGBA-custom/platforms/*.dll
