@@ -162,10 +162,12 @@ function init(socketIo, lobby) {
     socket.on('start-game', () => {
       if (!userData) return;
       const mapping = socketUsers.get(socket.id);
-      if (!mapping) return;
+      if (!mapping || !mapping.roomId) return;
 
       const room = lobbyModule.getRoom(mapping.roomId);
       if (!room) return;
+
+      console.log(`[Socket] Request to START game in room "${room.name}" from ${userData.username}`);
 
       // Verify host
       if (room.host.id !== userData.id) {
@@ -183,18 +185,17 @@ function init(socketIo, lobby) {
       room.emulator = new EmulatorInstance(
         room.id,
         room.maxPlayers,
-        (slot, b64Frame, width, height) => {
-          io.to(mapping.roomId).emit('frame', { slot, data: b64Frame, width, height, raw: !!width });
+        (slot, frameBuffer, width, height) => {
+          io.to(mapping.roomId).emit('frame', { slot, data: frameBuffer, width, height });
         },
         (slot, audioBuffer) => {
-          // Broadcast raw PCM audio to all users with slot info
           io.to(mapping.roomId).emit('audio', { slot, data: audioBuffer });
         },
         () => {
           room.status = 'playing';
           broadcastRoomState(mapping.roomId);
           io.to(mapping.roomId).emit('emulator-ready', { players: room.players.size });
-          console.log(`[Socket] Native Game started in room "${room.name}"`);
+          console.log(`[Socket] Headless Emulator Ready in room "${room.name}"`);
         },
         (err) => {
           console.error(`[Socket] Emulator error in room "${room.name}":`, err);
@@ -360,19 +361,30 @@ function broadcastRoomState(roomId) {
     spectators.push({ id: s.id, username: s.username, avatar: s.avatar });
   }
 
-  io.to(roomId).emit('room-state', {
-    id: room.id,
-    name: room.name,
-    host: room.host,
-    players,
-    spectators,
-    maxPlayers: room.maxPlayers,
-    rom: room.rom,
-    romGroup: room.romGroup,
-    status: room.status
-  });
+  // We emit individually to each socket so they get their PERSONAL isHost/mySlot status
+  const roomSockets = io.sockets.adapter.rooms.get(roomId);
+  if (roomSockets) {
+    for (const sid of roomSockets) {
+      const mapping = socketUsers.get(sid);
+      const s = io.sockets.sockets.get(sid);
+      if (s && mapping) {
+        s.emit('room-state', {
+          id: room.id,
+          name: room.name,
+          host: room.host,
+          players,
+          spectators,
+          maxPlayers: room.maxPlayers,
+          rom: room.rom,
+          status: room.status,
+          isHost: room.host.id === mapping.userId,
+          mySlot: mapping.slot
+        });
+      }
+    }
+  }
 
-  // Also broadcast to lobby for room list updates
+  // Also broadcast to lobby for room list updates (non-personalized)
   io.emit('room-list-update', {
     id: room.id,
     name: room.name,
