@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync, copyFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { spawnSync } from 'child_process';
@@ -37,7 +37,6 @@ function applyIniPatches(content, patches) {
       if (newContent.match(regex)) {
         newContent = newContent.replace(regex, `${key}=${value}`);
       } else {
-        // Find section and insert after header
         const sectionPos = newContent.indexOf(section);
         const nextLinePos = newContent.indexOf('\n', sectionPos) + 1;
         newContent = newContent.slice(0, nextLinePos) + `${key}=${value}\n` + newContent.slice(nextLinePos);
@@ -50,24 +49,8 @@ function applyIniPatches(content, patches) {
 async function setup() {
   log("\n🚀 Starting Project Antigravity Setup...", COLORS.bright + COLORS.cyan);
 
-  // 0. Git Submodule Update (Ensures mgba_src is ready)
-  log("\n📦 Checking Git submodules...", COLORS.bright + COLORS.blue);
-  try {
-    const gitSub = spawnSync('git', ['submodule', 'update', '--init', '--recursive'], { 
-      cwd: rootDir,
-      stdio: 'inherit' 
-    });
-    if (gitSub.status === 0) {
-      log("  ✅ Submodules are up to date.", COLORS.green);
-    } else {
-      log("  ⚠️  Submodule update finished with non-zero status.", COLORS.yellow);
-    }
-  } catch (err) {
-    log("  ⚠️  Git command failed. If you downloaded as a ZIP, submodules must be handled manually.", COLORS.yellow);
-  }
-
   // 1. Ensure Directories Exist
-  const dirs = ['roms', 'saves', 'sessions', 'tmp', 'mgba_native'];
+  const dirs = ['roms', 'saves', 'lobbies', 'tmp', 'mgba_native'];
   log("\n📁 Checking directories...", COLORS.bright);
   dirs.forEach(dir => {
     const fullPath = path.join(rootDir, dir);
@@ -79,153 +62,116 @@ async function setup() {
     }
   });
 
-  // 2. Extract mGBA if needed (Legacy / Optional)
-  log("\n🎮 Checking mGBA binaries...", COLORS.bright);
-  const mgbaCustomExe = path.join(rootDir, 'mgba_native', 'mGBA-custom', 'mGBA.exe');
-  const mgbaStockExe = path.join(rootDir, 'mgba_native', 'mGBA-0.10.3-win64', 'mGBA.exe');
-  const archive = path.join(rootDir, 'mGBA.7z');
-
-  if (existsSync(mgbaCustomExe)) {
-    log("  ✅ Custom mGBA is already present.", COLORS.green);
-  } else if (existsSync(mgbaStockExe)) {
-    log("  ℹ️  Stock mGBA found, but Custom mGBA is preferred for Link Cable support.", COLORS.yellow);
-  } else if (existsSync(archive)) {
-    log("  📦 Extracting mGBA.7z as fallback...", COLORS.yellow);
+  // 1b. Patch mgba-wasm to include FakeAudioContext (Essential for Headless JS fallback)
+  log("\n🩹 Patching @thenick775/mgba-wasm...", COLORS.bright + COLORS.magenta);
+  const mgbaWasmPath = path.join(rootDir, 'node_modules', '@thenick775', 'mgba-wasm', 'dist', 'mgba.js');
+  if (existsSync(mgbaWasmPath)) {
     try {
-      const { createRequire } = await import('module');
-      const require = createRequire(import.meta.url);
-      const { path7za } = require('7zip-bin');
-
-      const result = spawnSync(path7za, ['x', archive, `-o${path.join(rootDir, 'mgba_native')}`, '-y']);
-      
-      if (result.status === 0) {
-        log("  ✅ Extraction successful!", COLORS.green);
+      let content = readFileSync(mgbaWasmPath, 'utf8');
+      if (!content.includes('class FakeAudioContext')) {
+        const patch = `
+// Antigravity Patch: Fake AudioContext for Headless Node.js
+if (typeof AudioContext === 'undefined') {
+  class FakeAudioContext {
+    constructor() { this.sampleRate = 44100; this.destination = {}; }
+    createScriptProcessor() { return { connect: () => {} }; }
+    decodeAudioData() { return Promise.resolve(); }
+  }
+  global.AudioContext = FakeAudioContext;
+}
+`;
+        content = patch + content;
+        writeFileSync(mgbaWasmPath, content);
+        log("  ✅ mgba.js patched with FakeAudioContext.", COLORS.green);
       } else {
-        log(`  ❌ Extraction failed with status ${result.status}`, COLORS.red);
-        console.error(result.stderr.toString());
+        log("  ℹ️  mgba.js already patched.", COLORS.blue);
       }
     } catch (err) {
-      log(`  ❌ Error during extraction: ${err.message}`, COLORS.red);
+      log(`  ❌ Failed to patch mgba.js: ${err.message}`, COLORS.red);
     }
-  } else {
-    log("  ⚠️  mGBA binaries not found. Manual installation required if not pulled via Git.", COLORS.yellow);
   }
 
-  // 2b. Always Patch config.ini and qt.ini if any mGBA exists (Ensures settings are forced)
-  const targetExes = [mgbaCustomExe, mgbaStockExe];
-  targetExes.forEach(exePath => {
-    if (existsSync(exePath)) {
-      log(`\n🔧 Ensuring mGBA is configured correctly at ${path.basename(path.dirname(exePath))}...`, COLORS.bright + COLORS.cyan);
-      const mgbaDir = path.dirname(exePath);
-      
-      // Patch config.ini
-      const configPath = path.join(mgbaDir, 'config.ini');
-      try {
-        let config = existsSync(configPath) ? readFileSync(configPath, 'utf8') : '';
-        const configPatches = {
-          '[ports.qt]': {
-            'videoBackend': 'software',
-            'pauseOnFocusLost': '0',
-            'mute': '1',
-            'hwaccelVideo': '0',
-            'fpsTarget': '60'
-          }
-        };
-        config = applyIniPatches(config, configPatches);
-        writeFileSync(configPath, config.trim() + '\n');
-        log(`  ✅ ${path.basename(mgbaDir)} config.ini patched.`, COLORS.green);
-      } catch (err) {
-        log(`  ❌ Failed to patch config.ini at ${mgbaDir}: ${err.message}`, COLORS.red);
-      }
+  // 2. mGBA Binaries Check & Configuration
+  log("\n🎮 Configuring mGBA binaries...", COLORS.bright);
+  const mgbaCustomDir = path.join(rootDir, 'mgba_native', 'mGBA-custom');
+  const mgbaCustomExe = path.join(mgbaCustomDir, 'mGBA.exe');
+  const qwindowsDll = path.join(mgbaCustomDir, 'platforms', 'qwindows.dll');
 
-      // Patch qt.ini (Shortcuts and Display Driver)
-      const qtPath = path.join(mgbaDir, 'qt.ini');
-      try {
-        let qt = existsSync(qtPath) ? readFileSync(qtPath, 'utf8') : '';
-        const qtPatches = {
-          '[General]': {
-            'displayDriver': '0' // 0 = Software
-          },
-          '[shortcutKey]': {
-            'multiWindow': 'F12',
-            'loadROM': 'F11'
-          }
-        };
-        qt = applyIniPatches(qt, qtPatches);
-        writeFileSync(qtPath, qt.trim() + '\n');
-        log(`  ✅ ${path.basename(mgbaDir)} qt.ini patched.`, COLORS.green);
-      } catch (err) {
-        log(`  ❌ Failed to patch qt.ini at ${mgbaDir}: ${err.message}`, COLORS.red);
-      }
+  if (existsSync(mgbaCustomExe)) {
+    log("  ✅ Custom mGBA found.", COLORS.green);
+    
+    // Patch config.ini and qt.ini for the custom build
+    [path.join(mgbaCustomDir, 'config.ini'), path.join(mgbaCustomDir, 'qt.ini')].forEach(iniPath => {
+        try {
+            let content = existsSync(iniPath) ? readFileSync(iniPath, 'utf8') : '';
+            if (iniPath.endsWith('config.ini')) {
+                content = applyIniPatches(content, {
+                    '[ports.qt]': { 'videoBackend': 'software', 'mute': '1', 'hwaccelVideo': '0' }
+                });
+            } else {
+                content = applyIniPatches(content, {
+                    '[General]': { 'displayDriver': '0' }
+                });
+            }
+            writeFileSync(iniPath, content.trim() + '\n');
+            log(`  ✅ Configured ${path.basename(iniPath)}`, COLORS.green);
+        } catch (e) {}
+    });
+
+    if (!existsSync(qwindowsDll)) {
+        log("  ⚠️  platforms/qwindows.dll is MISSING! Headless mode will FAIL.", COLORS.red);
     }
-  });
+  } else {
+    log("  ⚠️  Native mGBA.exe not found at mgba_native/mGBA-custom/. Please ensure it's compiled.", COLORS.yellow);
+  }
 
   // 3. Environment Check
   log("\n🔐 Checking environment...", COLORS.bright);
   const envPath = path.join(rootDir, '.env');
   const envExamplePath = path.join(rootDir, '.env.example');
 
-  if (existsSync(envPath)) {
-    log("  ✅ .env file found.", COLORS.green);
-  } else {
-    log("  ⚠️  .env file is MISSING!", COLORS.bright + COLORS.yellow);
-    log("     Please copy .env.example to .env and fill in your credentials.");
+  if (!existsSync(envPath)) {
     if (existsSync(envExamplePath)) {
-       log(`     Command: copy .env.example .env`, COLORS.cyan);
+        log("  📦 Copying .env.example to .env...", COLORS.yellow);
+        copyFileSync(envExamplePath, envPath);
+        log("  ✅ .env created. Please update it with your secrets!", COLORS.green);
+    } else {
+        log("  ❌ .env.example not found. Manual .env creation required.", COLORS.red);
     }
+  } else {
+    log("  ✅ .env file exists.", COLORS.green);
   }
 
   // 4. Python Dependencies
-  log("\n🐍 Checking Python dependencies...", COLORS.bright + COLORS.blue);
+  log("\n🐍 Checking Python dependencies for Headless Input Proxy...", COLORS.bright + COLORS.blue);
   const pythonDeps = [
-    { module: 'keyboard', package: 'keyboard' },
     { module: 'win32gui', package: 'pywin32' },
-    { module: 'psutil', package: 'psutil' },
-    { module: 'pywinauto', package: 'pywinauto' },
-    { module: 'numpy', package: 'numpy' },
-    { module: 'cv2', package: 'opencv-python' },
-    { module: 'soundcard', package: 'soundcard' },
-    { module: 'pywinauto', package: 'pywinauto' }
+    { module: 'psutil', package: 'psutil' }
   ];
 
   try {
     const missingDeps = [];
     for (const dep of pythonDeps) {
       const check = spawnSync('python', ['-c', `import ${dep.module}`]);
-      if (check.status !== 0) {
-        missingDeps.push(dep.package);
-      }
+      if (check.status !== 0) missingDeps.push(dep.package);
     }
 
-    if (missingDeps.length === 0) {
-      log("  ✅ All Python dependencies are installed.", COLORS.green);
+    if (missingDeps.length > 0) {
+      log(`  📦 Installing: ${missingDeps.join(', ')}...`, COLORS.yellow);
+      spawnSync('pip', ['install', ...missingDeps], { stdio: 'inherit' });
     } else {
-      log(`  📦 Installing missing Python dependencies: ${missingDeps.join(', ')}...`, COLORS.yellow);
-      const pipResult = spawnSync('pip', ['install', ...missingDeps]);
-      if (pipResult.status === 0) {
-        log("  ✅ Python dependencies installed successfully!", COLORS.green);
-      } else {
-        log("  ❌ Failed to install Python dependencies via pip.", COLORS.red);
-        log(`     Please run: pip install ${missingDeps.join(' ')}`, COLORS.bright + COLORS.yellow);
-      }
+      log("  ✅ Python dependencies are ready.", COLORS.green);
     }
   } catch (err) {
-    log("  ⚠️  Python or pip not found. Native multiplayer macros will not work.", COLORS.yellow);
-    log("     Ensure Python 3 is installed and in your PATH.", COLORS.cyan);
+    log("  ⚠️  Python/pip not found. Input proxy will fail.", COLORS.yellow);
   }
 
-  // 5. ROMs Check
-  log("\n🕹️  Checking ROMs...", COLORS.bright);
+  // 5. Final ROMs Check
   const romsDir = path.join(rootDir, 'roms');
-  const roms = existsSync(romsDir) ? readdirSync(romsDir) || [] : [];
-  if (roms.length === 0) {
-    log("  ⚠️  No ROMs found in /roms directory.", COLORS.yellow);
-    log("     Please place your .gba files in the /roms folder to start playing.");
-  } else {
-    log(`  ✅ Found ${roms.length} file(s) in /roms.`, COLORS.green);
-  }
+  const romCount = existsSync(romsDir) ? readdirSync(romsDir).length : 0;
+  if (romCount === 0) log("\n🕹️  Note: Place .gba ROMs in /roms to begin.", COLORS.yellow);
 
-  log("\n✨ Setup process complete!\n", COLORS.bright + COLORS.green);
+  log("\n✨ Setup complete! Run 'npm start' to launch the server.\n", COLORS.bright + COLORS.green);
 }
 
 setup().catch(err => {

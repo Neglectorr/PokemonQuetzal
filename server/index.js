@@ -198,38 +198,32 @@ io.use((socket, next) => {
 const sockets = require('./sockets');
 sockets.init(io, lobby);
 
-// Periodic cleanup of orphaned room files (every 10 minutes)
+// Periodic cleanup of orphaned lobby directories (every 30 minutes)
 setInterval(() => {
-    const ROMS_DIR = path.join(__dirname, '..', 'roms');
-    if (!fs.existsSync(ROMS_DIR)) return;
+    const LOBBIES_DIR = path.join(__dirname, '..', 'lobbies');
+    if (!fs.existsSync(LOBBIES_DIR)) return;
 
-    console.log('[Cleanup] Running periodic sweep for orphaned room files...');
-    const files = fs.readdirSync(ROMS_DIR);
+    console.log('[Cleanup] Running periodic sweep for orphaned lobby directories...');
+    const rooms = fs.readdirSync(LOBBIES_DIR);
     
-    // Pattern: [ROMNAME]_[ROOMID]_P[SLOT].[EXT]
-    // The RoomID is a v4 UUID (36 chars)
-    const roomFileRegex = /_([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})_P\d+/i;
-
     let deletedCount = 0;
-    files.forEach(file => {
-        const match = file.match(roomFileRegex);
-        if (match) {
-            const roomId = match[1];
-            // If lobby doesn't exist, this is an orphan
-            if (!lobby.getRoom(roomId)) {
-                try {
-                    fs.unlinkSync(path.join(ROMS_DIR, file));
-                    deletedCount++;
-                } catch (e) {
-                    console.error(`[Cleanup] Failed to delete orphaned file ${file}:`, e);
-                }
+    rooms.forEach(roomId => {
+        // If lobby doesn't exist in the memory store, and no emulator is active, it's an orphan
+        if (!lobby.getRoom(roomId)) {
+            try {
+                const lobbyPath = path.join(LOBBIES_DIR, roomId);
+                fs.rmSync(lobbyPath, { recursive: true, force: true });
+                deletedCount++;
+            } catch (e) {
+                // Ignore errors (might be in use)
             }
         }
     });
+
     if (deletedCount > 0) {
-        console.log(`[Cleanup] Removed ${deletedCount} orphaned room files.`);
+        console.log(`[Cleanup] Removed ${deletedCount} orphaned lobby directories.`);
     }
-}, 10 * 60 * 1000);
+}, 30 * 60 * 1000);
 
 // Start server
 const PORT = process.env.PORT || 3000;

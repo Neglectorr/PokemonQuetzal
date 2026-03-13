@@ -304,6 +304,23 @@ const GBAInput = (function() {
     }
     poll();
   }
+  /**
+   * Manually set a button state (useful for on-screen controls)
+   * @param {string} btnName - Button name (A, B, UP, etc)
+   * @param {boolean} pressed - Pressed state
+   */
+  function setButton(btnName, pressed) {
+    const mask = BUTTONS[btnName.toUpperCase()];
+    if (!mask) return;
+
+    if (pressed) {
+        touchButtons |= mask;
+        if (navigator.vibrate) navigator.vibrate(10);
+    } else {
+        touchButtons &= ~mask;
+    }
+    emitChange();
+  }
 
   // ─── Combined State ───
   function emitChange() {
@@ -347,5 +364,5 @@ const GBAInput = (function() {
     }, 3000);
   }
 
-  return { init, destroy, getButtons, getMobile, BUTTONS };
+  return { init, destroy, getButtons, getMobile, setButton, BUTTONS };
 })();

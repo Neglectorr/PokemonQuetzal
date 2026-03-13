@@ -37,7 +37,7 @@ class EmulatorInstance {
     async loadRom(romFilename, players = []) {
         const mgbaExe = path.join(__dirname, '..', 'mgba_native', 'mGBA-custom', 'mGBA.exe');
         if (!fs.existsSync(mgbaExe)) {
-            const err = 'Custom mGBA.exe not found. Ensure it is built in mgba_src and copied to mgba_native/mGBA-custom.';
+            const err = 'Custom mGBA.exe not found.';
             console.error(`[Room ${this.roomId}]`, err);
             if (this.onError) this.onError(err);
             return false;
@@ -51,14 +51,9 @@ class EmulatorInstance {
             return false;
         }
 
-        const ROMS_DIR = path.join(__dirname, '..', 'roms');
         const LOBBIES_DIR = path.join(__dirname, '..', 'lobbies');
         const lobbyDir = path.join(LOBBIES_DIR, this.roomId);
-        
         if (!fs.existsSync(lobbyDir)) fs.mkdirSync(lobbyDir, { recursive: true });
-
-        // USE THE ORIGINAL ROM DIRECTLY - NO COPIES
-        const roomRomPath = romPath;
 
         const pipeBase = `streamer_${this.roomId}`;
         this.pipeBridges = [];
@@ -76,6 +71,7 @@ class EmulatorInstance {
             const bridge = new PipeBridge(`${pipeBase}_${slot-1}`, slot);
             bridge.on('video', (data) => {
                 if (this.onFrame) {
+                    // Send raw RGBA buffer to sockets.js
                     this.onFrame(slot, data.data, data.width, data.height);
                 }
             });
@@ -86,99 +82,62 @@ class EmulatorInstance {
             this.pipeBridges.push(bridge);
         }
 
-        console.log(`[Room ${this.roomId}] Launching custom mGBA with on-demand streaming...`);
+        console.log(`[Room ${this.roomId}] Launching truly headless mGBA...`);
         
-        // 2. Launch mGBA with --stream-pipe and --sav-path overrides.
-        // All instances share the 'roomRomPath' (the original ROM).
+        // 2. Launch mGBA with -platform offscreen for Session 0 compatibility.
+        // We use dummy audio and disable sync to video/audio to let the pipe handle timing.
+        // Passing the ROM once - mGBA -m replicates it internally.
         const mgbaArgs = [
+            '-platform', 'offscreen',
             '-m', this.maxPlayers.toString(), 
             '-C', 'audio.driver=dummy',
-            '-C', 'qt.displayDriver=0', // Force Qt Software rendering (0=QT, 1=OPENGL)
-            '-C', 'syncToVideo=1',
-            '-C', 'syncToAudio=0',
+            '-C', 'qt.displayDriver=0', // Force Software rendering
+            '-C', 'syncToVideo=0',
+            '-C', 'syncToAudio=1',     // Sync to Dummy audio (timed consuming) for stable clocks
             '--stream-pipe', pipeBase, 
             '--sav-path', lobbyDir,
-            roomRomPath
+            romPath
         ];
+
         this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
             cwd: lobbyDir,
-            stdio: ['ignore', 'pipe', 'pipe']
+            stdio: ['pipe', 'pipe', 'pipe'], // Open stdin for future direct control
+            env: { ...process.env, QT_QPA_PLATFORM: 'offscreen' }
         });
         
-        const mGbaPid = this.mGBAProcess.pid;
-        console.log(`[Room ${this.roomId}] mGBA spawned with PID: ${mGbaPid}`);
+        console.log(`[Room ${this.roomId}] mGBA spawned with PID: ${this.mGBAProcess.pid} (Offscreen)`);
 
         this.mGBAProcess.stdout.on('data', (data) => console.log(`[mGBA ${this.roomId}]`, data.toString().trim()));
-        this.mGBAProcess.stderr.on('data', (data) => console.error(`[mGBA ${this.roomId} ERR]`, data.toString().trim()));
-        
-        this.mGBAProcess.on('error', (err) => {
-            console.error(`[Room ${this.roomId}] Failed to spawn mGBA:`, err);
-            if (this.onError) this.onError(`Spawn error: ${err.message}`);
+        this.mGBAProcess.stderr.on('data', (data) => {
+            const msg = data.toString().trim();
+            if (msg.includes('error') || msg.includes('failed')) {
+                console.error(`[mGBA ${this.roomId} ERR]`, msg);
+            }
         });
-
+        
         this.mGBAProcess.on('exit', (code) => {
             console.log(`[Room ${this.roomId}] mGBA process exited with code`, code);
             this.kill();
         });
 
-        // 3. Wait for mGBA windows to stabilize
-        console.log(`[Room ${this.roomId}] Waiting for custom mGBA windows to stabilize...`);
-        await new Promise(resolve => setTimeout(resolve, 12000));
-
-        // 3. Spawn Python wrapper - now passing expected window count and disabling legacy capture
-        const wrapperScript = path.join(__dirname, 'wrapper.py');
-        this.wrapperProcess = spawn('python', ['-u', wrapperScript, mGbaPid.toString(), this.maxPlayers.toString()], {
-            stdio: ['pipe', 'pipe', 'pipe']
-        });
-
-        this.wrapperProcess.stderr.on('data', (data) => {
-            const msg = data.toString().trim();
-            if (msg) console.log(`[Python ${this.roomId}]`, msg);
-        });
-
-        // Frame reading (Audio is disabled in wrapper.py for now)
-        let buffer = Buffer.alloc(0);
-        let expectedSize = -1;
-        let expectedSlot = 1;
-
-        this.wrapperProcess.stdout.on('data', (chunk) => {
-            buffer = Buffer.concat([buffer, chunk]);
-            while (true) {
-                if (expectedSize === -1) {
-                    if (buffer.length >= 5) {
-                        expectedSlot = buffer.readUInt8(0);
-                        expectedSize = buffer.readUInt32LE(1);
-                        buffer = buffer.slice(5);
-                    } else break;
-                }
-                if (expectedSize !== -1 && buffer.length >= expectedSize) {
-                    const frameData = buffer.slice(0, expectedSize);
-                    buffer = buffer.slice(expectedSize);
-                    expectedSize = -1;
-                    if (expectedSlot === 0) {
-                        // Audio is disabled
-                    } else if (this.onFrame) {
-                        // wrapper.py encodes to PNG and writes raw binary to stdout.
-                        // We need to convert that binary frameData to base64 for the socket.
-                        this.onFrame(expectedSlot, frameData.toString('base64'));
-                    }
-                } else break;
-            }
-        });
-
-        this.wrapperProcess.on('exit', (code) => {
-            console.log(`[Room ${this.roomId}] Python wrapper exited with code`, code);
-            this.kill();
-        });
-
         this.state = 'playing';
         
-        // 4. Auto-load save states for assigned slots
+        // 3. Spawn Input Proxy after a short delay for windows to be created
+        setTimeout(() => {
+            const proxyScript = path.join(__dirname, 'input_proxy.py');
+            this.inputProxy = spawn('python', ['-u', proxyScript, this.mGBAProcess.pid.toString(), this.maxPlayers.toString()], {
+                stdio: ['pipe', 'pipe', 'pipe']
+            });
+            this.inputProxy.stdout.on('data', (data) => console.log(`[InputProxy ${this.roomId}]`, data.toString().trim()));
+            this.inputProxy.stderr.on('data', (data) => console.error(`[InputProxy ${this.roomId} ERR]`, data.toString().trim()));
+        }, 5000);
+
+        // Auto-load save states for assigned slots after a delay
         setTimeout(() => {
             for (const slot of Object.keys(this.slots)) {
                 this.quickLoad(parseInt(slot));
             }
-        }, 5000); // Wait for ROMs to be fully loaded
+        }, 8000); 
 
         if (this.onReady) this.onReady();
         return true;
@@ -298,38 +257,38 @@ class EmulatorInstance {
     }
 
     sendInput(slot, buttons) {
-        if (!this.wrapperProcess || this.state !== 'playing') return;
+        if (!this.inputProxy || this.state !== 'playing') return;
 
         for (const { mask, name } of this.BUTTON_NAMES) {
             const nowPressed = (buttons    & mask) !== 0;
             const wasPressed = (this.lastButtons[slot] & mask) !== 0;
 
             if (nowPressed && !wasPressed) {
-                this.wrapperProcess.stdin.write(`${slot},${name},1\n`);
+                this.inputProxy.stdin.write(`${slot},${name},1\n`);
             } else if (!nowPressed && wasPressed) {
-                this.wrapperProcess.stdin.write(`${slot},${name},0\n`);
+                this.inputProxy.stdin.write(`${slot},${name},0\n`);
             }
         }
         this.lastButtons[slot] = buttons;
     }
 
     quickSave(slot) {
-        if (!this.wrapperProcess) return;
+        if (!this.inputProxy) return;
         console.log(`[Room ${this.roomId}] Triggering Quick Save for slot ${slot}`);
-        this.wrapperProcess.stdin.write(`${slot},Shift,1\n`);
-        this.wrapperProcess.stdin.write(`${slot},F1,1\n`);
+        this.inputProxy.stdin.write(`${slot},Shift,1\n`);
+        this.inputProxy.stdin.write(`${slot},F1,1\n`);
         setTimeout(() => {
-            this.wrapperProcess.stdin.write(`${slot},F1,0\n`);
-            this.wrapperProcess.stdin.write(`${slot},Shift,0\n`);
+            this.inputProxy.stdin.write(`${slot},F1,0\n`);
+            this.inputProxy.stdin.write(`${slot},Shift,0\n`);
         }, 100);
     }
 
     quickLoad(slot) {
-        if (!this.wrapperProcess) return;
+        if (!this.inputProxy) return;
         console.log(`[Room ${this.roomId}] Triggering Quick Load for slot ${slot}`);
-        this.wrapperProcess.stdin.write(`${slot},F1,1\n`);
+        this.inputProxy.stdin.write(`${slot},F1,1\n`);
         setTimeout(() => {
-            this.wrapperProcess.stdin.write(`${slot},F1,0\n`);
+            this.inputProxy.stdin.write(`${slot},F1,0\n`);
         }, 100);
     }
 
@@ -353,9 +312,9 @@ class EmulatorInstance {
             this.pipeBridges = [];
         }
 
-        if (this.wrapperProcess) {
-            this.wrapperProcess.kill('SIGINT');
-            this.wrapperProcess = null;
+        if (this.inputProxy) {
+            this.inputProxy.kill('SIGINT');
+            this.inputProxy = null;
         }
         if (this.mGBAProcess) {
             this.mGBAProcess.kill('SIGINT');
