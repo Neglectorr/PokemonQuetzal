@@ -10,6 +10,7 @@ const EventEmitter = require('events');
 class VideoEncoder extends EventEmitter {
     constructor(options = {}) {
         super();
+        this.options = options;
         this.width = options.width || 240;
         this.height = options.height || 160;
         this.fps = options.fps || 60;
@@ -86,8 +87,11 @@ class VideoEncoder extends EventEmitter {
         });
 
         this.ffmpeg.stderr.on('data', (data) => {
-            // Un-comment for debugging
-            // console.log(`[FFmpeg Debug]: ${data}`);
+            // Log FFmpeg errors to the main console for debugging visuals
+            const msg = data.toString().trim();
+            if (msg.includes('Error') || msg.includes('warning')) {
+                console.log(`[FFmpeg P${this.options.slot || '?'}] ${msg}`);
+            }
         });
 
         this.ffmpeg.on('close', (code) => {
@@ -116,16 +120,18 @@ class VideoEncoder extends EventEmitter {
         this.buffer = Buffer.concat([this.buffer, chunk]);
 
         while (this.buffer.length > 12) {
-            // RIFF header
-            if (this.buffer.toString('ascii', 0, 4) !== 'RIFF') {
-                // Out of sync? Scan for next RIFF
-                const nextRIFF = this.buffer.indexOf('RIFF', 1);
-                if (nextRIFF === -1) {
-                    this.buffer = Buffer.alloc(0);
-                    break;
-                }
-                this.buffer = this.buffer.slice(nextRIFF);
-                continue;
+            // Find RIFF header
+            const riffIndex = this.buffer.indexOf('RIFF');
+            if (riffIndex === -1) {
+                // No RIFF yet, keep only the last few bytes to avoid missing a fragmented 'RIFF'
+                this.buffer = this.buffer.slice(Math.max(0, this.buffer.length - 4));
+                break;
+            }
+
+            if (riffIndex > 0) {
+                // Discard garbage before RIFF
+                this.buffer = this.buffer.slice(riffIndex);
+                if (this.buffer.length < 12) break;
             }
 
             // WebP total size is at offset 4 (4 bytes, little endian)
@@ -135,7 +141,11 @@ class VideoEncoder extends EventEmitter {
             if (this.buffer.length >= webpSize) {
                 const frame = this.buffer.slice(0, webpSize);
                 this.buffer = this.buffer.slice(webpSize);
-                this.emit('frame', frame);
+
+                // Quick validation: must have 'WEBP' at offset 8
+                if (frame.toString('ascii', 8, 12) === 'WEBP') {
+                    this.emit('frame', frame);
+                }
             } else {
                 break;
             }
