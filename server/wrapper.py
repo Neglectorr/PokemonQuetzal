@@ -68,18 +68,14 @@ def get_hwnds_for_pid(pid):
     return hwnds
 
 def capture_window(hwnd):
-    # Get window bounds
-    left, top, right, bottom = win32gui.GetWindowRect(hwnd)
-    width = right - left
-    height = bottom - top
-    if width <= 0 or height <= 0:
-        return None
-
     # mGBA window has a menu bar and borders. We should capture the client area.
-    client_left, client_top, client_right, client_bottom = win32gui.GetClientRect(hwnd)
-    client_width = client_right - client_left
-    client_height = client_bottom - client_top
-    if client_width <= 0 or client_height <= 0:
+    try:
+        rect = win32gui.GetClientRect(hwnd)
+        client_width, client_height = rect[2] - rect[0], rect[3] - rect[1]
+    except:
+        return None
+        
+    if client_width <= 8 or client_height <= 8:
         return None
 
     hwndDC = win32gui.GetWindowDC(hwnd)
@@ -87,58 +83,46 @@ def capture_window(hwnd):
     saveDC = mfcDC.CreateCompatibleDC()
     
     saveBitMap = win32ui.CreateBitmap()
-    # Capture exactly the client area
     saveBitMap.CreateCompatibleBitmap(mfcDC, client_width, client_height)
     saveDC.SelectObject(saveBitMap)
     
-    # On Windows 10/11, 3 (PW_CLIENTONLY) is required for some apps, 
-    # but 2 (PW_RENDERFULLCONTENT) is often more reliable for Qt 5 in Session 0.
-    try:
-        result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 2)
-    except:
+    # PW_RENDERFULLCONTENT (2) + PW_CLIENTONLY (1) = 3
+    # Try different flags: 3 is usually best for Qt in background, fallback to 0.
+    result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 3)
+    if result != 1:
         result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 0)
-        
-    bmpinfo = saveBitMap.GetInfo()
+
     bmpstr = saveBitMap.GetBitmapBits(True)
-    
     img = np.frombuffer(bmpstr, dtype='uint8')
-    img.shape = (client_height, client_width, 4)
     
+    # Cleanup early to prevent leaks
     win32gui.DeleteObject(saveBitMap.GetHandle())
     saveDC.DeleteDC()
     mfcDC.DeleteDC()
     win32gui.ReleaseDC(hwnd, hwndDC)
 
-    if result != 1:
+    try:
+        img.shape = (client_height, client_width, 4)
+    except:
         return None
         
-    # Extract the GBA 1.5 Aspect Ratio bounding box.
-    # mGBA window has a menu bar and borders. 
-    # PrintWindow with 2 (PW_RENDERFULLCONTENT) captures the FULL window, 
-    # but we are selecting into a client-sized bitmap.
-    
-    gw = client_width
-    gh = int(gw / 1.5)
-    if gh > client_height:
-        gh = client_height
-        gw = int(gh * 1.5)
-    
-    # User's GBA content is horizontally centered and BOTTOM aligned
-    # This strips the top menu bar perfectly on Windows/Qt.
-    start_x = (client_width - gw) // 2
-    start_y = client_height - gh
-
-    img = img[start_y:start_y+gh, start_x:start_x+gw]
-
-    # Resize to exactly 240x160 for the streamer protocol
-    img = cv2.resize(img, (240, 160), interpolation=cv2.INTER_NEAREST)
-
-    # Convert BGRA to BGR
+    # BGRA -> BGR
     img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
     
-    # Epilepsy safety: drop pure black frames (e.g. if PrintWindow failed to capture content)
-    if np.max(img) == 0:
+    # mGBA Crop Logic: Software renderer centers the game horizontally and aligns to BOTTOM
+    # GBA is 1.5 aspect ratio (240x160)
+    target_h = int(client_width / 1.5)
+    if target_h > client_height:
+        target_h = client_height
+    
+    start_y = client_height - target_h
+    img = img[start_y:client_height, 0:client_width]
+    
+    if img.shape[0] == 0 or img.shape[1] == 0:
         return None
+
+    # Resize to exact streamer dimensions
+    img = cv2.resize(img, (240, 160), interpolation=cv2.INTER_NEAREST)
         
     return img
 
