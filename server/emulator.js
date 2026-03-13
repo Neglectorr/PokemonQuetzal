@@ -96,14 +96,6 @@ class EmulatorInstance {
             '-m', this.maxPlayers.toString(), 
             '-C', 'ports.qt.videoBackend=opengl',
             '-C', 'pauseOnFocusLost=0',
-            '-C', 'muteOnFocusLost=0',
-            '-C', 'syncToVideo=0',
-            '-C', 'syncToAudio=1',
-            '-C', 'limitSpeed=1',
-            '-C', 'unlimited=0',
-            '-C', 'audio.bufferSamples=1024',
-            '-C', 'fpsTarget=60',
-            '-C', 'frameskip=0',
             '--stream-pipe', pipeBase, 
             '--sav-path', lobbyDir,
             romPath
@@ -134,7 +126,8 @@ class EmulatorInstance {
         
         // Use High Priority to ensure stable clockspeed on Server
         try {
-            os.setPriority(this.mGBAProcess.pid, os.constants.priority.PRIORITY_HIGH);
+            const osConstants = require('os').constants;
+            os.setPriority(this.mGBAProcess.pid, osConstants.priority.PRIORITY_ABOVE_NORMAL);
         } catch (e) {
             console.warn(`[Room ${this.roomId}] Could not set process priority:`, e.message);
         }
