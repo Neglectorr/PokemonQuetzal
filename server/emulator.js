@@ -121,7 +121,7 @@ class EmulatorInstance {
                 ...process.env,
                 // Don't force software, let mGBA decide
             },
-            windowsHide: false
+            windowsHide: true // HIDE the window to eliminate 'Double Rendering' overhead
         });
         
         // No drainage needed for 'ignore'
