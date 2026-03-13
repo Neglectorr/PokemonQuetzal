@@ -37,7 +37,10 @@ class PipeBridge extends EventEmitter {
         if (this.destroyed) return;
         console.log(`[PipeBridge P${this.slot}] Connecting to ${this.pipePath}...`);
         
-        this.socket = net.createConnection(this.pipePath);
+        this.socket = net.createConnection({
+            path: this.pipePath,
+            readableHighWaterMark: 1024 * 1024 // 1MB buffer
+        });
 
         this.socket.on('connect', () => {
             if (this.reconnectTimer) {
@@ -85,6 +88,15 @@ class PipeBridge extends EventEmitter {
         if (chunk) {
             this.chunks.push(chunk);
             this.totalLen += chunk.length;
+        }
+
+        // EMERGENCY: If we have more than 5MB of raw data, purge it.
+        // This prevents a backlog from dragging down the GBA speed.
+        if (this.totalLen > 5000000) {
+            console.warn(`[PipeBridge P${this.slot}] Purging pipe backlog (${this.totalLen} bytes) to restore GBA speed.`);
+            this.chunks = [];
+            this.totalLen = 0;
+            return;
         }
 
         while (this.totalLen >= 9) {
