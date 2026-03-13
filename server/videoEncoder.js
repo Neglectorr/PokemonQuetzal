@@ -46,18 +46,17 @@ class VideoEncoder extends EventEmitter {
     start() {
         if (this.isActive) return;
 
-        // Command: Read raw RGBA pixels from stdin, output MJPEG stream to stdout
-        // MJPEG is extremely fast and low latency.
+        // Command: Read raw pixels from stdin, output MJPEG stream to stdout
+        // We use 'bgra' because that's mGBA's native software output on Windows
         const args = [
             '-f', 'rawvideo',
-            '-pixel_format', 'rgba', // mGBA native XBGR8 on LE is R,G,B,X in memory
+            '-pixel_format', 'bgra',
             '-video_size', `${this.width}x${this.height}`,
             '-i', '-',
             '-f', 'image2pipe',
             '-vcodec', 'mjpeg',
-            '-q:v', '10',
+            '-q:v', '2', // Very high quality
             '-threads', '1',
-            '-an', '-sn',
             '-'
         ];
 
@@ -76,25 +75,31 @@ class VideoEncoder extends EventEmitter {
                 console.error(`[VideoEncoder P${this.options.slot || '?'}] Spawn error:`, err.message);
                 this.isActive = false;
             });
+
+            this.ffmpeg.stdout.on('data', (data) => {
+                this.handleEncodedData(data);
+            });
+
+            this.ffmpeg.stderr.on('data', (data) => {
+                // Keep an eye on internal FFmpeg errors
+                const msg = data.toString();
+                if (msg.includes('Error')) console.error(`[FFmpeg P${this.options.slot || '?'}] ${msg.trim()}`);
+            });
+
+            this.ffmpeg.on('close', (code) => {
+                console.log(`[VideoEncoder P${this.options.slot || '?'}] FFmpeg exited with code ${code}`);
+                this.isActive = false;
+            });
+
+            // Prevent stdin errors from crashing the server
+            this.ffmpeg.stdin.on('error', (e) => {
+                if (e.code !== 'EPIPE') console.error('[VideoEncoder] Stdin Error:', e);
+            });
+
         } catch (e) {
             console.error(`[VideoEncoder P${this.options.slot || '?'}] Spawn exception:`, e);
-            return;
-        }
-
-        this.ffmpeg.stdout.on('data', (data) => {
-            if (this.emittedCount === 0) console.log(`[VideoEncoder P${this.options.slot || '?'}] First STDOUT chunk received: ${data.length} bytes`);
-            this.handleEncodedData(data);
-        });
-
-        this.ffmpeg.stderr.on('data', (data) => {
-            // Log everything from FFmpeg stderr for deep diagnosis
-            console.log(`[FFmpeg P${this.options.slot || '?'}] ${data.toString().trim()}`);
-        });
-
-        this.ffmpeg.on('close', (code) => {
-            console.log(`[VideoEncoder P${this.options.slot || '?'}] FFmpeg exited with code ${code}`);
             this.isActive = false;
-        });
+        }
     }
 
     /**
