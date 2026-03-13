@@ -1,6 +1,7 @@
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const rootDir = path.resolve(__dirname, '..');
 
 class EmulatorInstance {
     constructor(roomId, maxPlayers, onFrame, onAudio, onReady, onError) {
@@ -35,17 +36,21 @@ class EmulatorInstance {
     }
 
     async loadRom(romFilename, players = []) {
-        const mgbaExe = path.join(__dirname, '..', 'mgba_native', 'mGBA-custom', 'mGBA.exe');
+        const mgbaExe = path.resolve(rootDir, 'mgba_native', 'mGBA-custom', 'mGBA.exe');
+        console.log(`[Emulator] Resolved mGBA path: ${mgbaExe}`);
+        
         if (!fs.existsSync(mgbaExe)) {
-            const err = 'Custom mGBA.exe not found.';
+            const err = `Custom mGBA.exe NOT FOUND at: ${mgbaExe}`;
             console.error(`[Room ${this.roomId}]`, err);
             if (this.onError) this.onError(err);
             return false;
         }
 
-        const romPath = path.join(__dirname, '..', 'roms', romFilename);
+        const romPath = path.resolve(rootDir, 'roms', romFilename);
+        console.log(`[Emulator] Loading ROM: ${romPath}`);
+        
         if (!fs.existsSync(romPath)) {
-            const err = `ROM not found: ${romPath}`;
+            const err = `ROM NOT FOUND at: ${romPath}`;
             console.error(`[Room ${this.roomId}]`, err);
             if (this.onError) this.onError(err);
             return false;
@@ -100,8 +105,14 @@ class EmulatorInstance {
 
         this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
             cwd: lobbyDir,
-            stdio: ['pipe', 'pipe', 'pipe'], // Open stdin for future direct control
-            env: { ...process.env, QT_QPA_PLATFORM: 'offscreen' }
+            stdio: ['pipe', 'pipe', 'pipe'],
+            env: { ...process.env, QT_QPA_PLATFORM: 'offscreen' },
+            windowsHide: true
+        });
+
+        this.mGBAProcess.on('error', (err) => {
+            console.error(`[Room ${this.roomId}] FAILED to spawn mGBA process:`, err);
+            if (this.onError) this.onError(`Process spawn error: ${err.message}`);
         });
         
         console.log(`[Room ${this.roomId}] mGBA spawned with PID: ${this.mGBAProcess.pid} (Offscreen)`);

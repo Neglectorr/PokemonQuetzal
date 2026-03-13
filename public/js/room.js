@@ -231,6 +231,7 @@
     // ═══════════════════════════════════════
 
     document.getElementById('start-game-btn').addEventListener('click', () => {
+        console.log('[Room] Start Headless Session button clicked. Sending start-game event...');
         initAudio(); // User interaction required for audio
         socket.emit('start-game');
         document.getElementById('macro-progress').classList.add('active');
