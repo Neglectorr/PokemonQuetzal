@@ -93,8 +93,8 @@ class EmulatorInstance {
             '-m', this.maxPlayers.toString(), 
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
-            '-C', 'syncToVideo=1',
-            '-C', 'syncToAudio=0',
+            '-C', 'syncToVideo=0',
+            '-C', 'syncToAudio=1',
             '--stream-pipe', pipeBase, 
             '--sav-path', lobbyDir,
             romPath
@@ -152,7 +152,7 @@ class EmulatorInstance {
             this.inputProxy.on('error', (err) => {
                 console.error(`[Room ${this.roomId}] FAILED to spawn Input Proxy:`, err.message);
             });
-        }, 8000); // 8s delay for Session 0 window creation
+        }, 12000); // 12s delay for Session 0 window creation
 
         // Auto-load save states for assigned slots after a delay
         setTimeout(() => {
