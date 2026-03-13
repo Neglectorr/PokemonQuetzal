@@ -7,3 +7,12 @@ saves/
 sessions/
 !saves/.gitkeep
 !roms/.gitkeep
+lobbies/
+tmp/
+*.log
+*.ini
+*.sqlite3
+*.ss*
+vcpkg/
+mgba_native/*/
+!mgba_native/mGBA-custom/mGBA.exe
