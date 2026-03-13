@@ -154,20 +154,18 @@
     function renderFrame(slot, frameData, width, height) {
         if (!frameData || !width || !height) return;
 
-        // Efficiently check for RIFF/WebP header
+        // Efficiently check for MJPEG (JPEG) header [0xFF, 0xD8]
         const uint8 = (frameData instanceof Uint8Array) ? frameData : new Uint8Array(frameData);
-        const isWebP = (uint8.length > 12 && 
-                      uint8[0] === 0x52 && uint8[1] === 0x49 && uint8[2] === 0x46 && uint8[3] === 0x46 && // RIFF
-                      uint8[8] === 0x57 && uint8[9] === 0x45 && uint8[10] === 0x42 && uint8[11] === 0x50); // WEBP
+        const isJPEG = (uint8.length > 2 && uint8[0] === 0xFF && uint8[1] === 0xD8);
 
         if (!window.frameDebugCount) window.frameDebugCount = 0;
         if (window.frameDebugCount < 5) {
-            console.log(`[Room] Frame received: slot=${slot}, size=${uint8.length}, isWebP=${isWebP}`);
+            console.log(`[Room] Frame received: slot=${slot}, size=${uint8.length}, isJPEG=${isJPEG}`);
             window.frameDebugCount++;
         }
 
-        if (isWebP) {
-            const blob = new Blob([uint8], { type: 'image/webp' });
+        if (isJPEG) {
+            const blob = new Blob([uint8], { type: 'image/jpeg' });
             createImageBitmap(blob).then(bitmap => {
                 if (currentView === 'single') {
                     if (slot === mySlot || (!mySlot && slot === 1)) {
@@ -178,10 +176,11 @@
                     if (ctx) ctx.drawImage(bitmap, 0, 0);
                 }
                 bitmap.close();
+            }).catch(err => {
+                console.error('[Room] JPEG decode error:', err);
             });
         } else {
             // Legacy/Raw RGBA fallback
-            const uint8 = (frameData instanceof Uint8Array) ? frameData : new Uint8ClampedArray(frameData);
             if (uint8.length < width * height * 4) return;
             const imageData = new ImageData(uint8, width, height);
             

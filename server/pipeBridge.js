@@ -84,7 +84,7 @@ class PipeBridge extends EventEmitter {
         }
 
         while (this.totalLen >= 9) {
-            // Peek header (avoiding full concat unless needed)
+            // 1. Get header to find out packet size
             let header;
             if (this.chunks[0].length >= 9) {
                 header = this.chunks[0];
@@ -94,12 +94,13 @@ class PipeBridge extends EventEmitter {
 
             const magic = header.readUInt32LE(0);
             if (magic !== 0x5354524D) {
-                // Rescue: Scan for STRM magic if we lost sync
-                let full = Buffer.concat(this.chunks);
-                let idx = full.indexOf(Buffer.from([0x53, 0x54, 0x52, 0x4D]));
+                // Lost sync - very rare, scan for next STRM magic
+                const full = Buffer.concat(this.chunks);
+                const idx = full.indexOf(Buffer.from([0x53, 0x54, 0x52, 0x4D]));
                 if (idx !== -1) {
-                    this.chunks = [full.slice(idx)];
-                    this.totalLen = this.chunks[0].length;
+                    const recovered = full.slice(idx);
+                    this.chunks = [recovered];
+                    this.totalLen = recovered.length;
                     continue;
                 } else {
                     this.chunks = [];
@@ -114,33 +115,48 @@ class PipeBridge extends EventEmitter {
 
             if (this.totalLen < totalPacketSize) break;
 
-            // Extract full packet efficiently
+            // 2. Efficiently pull the full packet without frequent full-concats
             let fullPacket;
-            if (this.chunks.length === 1 && this.chunks[0].length === totalPacketSize) {
-                fullPacket = this.chunks[0];
-                this.chunks = [];
+            if (this.chunks[0].length === totalPacketSize) {
+                fullPacket = this.chunks.shift();
+            } else if (this.chunks[0].length > totalPacketSize) {
+                fullPacket = this.chunks[0].slice(0, totalPacketSize);
+                this.chunks[0] = this.chunks[0].slice(totalPacketSize);
             } else {
-                let flat = Buffer.concat(this.chunks);
-                fullPacket = flat.slice(0, totalPacketSize);
-                this.chunks = [flat.slice(totalPacketSize)];
+                // Packet spans multiple chunks
+                fullPacket = Buffer.allocUnsafe(totalPacketSize);
+                let offset = 0;
+                while (offset < totalPacketSize) {
+                    const chunk = this.chunks[0];
+                    const bytesToCopy = Math.min(chunk.length, totalPacketSize - offset);
+                    chunk.copy(fullPacket, offset, 0, bytesToCopy);
+                    offset += bytesToCopy;
+                    
+                    if (bytesToCopy === chunk.length) {
+                        this.chunks.shift();
+                    } else {
+                        this.chunks[0] = chunk.slice(bytesToCopy);
+                    }
+                }
             }
             this.totalLen -= totalPacketSize;
-
             const payload = fullPacket.slice(9);
 
             if (type === 0) { // Video
                 this.frameCount = (this.frameCount || 0) + 1;
                 
                 if (this.frameCount % 120 === 0) {
-                    const now = new Date();
-                    console.log(`[PipeBridge P${this.slot}] Sent ${this.frameCount} frames. (Streaming via FFmpeg WebP)`);
+                    console.log(`[PipeBridge P${this.slot}] Received ${this.frameCount} packets from mGBA. (Encoder: ${this.encoder.isActive ? 'ACTIVE (MJPEG)' : 'INACTIVE'})`);
                 }
                 
                 if (payload.length >= 8) {
                     // Start after width/height header
                     const pixelData = payload.slice(8);
                     if (this.encoder && this.encoder.isActive) {
-                        this.encoder.write(pixelData);
+                        const ok = this.encoder.write(pixelData);
+                        if (!ok && this.frameCount % 60 === 0) {
+                            console.warn(`[PipeBridge P${this.slot}] FFmpeg stdin BACKPRESSURE detected at frame ${this.frameCount}`);
+                        }
                     } else {
                         // Fallback to raw if encoder fails
                         this.emit('video', { width: 240, height: 160, data: pixelData });

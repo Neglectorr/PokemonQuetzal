@@ -46,57 +46,53 @@ class VideoEncoder extends EventEmitter {
     start() {
         if (this.isActive) return;
 
-        // Command: Read raw BGRA pixels from stdin, output individual WebP images to stdout
-        // -q:v 60 provides a good balance of quality vs size (~3KB per frame)
+        // Command: Read raw RGBA pixels from stdin, output MJPEG stream to stdout
+        // MJPEG is extremely fast and low latency.
         const args = [
             '-f', 'rawvideo',
-            '-pixel_format', 'bgra',
+            '-pixel_format', 'rgba', // mGBA native XBGR8 on LE is R,G,B,X in memory
             '-video_size', `${this.width}x${this.height}`,
             '-i', '-',
             '-f', 'image2pipe',
-            '-vcodec', 'webp',
-            '-lossless', '0',
-            '-compression_level', '4',
-            '-q:v', '60',
+            '-vcodec', 'mjpeg',
+            '-q:v', '10',
+            '-threads', '1',
+            '-an', '-sn',
             '-'
         ];
 
         if (!this.ffmpegPath) {
-            console.error('[VideoEncoder] No FFmpeg found on system. Disabling compression.');
+            console.error(`[VideoEncoder P${this.options.slot || '?'}] No FFmpeg found!`);
             return;
         }
 
-        console.log(`[VideoEncoder] Starting FFmpeg: ${this.ffmpegPath}`);
+        console.log(`[VideoEncoder P${this.options.slot || '?'}] Spawning FFmpeg: ${this.ffmpegPath}`);
         
         try {
             this.ffmpeg = spawn(this.ffmpegPath, args, { windowsHide: true });
             this.isActive = true;
 
             this.ffmpeg.on('error', (err) => {
-                console.error(`[VideoEncoder] FFmpeg failed to start:`, err.message);
+                console.error(`[VideoEncoder P${this.options.slot || '?'}] Spawn error:`, err.message);
                 this.isActive = false;
-                this.emit('error', err);
             });
         } catch (e) {
-            console.error(`[VideoEncoder] Fatal spawn error:`, e);
-            this.isActive = false;
+            console.error(`[VideoEncoder P${this.options.slot || '?'}] Spawn exception:`, e);
             return;
         }
 
         this.ffmpeg.stdout.on('data', (data) => {
+            if (this.emittedCount === 0) console.log(`[VideoEncoder P${this.options.slot || '?'}] First STDOUT chunk received: ${data.length} bytes`);
             this.handleEncodedData(data);
         });
 
         this.ffmpeg.stderr.on('data', (data) => {
-            // Log FFmpeg errors to the main console for debugging visuals
-            const msg = data.toString().trim();
-            if (msg.includes('Error') || msg.includes('warning')) {
-                console.log(`[FFmpeg P${this.options.slot || '?'}] ${msg}`);
-            }
+            // Log everything from FFmpeg stderr for deep diagnosis
+            console.log(`[FFmpeg P${this.options.slot || '?'}] ${data.toString().trim()}`);
         });
 
         this.ffmpeg.on('close', (code) => {
-            console.log(`[VideoEncoder] FFmpeg closed with code ${code}`);
+            console.log(`[VideoEncoder P${this.options.slot || '?'}] FFmpeg exited with code ${code}`);
             this.isActive = false;
         });
     }
@@ -114,46 +110,35 @@ class VideoEncoder extends EventEmitter {
     }
 
     /**
-     * Handle the output stream of encoded WebP images.
-     * WebP files start with 'RIFF' and have a size header.
+     * Handle the output stream of encoded MJPEG images.
      */
     handleEncodedData(chunk) {
         this.buffer = Buffer.concat([this.buffer, chunk]);
 
-        while (this.buffer.length > 12) {
-            // Find RIFF header
-            const riffIndex = this.buffer.indexOf('RIFF');
-            if (riffIndex === -1) {
-                // No RIFF yet, keep only the last few bytes to avoid missing a fragmented 'RIFF'
-                this.buffer = this.buffer.slice(Math.max(0, this.buffer.length - 4));
+        // MJPEG frames start with 0xFF 0xD8 (SOI) and end with 0xFF 0xD9 (EOI)
+        while (this.buffer.length > 4) {
+            const startIdx = this.buffer.indexOf(Buffer.from([0xFF, 0xD8]));
+            if (startIdx === -1) {
+                this.buffer = this.buffer.slice(Math.max(0, this.buffer.length - 1));
                 break;
             }
 
-            if (riffIndex > 0) {
-                // Discard garbage before RIFF
-                this.buffer = this.buffer.slice(riffIndex);
-                if (this.buffer.length < 12) break;
+            if (startIdx > 0) {
+                this.buffer = this.buffer.slice(startIdx);
             }
 
-            // WebP total size is at offset 4 (4 bytes, little endian)
-            // The value is (fileSize - 8)
-            const webpSize = this.buffer.readUInt32LE(4) + 8;
-            
-            if (this.buffer.length >= webpSize) {
-                const frame = this.buffer.slice(0, webpSize);
-                this.buffer = this.buffer.slice(webpSize);
+            const endIdx = this.buffer.indexOf(Buffer.from([0xFF, 0xD9]));
+            if (endIdx === -1) break;
 
-                // Quick validation: must have 'WEBP' at offset 8
-                if (frame.toString('ascii', 8, 12) === 'WEBP') {
-                    this.emittedCount++;
-                    if (this.emittedCount % 120 === 0) {
-                        console.log(`[VideoEncoder P${this.options.slot || '?'}] Compressed ${this.emittedCount} frames to WebP.`);
-                    }
-                    this.emit('frame', frame);
-                }
-            } else {
-                break;
+            const frameSize = endIdx + 2;
+            const frame = this.buffer.slice(0, frameSize);
+            this.buffer = this.buffer.slice(frameSize);
+
+            this.emittedCount++;
+            if (this.emittedCount % 120 === 0) {
+                console.log(`[VideoEncoder P${this.options.slot || '?'}] Encoded ${this.emittedCount} MJPEG frames.`);
             }
+            this.emit('frame', frame);
         }
     }
 
