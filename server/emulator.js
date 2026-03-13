@@ -95,10 +95,9 @@ class EmulatorInstance {
         const mgbaArgs = [
             '-m', this.maxPlayers.toString(), 
             '-C', 'ports.qt.videoBackend=software',
-            '-C', 'audio.driver=dummy',
-            '-C', 'syncToVideo=0',
+            '-C', 'pauseOnInactive=0',
+            '-C', 'syncToVideo=1',
             '-C', 'syncToAudio=1',
-            '-C', 'unlimited=0',
             '-C', 'audio.bufferSamples=1024',
             '-C', 'fpsTarget=60',
             '-C', 'frameskip=0',
@@ -117,7 +116,7 @@ class EmulatorInstance {
                 QT_OPENGL: 'software',
                 LIBGL_ALWAYS_SOFTWARE: '1'
             },
-            windowsHide: true
+            windowsHide: false // DISABLE hide to prevent Windows background throttling
         });
         
         // DRAIN logs to prevent pipe-clogging slowdowns (CRITICAL for speed)
@@ -261,7 +260,7 @@ class EmulatorInstance {
                         console.log(`[Room ${this.roomId}] Synced SRAM back for P${slot} (${userId})`);
                     }
                 }
-                
+
                 if (slot === 1 && fs.existsSync(pStatePath)) {
                     const stats = fs.statSync(pStatePath);
                     if (stats.size > 10000) {
