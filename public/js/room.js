@@ -88,17 +88,24 @@
     socket.on('connect', () => {
         updateConnectionStatus(true);
         const roomId = window.location.pathname.split('/').pop();
-        socket.emit('join-room', { roomId });
+        socket.emit('auth', { id: localStorage.getItem('userId') || 'guest_' + Math.random().toString(36).substr(2, 5), username: localStorage.getItem('username') || 'Guest' });
+        socket.emit('join-room', roomId);
     });
 
     socket.on('disconnect', () => updateConnectionStatus(false));
 
-    socket.on('room-state', (room) => {
-        isHost = room.isHost;
-        mySlot = room.mySlot;
+    socket.on('room-update', (room) => {
+        console.log('[Room] Update received:', room);
         
+        // Find my slot and host status
+        const me = room.players.find(p => p.socketId === socket.id || p.id === localStorage.getItem('userId'));
+        if (me) {
+            mySlot = me.slot;
+            isHost = (room.host.id === me.id);
+        }
+
         document.getElementById('room-title').textContent = room.name;
-        document.getElementById('room-rom-info').textContent = room.rom;
+        document.getElementById('room-rom-info').textContent = room.rom ? room.rom.name : 'Quetzal';
         
         updatePlayerList(room.players);
         updateStatusBadge(room.status);
@@ -107,6 +114,8 @@
             document.getElementById('host-controls').classList.remove('hidden');
             document.getElementById('start-game-btn').classList.toggle('hidden', room.status === 'playing');
             document.getElementById('stop-game-btn').classList.toggle('hidden', room.status !== 'playing');
+        } else {
+            document.getElementById('host-controls').classList.add('hidden');
         }
 
         if (room.status === 'playing') {
@@ -114,6 +123,10 @@
         } else {
             document.getElementById('canvas-overlay').classList.remove('hidden');
         }
+    });
+
+    socket.on('room-state', (room) => { /* Compatibility fallback */
+        socket.emit('room-update', room);
     });
 
     socket.on('frame', (data) => {
@@ -134,8 +147,9 @@
         }
     });
 
-    socket.on('emulator-ready', () => {
-        addSystemMessage("Server-side emulation started.");
+    socket.on('game-started', (data) => {
+        console.log('[Room] Game started:', data);
+        addSystemMessage("Hyper-WASM Sync Engine ACTIVE.");
         document.getElementById('canvas-overlay').classList.add('hidden');
         const progress = document.getElementById('macro-progress');
         if (progress) {
@@ -183,6 +197,10 @@
                 if (currentView === 'single') {
                     if (slot === mySlot || (!mySlot && slot === 1)) {
                         mainCtx.drawImage(bitmap, 0, 0);
+                    } else {
+                        if (window.frameDebugCount % 100 === 0) {
+                            console.warn(`[Room] Dropping frame from P${slot} (Not my slot: ${mySlot})`);
+                        }
                     }
                 } else {
                     const ctx = gridContexts[slot];
