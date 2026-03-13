@@ -89,10 +89,7 @@ class EmulatorInstance {
 
         console.log(`[Room ${this.roomId}] Launching truly headless mGBA...`);
         
-        // 2. Launch mGBA with -platform offscreen.
-        // We now have qoffscreen.dll in platforms/, so this will succeed in Session 0.
         const mgbaArgs = [
-            '-platform', 'offscreen',
             '-m', this.maxPlayers.toString(), 
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
@@ -108,8 +105,10 @@ class EmulatorInstance {
             stdio: ['pipe', 'pipe', 'pipe'],
             env: { 
                 ...process.env, 
-                QT_QPA_PLATFORM: 'offscreen',
-                QT_QPA_PLATFORM_PLUGIN_PATH: path.resolve(rootDir, 'mgba_native', 'mGBA-custom'),
+                QT_QPA_PLATFORM: 'minimal',
+                QT_QPA_PLATFORM_PLUGIN_PATH: path.dirname(mgbaExe),
+                QT_OPENGL: 'software',
+                LIBGL_ALWAYS_SOFTWARE: '1',
                 QT_DEBUG_PLUGINS: '1'
             },
             windowsHide: true
