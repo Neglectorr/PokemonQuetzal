@@ -7,13 +7,14 @@ const LOBBIES_DIR = path.join(rootDir, 'lobbies');
 const SAVES_ROOT = path.join(rootDir, 'saves');
 
 class EmulatorInstance {
-    constructor(roomId, maxPlayers, onFrame, onAudio, onReady, onError) {
+    constructor(roomId, maxPlayers, onFrame, onAudio, onReady, onError, onProgress) {
         this.roomId = roomId;
         this.maxPlayers = maxPlayers || 4;
         this.onFrame = onFrame;
         this.onAudio = onAudio;
         this.onReady = onReady;
         this.onError = onError;
+        this.onProgress = onProgress;
 
         this.mGBAProcess = null;
         this.wrapperProcess = null;
@@ -59,7 +60,6 @@ class EmulatorInstance {
             return false;
         }
 
-        const LOBBIES_DIR = path.join(__dirname, '..', 'lobbies');
         const lobbyDir = path.join(LOBBIES_DIR, this.roomId);
         if (!fs.existsSync(lobbyDir)) fs.mkdirSync(lobbyDir, { recursive: true });
 
@@ -133,15 +133,24 @@ class EmulatorInstance {
         
         console.log(`[Room ${this.roomId}] mGBA spawned with PID: ${this.mGBAProcess.pid}`);
         
-        this.mGBAProcess.on('exit', (code) => {
-            console.log(`[Room ${this.roomId}] mGBA process exited with code`, code);
-            this.kill();
-        });
-
+        if (this.onProgress) this.onProgress(20, 'Spawning mGBA core...');
         this.state = 'playing';
         
         // 3. Spawn Input Proxy after a short delay for windows to be created
+        const proxyStart = Date.now();
+        const proxyDelay = 12000;
+        
+        this.progressTimer = setInterval(() => {
+            if (!this.onProgress) return;
+            const elapsed = Date.now() - proxyStart;
+            const percent = 20 + Math.min(60, (elapsed / proxyDelay) * 60);
+            this.onProgress(Math.floor(percent), 'Initializing input proxy...');
+        }, 1000);
+
         this.proxyTimeout = setTimeout(() => {
+            if (this.progressTimer) clearInterval(this.progressTimer);
+            if (this.onProgress) this.onProgress(90, 'Finalizing connection...');
+            
             if (!this.mGBAProcess || this.state === 'dead') return;
             
             const proxyScript = path.resolve(__dirname, 'input_proxy.py');
@@ -331,6 +340,7 @@ class EmulatorInstance {
         this.state = 'dead';
 
         if (this.proxyTimeout) clearTimeout(this.proxyTimeout);
+        if (this.progressTimer) clearInterval(this.progressTimer);
 
         // 1. Trigger Quick Save for all ACTIVE slots
         for (const slot of Object.keys(this.slots)) {
@@ -353,7 +363,7 @@ class EmulatorInstance {
             this.inputProxy = null;
         }
         if (this.mGBAProcess) {
-            this.mGBAProcess.kill('SIGINT');
+            this.mGBAProcess.kill('SIGKILL'); // Hard kill for native GBA on Windows
             this.mGBAProcess = null;
         }
         console.log(`[Room ${this.roomId}] Emulator stalled and synced.`);

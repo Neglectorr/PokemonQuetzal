@@ -146,6 +146,14 @@
     });
 
     socket.on('chat-message', (msg) => addChatMessage(msg.username, msg.message));
+    
+    socket.on('emulator-progress', (data) => {
+        const bar = document.getElementById('macro-progress-fill');
+        const status = document.getElementById('macro-progress-status');
+        if (bar) bar.style.width = `${data.percent}%`;
+        if (status) status.textContent = data.status;
+        document.getElementById('macro-progress').classList.add('active');
+    });
 
     // ═══════════════════════════════════════
     // UI & RENDERING
@@ -182,7 +190,8 @@
         } else {
             // Legacy/Raw RGBA fallback
             if (uint8.length < width * height * 4) return;
-            const imageData = new ImageData(uint8, width, height);
+            const clamped = new Uint8ClampedArray(uint8.buffer, uint8.byteOffset, uint8.length);
+            const imageData = new ImageData(clamped, width, height);
             
             if (currentView === 'single') {
                 if (slot === mySlot || (!mySlot && slot === 1)) {
@@ -257,8 +266,12 @@
         console.log('[Room] Start Headless Session button clicked. Sending start-game event...');
         initAudio(); // User interaction required for audio
         socket.emit('start-game');
+        
+        const bar = document.getElementById('macro-progress-fill');
+        const status = document.getElementById('macro-progress-status');
+        if (bar) bar.style.width = '10%';
+        if (status) status.textContent = 'Contacting server...';
         document.getElementById('macro-progress').classList.add('active');
-        document.getElementById('macro-progress-fill').style.width = '100%';
     });
 
     document.getElementById('stop-game-btn').addEventListener('click', () => socket.emit('stop-game'));

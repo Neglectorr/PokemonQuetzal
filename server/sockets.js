@@ -202,6 +202,9 @@ function init(socketIo, lobby) {
           io.to(mapping.roomId).emit('emulator-error', { message: err });
           room.status = 'waiting';
           broadcastRoomState(mapping.roomId);
+        },
+        (percent, status) => {
+          io.to(mapping.roomId).emit('emulator-progress', { percent, status });
         }
       );
 
