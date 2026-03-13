@@ -94,8 +94,15 @@ class EmulatorInstance {
         
         const mgbaArgs = [
             '-m', this.maxPlayers.toString(), 
-            '-C', 'ports.qt.videoBackend=opengl',
+            '-C', 'ports.qt.videoBackend=software',
             '-C', 'pauseOnFocusLost=0',
+            '-C', 'syncToVideo=0',
+            '-C', 'syncToAudio=1',
+            '-C', 'limitSpeed=1',
+            '-C', 'unlimited=0',
+            '-C', 'audio.bufferSamples=1024',
+            '-C', 'fpsTarget=60',
+            '-C', 'frameskip=0',
             '--stream-pipe', pipeBase, 
             '--sav-path', lobbyDir,
             romPath
