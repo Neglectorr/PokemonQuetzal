@@ -77,11 +77,11 @@ class EmulatorInstance {
         
         const mgbaArgs = [
             '-m', this.maxPlayers.toString(), 
-            '-C', 'ports.qt.videoBackend=software',
+            '-C', 'ports.qt.videoBackend=opengl',
             '-C', 'pauseOnFocusLost=0',
             '-C', 'muteOnFocusLost=0',
             '-C', 'syncToVideo=0',
-            '-C', 'syncToAudio=0', // HEARTBEAT FIX: Don't wait for audio to run game
+            '-C', 'syncToAudio=0',
             '-C', 'limitSpeed=1',
             '-C', 'unlimited=0',
             '-C', 'audio.bufferSamples=2048',
@@ -99,11 +99,15 @@ class EmulatorInstance {
 
         this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
             cwd: lobbyDir,
-            stdio: 'ignore', 
+            stdio: ['ignore', 'ignore', 'pipe'], // Capture stderr only
             env: { 
                 ...process.env,
             },
-            windowsHide: false // Revert to false so we can capture the window
+            windowsHide: false
+        });
+
+        this.mGBAProcess.stderr.on('data', (data) => {
+            console.error(`[mGBA ERR ${this.roomId}]`, data.toString().trim());
         });
         
         // No drainage needed for 'ignore'
