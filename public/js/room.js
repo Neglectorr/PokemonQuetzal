@@ -243,6 +243,22 @@
     document.getElementById('back-btn').addEventListener('click', () => window.location.href = '/dashboard');
     document.getElementById('leave-room-btn').addEventListener('click', () => window.location.href = '/dashboard');
 
+    // Immersive HUD Auto-hide
+    const canvasWrapper = document.getElementById('single-view');
+    const gameHud = document.getElementById('game-hud');
+    let hudTimeout;
+
+    function showHud() {
+        gameHud.classList.add('active');
+        clearTimeout(hudTimeout);
+        hudTimeout = setTimeout(() => {
+            gameHud.classList.remove('active');
+        }, 3000);
+    }
+
+    canvasWrapper.addEventListener('mousemove', showHud);
+    canvasWrapper.addEventListener('touchstart', showHud);
+
     document.getElementById('hud-fullscreen').addEventListener('click', () => {
         const elem = document.querySelector('.game-column');
         if (elem.requestFullscreen) elem.requestFullscreen();
