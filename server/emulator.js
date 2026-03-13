@@ -63,8 +63,6 @@ class EmulatorInstance {
         const lobbyDir = path.join(LOBBIES_DIR, this.roomId);
         if (!fs.existsSync(lobbyDir)) fs.mkdirSync(lobbyDir, { recursive: true });
 
-        const pipeBase = `streamer_${this.roomId}`;
-        this.pipeBridges = [];
         this.lastRomBase = romFilename.replace(/\.gba$/i, ''); 
 
         // 1. Prepare per-player saves in the lobby directory
@@ -73,21 +71,6 @@ class EmulatorInstance {
             if (player) {
                 this.syncUserSaveToSlot(slot, player.userId, this.lastRomBase, lobbyDir);
             }
-
-            // Setup Pipe Bridge for this slot
-            const PipeBridge = require('./pipeBridge');
-            const bridge = new PipeBridge(`${pipeBase}_${slot-1}`, slot);
-            bridge.on('video', (data) => {
-                if (this.onFrame) {
-                    // Send raw RGBA buffer to sockets.js
-                    this.onFrame(slot, data.data, data.width, data.height);
-                }
-            });
-            bridge.on('audio', (payload) => {
-                if (this.onAudio) this.onAudio(slot, payload);
-            });
-            bridge.connect();
-            this.pipeBridges.push(bridge);
         }
 
         console.log(`[Room ${this.roomId}] Launching truly headless mGBA...`);
@@ -96,6 +79,7 @@ class EmulatorInstance {
             '-m', this.maxPlayers.toString(), 
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'pauseOnFocusLost=0',
+            '-C', 'muteOnFocusLost=1',
             '-C', 'syncToVideo=0',
             '-C', 'syncToAudio=1',
             '-C', 'limitSpeed=1',
@@ -103,7 +87,6 @@ class EmulatorInstance {
             '-C', 'audio.bufferSamples=1024',
             '-C', 'fpsTarget=60',
             '-C', 'frameskip=0',
-            '--stream-pipe', pipeBase, 
             '--sav-path', lobbyDir,
             romPath
         ];
@@ -116,12 +99,11 @@ class EmulatorInstance {
 
         this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
             cwd: lobbyDir,
-            stdio: 'ignore', // Completely ignore logs to remove all stdio overhead
+            stdio: 'ignore', 
             env: { 
                 ...process.env,
-                // Don't force software, let mGBA decide
             },
-            windowsHide: true // HIDE the window to eliminate 'Double Rendering' overhead
+            windowsHide: false // Revert to false so we can capture the window
         });
         
         // No drainage needed for 'ignore'
@@ -166,22 +148,42 @@ class EmulatorInstance {
             
             if (!this.mGBAProcess || this.state === 'dead') return;
             
-            const proxyScript = path.resolve(__dirname, 'input_proxy.py');
-            if (!fs.existsSync(proxyScript)) {
-                console.error(`[Room ${this.roomId}] Input proxy script NOT FOUND at ${proxyScript}`);
+            const wrapperScript = path.resolve(__dirname, 'wrapper.py');
+            if (!fs.existsSync(wrapperScript)) {
+                console.error(`[Room ${this.roomId}] Wrapper script NOT FOUND at ${wrapperScript}`);
                 return;
             }
 
-            console.log(`[Room ${this.roomId}] Spawning Input Proxy for PID ${this.mGBAProcess.pid}...`);
-            this.inputProxy = spawn('python', ['-u', proxyScript, this.mGBAProcess.pid.toString(), this.maxPlayers.toString()], {
-                stdio: ['pipe', 'pipe', 'pipe']
+            console.log(`[Room ${this.roomId}] Spawning Wrapper for PID ${this.mGBAProcess.pid}...`);
+            this.inputProxy = spawn('python', ['-u', wrapperScript, this.mGBAProcess.pid.toString(), this.maxPlayers.toString()], {
+                stdio: ['pipe', 'pipe', 'pipe'],
+                env: { ...process.env, 'WRAPPER_HIDE_WINDOWS': '1' } // Simulated headless
             });
 
-            this.inputProxy.stdout.on('data', (data) => console.log(`[InputProxy ${this.roomId}]`, data.toString().trim()));
-            this.inputProxy.stderr.on('data', (data) => console.error(`[InputProxy ${this.roomId} ERR]`, data.toString().trim()));
+            // Binary parser for wrapper output: [Slot (1b)][Size (4b LE)][PNG Data]
+            let buffer = Buffer.alloc(0);
+            this.inputProxy.stdout.on('data', (chunk) => {
+                buffer = Buffer.concat([buffer, chunk]);
+                
+                while (buffer.length >= 5) {
+                    const slot = buffer[0];
+                    const size = buffer.readUInt32LE(1);
+                    
+                    if (buffer.length < 5 + size) break;
+                    
+                    const frameData = buffer.slice(5, 5 + size);
+                    if (this.onFrame) {
+                        this.onFrame(slot, frameData, 240, 160, 'png'); // label as png
+                    }
+                    
+                    buffer = buffer.slice(5 + size);
+                }
+            });
+
+            this.inputProxy.stderr.on('data', (data) => console.error(`[Wrapper ${this.roomId} ERR]`, data.toString().trim()));
             
             this.inputProxy.on('error', (err) => {
-                console.error(`[Room ${this.roomId}] FAILED to spawn Input Proxy:`, err.message);
+                console.error(`[Room ${this.roomId}] FAILED to spawn Wrapper:`, err.message);
             });
         }, 12000); // 12s delay for Session 0 window creation
 
@@ -366,10 +368,6 @@ class EmulatorInstance {
         // 3. Sync files back
         await this.syncSavesBack();
 
-        if (this.pipeBridges) {
-            this.pipeBridges.forEach(b => b.close());
-            this.pipeBridges = [];
-        }
 
         if (this.inputProxy) {
             this.inputProxy.kill('SIGINT');

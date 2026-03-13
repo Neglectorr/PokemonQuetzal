@@ -166,18 +166,19 @@
     function renderFrame(slot, frameData, width, height) {
         if (!frameData || !width || !height) return;
 
-        // Efficiently check for MJPEG (JPEG) header [0xFF, 0xD8]
+        // Detect format: JPEG [0xFF, 0xD8] or PNG [0x89, 0x50, 0x4E, 0x47]
         const uint8 = (frameData instanceof Uint8Array) ? frameData : new Uint8Array(frameData);
         const isJPEG = (uint8.length > 2 && uint8[0] === 0xFF && uint8[1] === 0xD8);
+        const isPNG = (uint8.length > 4 && uint8[0] === 0x89 && uint8[1] === 0x50 && uint8[2] === 0x4E && uint8[3] === 0x47);
 
         if (!window.frameDebugCount) window.frameDebugCount = 0;
         if (window.frameDebugCount < 5) {
-            console.log(`[Room] Frame received: slot=${slot}, size=${uint8.length}, isJPEG=${isJPEG}`);
+            console.log(`[Room] Frame received: slot=${slot}, size=${uint8.length}, isJPEG=${isJPEG}, isPNG=${isPNG}`);
             window.frameDebugCount++;
         }
 
-        if (isJPEG) {
-            const blob = new Blob([uint8], { type: 'image/jpeg' });
+        if (isJPEG || isPNG) {
+            const blob = new Blob([uint8], { type: isJPEG ? 'image/jpeg' : 'image/png' });
             createImageBitmap(blob).then(bitmap => {
                 if (currentView === 'single') {
                     if (slot === mySlot || (!mySlot && slot === 1)) {
