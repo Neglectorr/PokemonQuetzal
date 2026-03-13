@@ -88,19 +88,20 @@ class PipeBridge extends EventEmitter {
     handleData(chunk) {
         if (!chunk) return;
 
-        // 1. Write incoming chunk to ring buffer
-        if (this.dataLen + chunk.length > this.buffer.length) {
-            console.warn(`[PipeBridge P${this.slot}] Buffer Overflow! Purging to recover...`);
-            this.dataLen = 0;
-            this.writePos = 0;
+        // 1. If we are near the end of the 10MB buffer, shift back to start (de-fragment)
+        // This is much faster than true circular handling for contiguous packets.
+        if (this.writePos + chunk.length > 9000000) {
+            this.buffer.copy(this.buffer, 0, this.readPos, this.writePos);
+            this.writePos -= this.readPos;
             this.readPos = 0;
+            // No dataLen change
         }
 
         chunk.copy(this.buffer, this.writePos);
         this.writePos += chunk.length;
         this.dataLen += chunk.length;
 
-        // 2. Parse packets from ring buffer
+        // 2. Parse packets from contiguous buffer
         const STRM_MAGIC = 0x5354524D;
         
         while (this.dataLen >= 9) {
@@ -110,8 +111,8 @@ class PipeBridge extends EventEmitter {
                 // Out of sync - find next magic
                 let found = false;
                 for (let i = 1; i < this.dataLen - 4; i++) {
-                    if (this.buffer.readUInt32LE((this.readPos + i) % this.buffer.length) === STRM_MAGIC) {
-                        this.readPos = (this.readPos + i) % this.buffer.length;
+                    if (this.buffer.readUInt32LE(this.readPos + i) === STRM_MAGIC) {
+                        this.readPos += i;
                         this.dataLen -= i;
                         found = true;
                         break;
@@ -132,9 +133,9 @@ class PipeBridge extends EventEmitter {
 
             if (this.dataLen < packetSize) break;
 
-            // Extract payload
-            const payload = Buffer.allocUnsafe(payloadSize);
-            this.buffer.copy(payload, 0, this.readPos + 9, this.readPos + packetSize);
+            // Extract payload (Fast-slice if possible)
+            // But we need to use 'slice' to avoid allocation, or at least handle carefully.
+            const payload = this.buffer.slice(this.readPos + 9, this.readPos + packetSize);
             
             this.readPos += packetSize;
             this.dataLen -= packetSize;
