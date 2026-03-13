@@ -93,8 +93,8 @@ class EmulatorInstance {
             '-m', this.maxPlayers.toString(), 
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
-            '-C', 'syncToVideo=0',
-            '-C', 'syncToAudio=1',
+            '-C', 'syncToVideo=1',
+            '-C', 'syncToAudio=0',
             '--stream-pipe', pipeBase, 
             '--sav-path', lobbyDir,
             romPath
@@ -105,7 +105,7 @@ class EmulatorInstance {
             stdio: ['pipe', 'pipe', 'pipe'],
             env: { 
                 ...process.env, 
-                QT_QPA_PLATFORM: 'minimal',
+                QT_QPA_PLATFORM: 'offscreen',
                 QT_QPA_PLATFORM_PLUGIN_PATH: path.dirname(mgbaExe),
                 QT_OPENGL: 'software',
                 LIBGL_ALWAYS_SOFTWARE: '1',
@@ -121,13 +121,8 @@ class EmulatorInstance {
         
         console.log(`[Room ${this.roomId}] mGBA spawned with PID: ${this.mGBAProcess.pid} (Offscreen)`);
 
-        this.mGBAProcess.stdout.on('data', (data) => console.log(`[mGBA ${this.roomId}]`, data.toString().trim()));
-        this.mGBAProcess.stderr.on('data', (data) => {
-            const msg = data.toString().trim();
-            if (msg.includes('error') || msg.includes('failed')) {
-                console.error(`[mGBA ${this.roomId} ERR]`, msg);
-            }
-        });
+        this.mGBAProcess.stdout.on('data', (data) => console.log(`[mGBA ${this.roomId} OUT]`, data.toString().trim()));
+        this.mGBAProcess.stderr.on('data', (data) => console.log(`[mGBA ${this.roomId} ERR]`, data.toString().trim()));
         
         this.mGBAProcess.on('exit', (code) => {
             console.log(`[Room ${this.roomId}] mGBA process exited with code`, code);

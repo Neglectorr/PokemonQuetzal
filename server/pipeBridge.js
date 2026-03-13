@@ -91,6 +91,10 @@ class PipeBridge extends EventEmitter {
             this.buffer = this.buffer.slice(9 + totalSize);
 
             if (type === 0) { // Video
+                this.frameCount = (this.frameCount || 0) + 1;
+                if (this.frameCount === 1 || this.frameCount % 240 === 0) {
+                    console.log(`[PipeBridge P${this.slot}] Received ${this.frameCount} frames. Size: ${payload.length} bytes`);
+                }
                 if (payload.length >= 8) {
                     const width = payload.readUInt32LE(0);
                     const height = payload.readUInt32LE(4);
