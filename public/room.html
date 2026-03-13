@@ -37,9 +37,6 @@
         <span class="connection-dot"></span>
         <span class="connection-text">Connecting...</span>
       </div>
-      <button id="fullscreen-btn" class="btn btn-secondary btn-sm" title="Fullscreen">⛶</button>
-      <button id="toggle-gamepad-btn" class="btn btn-secondary btn-sm" title="Toggle Virtual Gamepad">🎮</button>
-      <button id="toggle-scanlines-btn" class="btn btn-secondary btn-sm" title="Toggle Scanlines">📺</button>
       <button id="controls-btn" class="btn btn-secondary btn-sm" title="Controls Help">⌨️</button>
     </div>
   </header>
@@ -60,6 +57,20 @@
             <div class="canvas-glow"></div>
             <div id="scanlines" class="scanlines"></div>
             <canvas id="main-canvas"></canvas>
+
+            <!-- EmulatorJS Style HUD -->
+            <div class="game-hud" id="game-hud">
+                <div class="hud-group">
+                    <button id="hud-save" class="hud-btn" title="Save State">💾</button>
+                    <button id="hud-load" class="hud-btn" title="Load State">📂</button>
+                </div>
+                <div class="hud-group">
+                    <button id="hud-scanlines" class="hud-btn" title="Toggle CRT">📺</button>
+                    <button id="hud-screenshot" class="hud-btn" title="Capture PNG">📸</button>
+                    <button id="hud-gamepad" class="hud-btn" title="Toggle Gamepad">🎮</button>
+                    <button id="hud-fullscreen" class="hud-btn" title="Fullscreen">⛶</button>
+                </div>
+            </div>
             
             <!-- Overlay for Loading/Paused -->
             <div id="canvas-overlay" class="canvas-overlay">

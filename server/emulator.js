@@ -109,7 +109,7 @@ class EmulatorInstance {
             env: { 
                 ...process.env, 
                 QT_QPA_PLATFORM: 'offscreen',
-                QT_QPA_PLATFORM_PLUGIN_PATH: path.dirname(mgbaExe)
+                QT_DEBUG_PLUGINS: '1'
             },
             windowsHide: true
         });

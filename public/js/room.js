@@ -243,22 +243,37 @@
     document.getElementById('back-btn').addEventListener('click', () => window.location.href = '/dashboard');
     document.getElementById('leave-room-btn').addEventListener('click', () => window.location.href = '/dashboard');
 
-    document.getElementById('fullscreen-btn').addEventListener('click', () => {
+    document.getElementById('hud-fullscreen').addEventListener('click', () => {
         const elem = document.querySelector('.game-column');
         if (elem.requestFullscreen) elem.requestFullscreen();
         else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
     });
 
-    document.getElementById('toggle-gamepad-btn').addEventListener('click', () => {
+    document.getElementById('hud-gamepad').addEventListener('click', () => {
         document.getElementById('virtual-gamepad').classList.toggle('hidden');
     });
 
-    const scanBtn = document.getElementById('toggle-scanlines-btn');
-    if (scanBtn) {
-        scanBtn.addEventListener('click', () => {
-            document.getElementById('scanlines').classList.toggle('hidden');
-        });
-    }
+    document.getElementById('hud-scanlines').addEventListener('click', () => {
+        document.getElementById('scanlines').classList.toggle('hidden');
+    });
+
+    document.getElementById('hud-save').addEventListener('click', () => {
+        socket.emit('quick-save');
+        showToast('Saving state...', 'info');
+    });
+
+    document.getElementById('hud-load').addEventListener('click', () => {
+        socket.emit('quick-load');
+        showToast('Loading state...', 'info');
+    });
+
+    document.getElementById('hud-screenshot').addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = `quetzal-capture-${Date.now()}.png`;
+        link.href = mainCanvas.toDataURL('image/png');
+        link.click();
+        showToast('Screenshot saved!', 'success');
+    });
 
     document.getElementById('chat-send-btn').addEventListener('click', sendMessage);
     document.getElementById('chat-input').addEventListener('keypress', e => e.key === 'Enter' && sendMessage());
