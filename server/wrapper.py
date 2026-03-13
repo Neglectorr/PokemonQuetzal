@@ -67,64 +67,67 @@ def get_hwnds_for_pid(pid):
         
     return hwnds
 
-def capture_window(hwnd):
-    # mGBA window has a menu bar and borders. We should capture the client area.
+def capture_window(hwnd, last_flag=3):
     try:
         rect = win32gui.GetClientRect(hwnd)
-        client_width, client_height = rect[2] - rect[0], rect[3] - rect[1]
+        w, h = rect[2] - rect[0], rect[3] - rect[1]
+        if w <= 8 or h <= 8: return None, last_flag
     except:
-        return None
-        
-    if client_width <= 8 or client_height <= 8:
-        return None
+        return None, last_flag
 
     hwndDC = win32gui.GetWindowDC(hwnd)
     mfcDC = win32ui.CreateDCFromHandle(hwndDC)
     saveDC = mfcDC.CreateCompatibleDC()
-    
     saveBitMap = win32ui.CreateBitmap()
-    saveBitMap.CreateCompatibleBitmap(mfcDC, client_width, client_height)
+    saveBitMap.CreateCompatibleBitmap(mfcDC, w, h)
     saveDC.SelectObject(saveBitMap)
     
-    # PW_RENDERFULLCONTENT (2) + PW_CLIENTONLY (1) = 3
-    # Try different flags: 3 is usually best for Qt in background, fallback to 0.
-    result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 3)
-    if result != 1:
-        result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 0)
+    # Capture Attempt 1: Start with the last successful flag
+    flags_to_try = [last_flag, 3, 2, 0] # 3=Full+Client, 2=Full, 0=Standard
+    img = None
+    final_flag = last_flag
 
-    bmpstr = saveBitMap.GetBitmapBits(True)
-    img = np.frombuffer(bmpstr, dtype='uint8')
-    
-    # Cleanup early to prevent leaks
+    for flag in flags_to_try:
+        try:
+            result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), flag)
+            if result != 1: continue
+            
+            bmpstr = saveBitMap.GetBitmapBits(True)
+            temp_img = np.frombuffer(bmpstr, dtype='uint8')
+            temp_img.shape = (h, w, 4)
+            
+            # Check if this frame has any content (not just black/transparent)
+            if np.max(temp_img) > 0:
+                img = temp_img
+                final_flag = flag
+                break
+        except:
+            continue
+
+    # Cleanup DC resources
     win32gui.DeleteObject(saveBitMap.GetHandle())
     saveDC.DeleteDC()
     mfcDC.DeleteDC()
     win32gui.ReleaseDC(hwnd, hwndDC)
 
+    if img is None:
+        return None, final_flag
+        
+    # Convert BGRA to BGR and crop to GBA 1.5 aspect ratio
     try:
-        img.shape = (client_height, client_width, 4)
+        img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
+        target_h = int(w / 1.5)
+        if target_h > h: target_h = h
+        start_y = h - target_h
+        img = img[start_y:h, 0:w]
+        
+        if img.shape[0] == 0 or img.shape[1] == 0:
+            return None, final_flag
+            
+        img = cv2.resize(img, (240, 160), interpolation=cv2.INTER_NEAREST)
+        return img, final_flag
     except:
-        return None
-        
-    # BGRA -> BGR
-    img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
-    
-    # mGBA Crop Logic: Software renderer centers the game horizontally and aligns to BOTTOM
-    # GBA is 1.5 aspect ratio (240x160)
-    target_h = int(client_width / 1.5)
-    if target_h > client_height:
-        target_h = client_height
-    
-    start_y = client_height - target_h
-    img = img[start_y:client_height, 0:client_width]
-    
-    if img.shape[0] == 0 or img.shape[1] == 0:
-        return None
-
-    # Resize to exact streamer dimensions
-    img = cv2.resize(img, (240, 160), interpolation=cv2.INTER_NEAREST)
-        
-    return img
+        return None, final_flag
 
 # GBA Button map to Virtual Keys (we define mGBA default keyboard mapping)
 # Default mGBA keys: Up=Up, Down=Down, Left=Left, Right=Right, A=X, B=Z, Start=Enter, Select=Backspace, L=A, R=S
@@ -312,32 +315,36 @@ def main():
     
     # Target 30 FPS to save CPU and bandwidth
     frame_time = 1.0 / 30.0
-    
+    last_flags = {slot: 3 for slot, _ in multi_hwnds}
+    nudge_counter = 0
+
     if not no_capture:
         while True:
             start_t = time.time()
-            
             all_closed = True
+            nudge_counter += 1
+            
             for slot, h in multi_hwnds:
-                if not win32gui.IsWindow(h):
-                    continue
+                if not win32gui.IsWindow(h): continue
                 all_closed = False
                 
-                img = capture_window(h)
+                # Periodically nudge window to keep the Qt renderer awake
+                if nudge_counter % 60 == 0:
+                   win32gui.InvalidateRect(h, None, True)
+                   win32gui.UpdateWindow(h)
+                
+                img, flag = capture_window(h, last_flags.get(slot, 3))
                 if img is not None:
-                    # Encode PNG for lossless pixel art quality
-                    encode_param = [int(cv2.IMWRITE_PNG_COMPRESSION), 0]
-                    result, encimg = cv2.imencode('.png', img, encode_param)
-                    if result:
-                        data = encimg.tobytes()
-                        # Write header: [Slot (1 byte)][Size (4 bytes LE)]
-                        sys.stdout.buffer.write(struct.pack('<BI', slot, len(data)))
-                        sys.stdout.buffer.write(data)
-                        sys.stdout.buffer.flush()
+                    last_flags[slot] = flag
+                    # Encode PNG
+                    encode_param = [int(cv2.IMWRITE_PNG_COMPRESSION), 1] # Fast compression
+                    _, encimg = cv2.imencode('.png', img, encode_param)
+                    data = encimg.tobytes()
+                    sys.stdout.buffer.write(struct.pack('<BI', slot, len(data)))
+                    sys.stdout.buffer.write(data)
+                    sys.stdout.buffer.flush()
             
-            if all_closed:
-                sys.stderr.write("All mGBA windows closed.\n")
-                break
+            if all_closed: break
                 
             elapsed = time.time() - start_t
             sleep_time = frame_time - elapsed
