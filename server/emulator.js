@@ -1,6 +1,7 @@
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 const rootDir = path.resolve(__dirname, '..');
 const LOBBIES_DIR = path.join(rootDir, 'lobbies');
 const SAVES_ROOT = path.join(rootDir, 'saves');
@@ -96,8 +97,10 @@ class EmulatorInstance {
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
             '-C', 'syncToVideo=0',
-            '-C', 'syncToAudio=0',
+            '-C', 'syncToAudio=1',
+            '-C', 'audio.bufferSamples=256',
             '-C', 'fpsTarget=60',
+            '-C', 'frameskip=0',
             '--stream-pipe', pipeBase, 
             '--sav-path', lobbyDir,
             romPath
@@ -115,6 +118,13 @@ class EmulatorInstance {
             },
             windowsHide: true
         });
+
+        // Use High Priority to ensure stable clockspeed on Server
+        try {
+            os.setPriority(this.mGBAProcess.pid, os.constants.priority.PRIORITY_HIGH);
+        } catch (e) {
+            console.warn(`[Room ${this.roomId}] Could not set process priority:`, e.message);
+        }
 
         this.mGBAProcess.on('error', (err) => {
             console.error(`[Room ${this.roomId}] FAILED to spawn mGBA process:`, err);
@@ -168,11 +178,16 @@ class EmulatorInstance {
         if (slot === 1) return ['.sav'];
         return [`.sa${slot}`, '.sav']; // Check .saX first, then .sav as fallback
     }
-
     syncUserSaveToSlot(slot, userId, romBase, lobbyDir = null) {
+        if (!romBase) {
+            console.error(`[Room ${this.roomId}] Cannot sync save: romBase is undefined`);
+            return;
+        }
         if (!lobbyDir) lobbyDir = path.join(LOBBIES_DIR, this.roomId);
         
-        this.slots[slot] = { userId, romBase }; // Original ROM name for user dir
+        // Ensure romBase doesn't have .gba extension
+        const cleanRomBase = romBase.replace(/\.gba$/i, '');
+        this.slots[slot] = { userId, romBase: cleanRomBase }; 
 
         try {
             const userDir = path.join(SAVES_ROOT, userId);

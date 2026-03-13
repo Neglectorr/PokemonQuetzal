@@ -93,18 +93,17 @@ class PipeBridge extends EventEmitter {
             if (type === 0) { // Video
                 this.frameCount = (this.frameCount || 0) + 1;
                 
-                // Bandwidth Optimization: Only send every 2nd frame (30fps) to the client
-                // This prevents network saturation and improves input responsiveness
-                if (this.frameCount % 2 === 0) {
-                    if (this.frameCount % 240 === 0) {
-                        console.log(`[PipeBridge P${this.slot}] Sent ${this.frameCount} frames (Total). Size: ${payload.length} bytes`);
-                    }
-                    if (payload.length >= 8) {
-                        const width = payload.readUInt32LE(0);
-                        const height = payload.readUInt32LE(4);
-                        const pixelData = payload.slice(8);
-                        this.emit('video', { width, height, data: pixelData });
-                    }
+                // 100% FPS Delivery: Send every frame to the client for minimum input latency
+                // (240x160x4 is small enough for local/high-speed networks)
+                if (this.frameCount % 240 === 0) {
+                    console.log(`[PipeBridge P${this.slot}] Sent ${this.frameCount} frames. Size: ${payload.length} bytes`);
+                }
+                
+                if (payload.length >= 8) {
+                    const width = payload.readUInt32LE(0);
+                    const height = payload.readUInt32LE(4);
+                    const pixelData = payload.slice(8);
+                    this.emit('video', { width, height, data: pixelData });
                 }
             } else if (type === 1) { // Audio
                 this.emit('audio', payload);

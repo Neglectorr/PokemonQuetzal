@@ -25,15 +25,16 @@ const GBAInput = (function() {
     'ArrowDown':  BUTTONS.DOWN,
     'ArrowLeft':  BUTTONS.LEFT,
     'ArrowRight': BUTTONS.RIGHT,
-    'KeyS':       BUTTONS.A,
-    'KeyA':       BUTTONS.B,
+    'KeyX':       BUTTONS.A,
+    'KeyZ':       BUTTONS.B,
+    'KeyS':       BUTTONS.A,   // Alternative
+    'KeyA':       BUTTONS.B,   // Alternative
     'KeyQ':       BUTTONS.L,
     'KeyW':       BUTTONS.R,
     'Enter':      BUTTONS.START,
     'ShiftRight': BUTTONS.SELECT,
     'ShiftLeft':  BUTTONS.SELECT,
-    'KeyX':       BUTTONS.B,   // Fallback/Legacy
-    'KeyZ':       BUTTONS.A    // Fallback/Legacy
+    'Backspace':  BUTTONS.SELECT
   };
 
   // Gamepad button mapping (standard gamepad layout)
