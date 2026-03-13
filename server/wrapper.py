@@ -82,29 +82,38 @@ def capture_window(hwnd, last_flag=3):
     saveBitMap.CreateCompatibleBitmap(mfcDC, w, h)
     saveDC.SelectObject(saveBitMap)
     
-    # Capture Attempt 1: Start with the last successful flag
-    flags_to_try = [last_flag, 3, 2, 0] # 3=Full+Client, 2=Full, 0=Standard
     img = None
     final_flag = last_flag
 
-    for flag in flags_to_try:
-        try:
-            result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), flag)
-            if result != 1: continue
-            
-            bmpstr = saveBitMap.GetBitmapBits(True)
-            temp_img = np.frombuffer(bmpstr, dtype='uint8')
-            temp_img.shape = (h, w, 4)
-            
-            # Check if this frame has any content (not just black/transparent)
-            if np.max(temp_img) > 0:
-                img = temp_img
-                final_flag = flag
-                break
-        except:
-            continue
+    # Attempt 1: Direct BitBlt (Often works best for software-rendered Qt in Session 0)
+    try:
+        saveDC.BitBlt((0, 0), (w, h), mfcDC, (0, 0), win32con.SRCCOPY)
+        bmpstr = saveBitMap.GetBitmapBits(True)
+        temp_img = np.frombuffer(bmpstr, dtype='uint8')
+        temp_img.shape = (h, w, 4)
+        if np.max(temp_img) > 0:
+            img = temp_img
+    except:
+        pass
 
-    # Cleanup DC resources
+    # Attempt 2: PrintWindow Fallback
+    if img is None:
+        flags_to_try = [last_flag, 3, 2, 0]
+        for flag in flags_to_try:
+            try:
+                result = ctypes.windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), flag)
+                if result != 1: continue
+                bmpstr = saveBitMap.GetBitmapBits(True)
+                temp_img = np.frombuffer(bmpstr, dtype='uint8')
+                temp_img.shape = (h, w, 4)
+                if np.max(temp_img) > 0:
+                    img = temp_img
+                    final_flag = flag
+                    break
+            except:
+                continue
+
+    # Cleanup
     win32gui.DeleteObject(saveBitMap.GetHandle())
     saveDC.DeleteDC()
     mfcDC.DeleteDC()
@@ -113,17 +122,12 @@ def capture_window(hwnd, last_flag=3):
     if img is None:
         return None, final_flag
         
-    # Convert BGRA to BGR and crop to GBA 1.5 aspect ratio
     try:
         img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
         target_h = int(w / 1.5)
         if target_h > h: target_h = h
         start_y = h - target_h
         img = img[start_y:h, 0:w]
-        
-        if img.shape[0] == 0 or img.shape[1] == 0:
-            return None, final_flag
-            
         img = cv2.resize(img, (240, 160), interpolation=cv2.INTER_NEAREST)
         return img, final_flag
     except:
@@ -328,13 +332,18 @@ def main():
                 if not win32gui.IsWindow(h): continue
                 all_closed = False
                 
-                # Periodically nudge window to keep the Qt renderer awake
-                if nudge_counter % 60 == 0:
+                # Periodically nudge window and force visibility to keep renderer active
+                if nudge_counter % 30 == 0:
+                   win32gui.ShowWindow(h, win32con.SW_SHOWNOACTIVATE)
                    win32gui.InvalidateRect(h, None, True)
                    win32gui.UpdateWindow(h)
                 
                 img, flag = capture_window(h, last_flags.get(slot, 3))
                 if img is not None:
+                    if nudge_counter % 90 == 0:
+                        sys.stderr.write(f"[Wrapper P{slot}] Capture OK: max_px={np.max(img)}, flag={flag}\n")
+                        sys.stderr.flush()
+                        
                     last_flags[slot] = flag
                     # Encode PNG
                     encode_param = [int(cv2.IMWRITE_PNG_COMPRESSION), 1] # Fast compression
