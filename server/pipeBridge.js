@@ -69,15 +69,15 @@ class PipeBridge extends EventEmitter {
 
         while (this.buffer.length >= 9) { // Header size (4 + 1 + 4)
             // Check Magic: "STRM" (0x53 0x54 0x52 0x4D)
-            const magic = this.buffer.readUInt32BE(0);
+            const magic = this.buffer.readUInt32LE(0);
             if (magic !== 0x5354524D) {
                 // Seek for magic if misaligned
-                const index = this.buffer.indexOf(Buffer.from([0x53, 0x54, 0x52, 0x4D]));
+                const index = this.buffer.indexOf(Buffer.from([0x4D, 0x52, 0x54, 0x53])); // "M R T S" (LE "STRM")
                 if (index !== -1) {
                     this.buffer = this.buffer.slice(index);
                     continue;
                 } else {
-                    if (this.buffer.length > 1024) this.buffer = Buffer.alloc(0);
+                    if (this.buffer.length > 2048) this.buffer = this.buffer.slice(this.buffer.length - 4);
                     break;
                 }
             }
