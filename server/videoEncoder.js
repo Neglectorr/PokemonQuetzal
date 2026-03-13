@@ -1,5 +1,6 @@
 const { spawn } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 const EventEmitter = require('events');
 
 /**
@@ -13,13 +14,28 @@ class VideoEncoder extends EventEmitter {
         this.height = options.height || 160;
         this.fps = options.fps || 60;
         
-        // Try various FFmpeg paths found on the system
-        this.ffmpegPath = options.ffmpegPath || 'C:\\Program Files\\SteelSeries\\GG\\apps\\moments\\ffmpeg.exe';
+        // Detect FFmpeg path from available locations
+        this.ffmpegPath = options.ffmpegPath || this.findFFmpeg();
         
         this.ffmpeg = null;
         this.isActive = false;
         this.buffer = Buffer.alloc(0);
         this.frameSize = this.width * this.height * 4; // RGBA
+    }
+
+    findFFmpeg() {
+        const candidates = [
+            'C:\\Program Files\\SteelSeries\\GG\\apps\\moments\\ffmpeg.exe',
+            'C:\\Program Files\\Krita (x64)\\bin\\ffmpeg.exe',
+            'C:\\Program Files\\net.downloadhelper.coapp\\converter\\build\\win\\64\\ffmpeg.exe',
+            'ffmpeg.exe' // Try PATH as last resort
+        ];
+
+        for (const p of candidates) {
+            if (p === 'ffmpeg.exe') return p;
+            if (fs.existsSync(p)) return p;
+        }
+        return null;
     }
 
     start() {
@@ -40,10 +56,27 @@ class VideoEncoder extends EventEmitter {
             '-'
         ];
 
+        if (!this.ffmpegPath) {
+            console.error('[VideoEncoder] No FFmpeg found on system. Disabling compression.');
+            return;
+        }
+
         console.log(`[VideoEncoder] Starting FFmpeg: ${this.ffmpegPath}`);
         
-        this.ffmpeg = spawn(this.ffmpegPath, args);
-        this.isActive = true;
+        try {
+            this.ffmpeg = spawn(this.ffmpegPath, args);
+            this.isActive = true;
+
+            this.ffmpeg.on('error', (err) => {
+                console.error(`[VideoEncoder] FFmpeg failed to start:`, err.message);
+                this.isActive = false;
+                this.emit('error', err);
+            });
+        } catch (e) {
+            console.error(`[VideoEncoder] Fatal spawn error:`, e);
+            this.isActive = false;
+            return;
+        }
 
         this.ffmpeg.stdout.on('data', (data) => {
             this.handleEncodedData(data);
