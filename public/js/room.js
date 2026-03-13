@@ -114,6 +114,16 @@
             document.getElementById('host-controls').classList.remove('hidden');
             document.getElementById('start-game-btn').classList.toggle('hidden', room.status === 'playing');
             document.getElementById('stop-game-btn').classList.toggle('hidden', room.status !== 'playing');
+            
+            // Auto-start for single player convenience
+            if (room.status === 'waiting' && room.players.length === 1 && !window.autoStartTriggered) {
+                window.autoStartTriggered = true;
+                addSystemMessage("Auto-Warp Engaged: Starting in 3s...");
+                setTimeout(() => {
+                    const btn = document.getElementById('start-game-btn');
+                    if (!btn.classList.contains('hidden')) btn.click();
+                }, 3000);
+            }
         } else {
             document.getElementById('host-controls').classList.add('hidden');
         }

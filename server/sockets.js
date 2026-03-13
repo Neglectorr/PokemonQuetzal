@@ -12,8 +12,8 @@ function init(io, lobbies) {
 
     // Handle initial auth
     socket.on('auth', (data) => {
-      userData = data;
-      socketUsers.set(socket.id, { ...data, socketId: socket.id });
+      userData = { ...data, socketId: socket.id };
+      socketUsers.set(socket.id, userData);
       console.log(`[Socket] Connected: ${data.username} (${socket.id})`);
     });
 
