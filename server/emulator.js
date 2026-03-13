@@ -98,8 +98,8 @@ class EmulatorInstance {
             '-C', 'pauseOnInactive=0',
             '-C', 'syncToVideo=0',
             '-C', 'syncToAudio=0',
-            '-C', 'limitSpeed=0',
-            '-C', 'unlimited=1',
+            '-C', 'limitSpeed=1',
+            '-C', 'unlimited=0',
             '-C', 'audio.bufferSamples=1024',
             '-C', 'fpsTarget=60',
             '-C', 'frameskip=0',
@@ -107,6 +107,12 @@ class EmulatorInstance {
             '--sav-path', lobbyDir,
             romPath
         ];
+
+        // Set Node process priority to HIGH to ensure smooth Ring Buffer handling
+        try {
+            const osPriority = require('os');
+            osPriority.setPriority(process.pid, osPriority.constants.priority.PRIORITY_HIGH);
+        } catch (e) {}
 
         this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
             cwd: lobbyDir,

@@ -20,9 +20,13 @@ class VideoEncoder extends EventEmitter {
         
         this.ffmpeg = null;
         this.isActive = false;
-        this.buffer = Buffer.alloc(0);
-        this.frameSize = this.width * this.height * 4; // RGBA
         this.emittedCount = 0;
+        
+        // OPTIMIZED MJPEG PARSING
+        this.buffer = Buffer.alloc(2 * 1024 * 1024); // 2MB Pre-allocated
+        this.dataOffset = 0;
+        this.SOI = Buffer.from([0xFF, 0xD8]);
+        this.EOI = Buffer.from([0xFF, 0xD9]);
     }
 
     findFFmpeg() {
@@ -128,37 +132,46 @@ class VideoEncoder extends EventEmitter {
      */
     handleEncodedData(chunk) {
         if (!chunk) return;
-        this.buffer = this.buffer.length ? Buffer.concat([this.buffer, chunk]) : chunk;
 
-        // Skip manual parsing if possible, but for MJPEG we need to find boundaries
-        while (this.buffer.length > 4) {
-            const startIdx = this.buffer.indexOf(Buffer.from([0xFF, 0xD8]));
-            if (startIdx === -1) {
-                this.buffer = this.buffer.slice(Math.max(0, this.buffer.length - 1));
+        // Copy chunk into our parsing buffer
+        if (this.dataOffset + chunk.length > this.buffer.length) {
+            this.dataOffset = 0; // Wipe on overflow (shouldn't happen with 2MB for MJPEG)
+        }
+        chunk.copy(this.buffer, this.dataOffset);
+        this.dataOffset += chunk.length;
+
+        let searchStart = 0;
+        while (this.dataOffset > 4) {
+            const startIdx = this.buffer.indexOf(this.SOI, searchStart);
+            if (startIdx === -1 || startIdx > this.dataOffset - 2) break;
+
+            const endIdx = this.buffer.indexOf(this.EOI, startIdx + 2);
+            if (endIdx === -1 || endIdx > this.dataOffset - 2) {
+                // Keep the partial frame for next chunk
+                if (startIdx > 0) {
+                    this.buffer.copy(this.buffer, 0, startIdx, this.dataOffset);
+                    this.dataOffset -= startIdx;
+                }
                 break;
             }
 
-            if (startIdx > 0) {
-                this.buffer = this.buffer.slice(startIdx);
-            }
-
-            const endIdx = this.buffer.indexOf(Buffer.from([0xFF, 0xD9]));
-            if (endIdx === -1) break;
-
-            const frameSize = endIdx + 2;
-            const frame = this.buffer.slice(0, frameSize);
-            
-            // Slice the buffer BEFORE emitting to avoid re-concats if emission is slow
-            this.buffer = this.buffer.slice(frameSize);
+            const frameSize = (endIdx - startIdx) + 2;
+            const frame = Buffer.allocUnsafe(frameSize);
+            this.buffer.copy(frame, 0, startIdx, endIdx + 2);
 
             this.emittedCount++;
-            if (this.emittedCount % 300 === 0) {
-                console.log(`[VideoEncoder P${this.options.slot || '?'}] Stream health OK: ${this.emittedCount} frames.`);
-            }
             this.emit('frame', frame);
-            
-            // Limit loop to prevent long-running blocking
-            if (this.emittedCount % 60 === 0) break; 
+
+            // Shift buffer
+            const remaining = this.dataOffset - (endIdx + 2);
+            if (remaining > 0) {
+                this.buffer.copy(this.buffer, 0, endIdx + 2, this.dataOffset);
+                this.dataOffset = remaining;
+                searchStart = 0;
+            } else {
+                this.dataOffset = 0;
+                break;
+            }
         }
     }
 

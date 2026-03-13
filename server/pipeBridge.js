@@ -12,13 +12,14 @@ class PipeBridge extends EventEmitter {
         this.pipePath = `\\\\.\\pipe\\${pipeName}`;
         this.slot = slot;
         this.socket = null;
-        this.chunks = [];
-        this.totalLen = 0;
-        this.connected = false;
-        this.destroyed = false;
-        this.lastFrameHash = null;
         this.frameCount = 0;
         this.skippedCount = 0;
+        
+        // HIGH-PERFORMANCE BUFFER
+        this.buffer = Buffer.alloc(10 * 1024 * 1024); // 10MB Pre-allocated
+        this.writePos = 0;
+        this.readPos = 0;
+        this.dataLen = 0;
 
         // Encoder setup for 50x bandwidth reduction
         this.encoder = new VideoEncoder({ slot: this.slot });
@@ -85,119 +86,86 @@ class PipeBridge extends EventEmitter {
     }
 
     handleData(chunk) {
-        if (chunk) {
-            this.chunks.push(chunk);
-            this.totalLen += chunk.length;
+        if (!chunk) return;
+
+        // 1. Write incoming chunk to ring buffer
+        if (this.dataLen + chunk.length > this.buffer.length) {
+            console.warn(`[PipeBridge P${this.slot}] Buffer Overflow! Purging to recover...`);
+            this.dataLen = 0;
+            this.writePos = 0;
+            this.readPos = 0;
         }
 
-        // EMERGENCY: If we have more than 5MB of raw data, purge it.
-        // This prevents a backlog from dragging down the GBA speed.
-        if (this.totalLen > 5000000) {
-            console.warn(`[PipeBridge P${this.slot}] Purging pipe backlog (${this.totalLen} bytes) to restore GBA speed.`);
-            this.chunks = [];
-            this.totalLen = 0;
-            return;
-        }
+        chunk.copy(this.buffer, this.writePos);
+        this.writePos += chunk.length;
+        this.dataLen += chunk.length;
 
-        while (this.totalLen >= 9) {
-            // 1. Get header to find out packet size
-            let header;
-            if (this.chunks[0].length >= 9) {
-                header = this.chunks[0];
-            } else {
-                header = Buffer.concat(this.chunks, 9);
-            }
-
-            const magic = header.readUInt32LE(0);
-            if (magic !== 0x5354524D) {
-                // Lost sync - very rare, scan for next STRM magic
-                const full = Buffer.concat(this.chunks);
-                const idx = full.indexOf(Buffer.from([0x53, 0x54, 0x52, 0x4D]));
-                if (idx !== -1) {
-                    const recovered = full.slice(idx);
-                    this.chunks = [recovered];
-                    this.totalLen = recovered.length;
-                    continue;
-                } else {
-                    this.chunks = [];
-                    this.totalLen = 0;
+        // 2. Parse packets from ring buffer
+        const STRM_MAGIC = 0x5354524D;
+        
+        while (this.dataLen >= 9) {
+            const magic = this.buffer.readUInt32LE(this.readPos);
+            
+            if (magic !== STRM_MAGIC) {
+                // Out of sync - find next magic
+                let found = false;
+                for (let i = 1; i < this.dataLen - 4; i++) {
+                    if (this.buffer.readUInt32LE((this.readPos + i) % this.buffer.length) === STRM_MAGIC) {
+                        this.readPos = (this.readPos + i) % this.buffer.length;
+                        this.dataLen -= i;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    this.dataLen = 0;
+                    this.writePos = 0;
+                    this.readPos = 0;
                     break;
                 }
+                continue;
             }
 
-            const type = header.readUInt8(4);
-            const payloadSize = header.readUInt32LE(5);
-            const totalPacketSize = 9 + payloadSize;
+            const type = this.buffer.readUInt8(this.readPos + 4);
+            const payloadSize = this.buffer.readUInt32LE(this.readPos + 5);
+            const packetSize = 9 + payloadSize;
 
-            if (this.totalLen < totalPacketSize) break;
+            if (this.dataLen < packetSize) break;
 
-            // 2. Efficiently pull the full packet without frequent full-concats
-            let fullPacket;
-            if (this.chunks[0].length === totalPacketSize) {
-                fullPacket = this.chunks.shift();
-            } else if (this.chunks[0].length > totalPacketSize) {
-                fullPacket = this.chunks[0].slice(0, totalPacketSize);
-                this.chunks[0] = this.chunks[0].slice(totalPacketSize);
-            } else {
-                // Packet spans multiple chunks
-                fullPacket = Buffer.allocUnsafe(totalPacketSize);
-                let offset = 0;
-                while (offset < totalPacketSize) {
-                    const chunk = this.chunks[0];
-                    const bytesToCopy = Math.min(chunk.length, totalPacketSize - offset);
-                    chunk.copy(fullPacket, offset, 0, bytesToCopy);
-                    offset += bytesToCopy;
-                    
-                    if (bytesToCopy === chunk.length) {
-                        this.chunks.shift();
-                    } else {
-                        this.chunks[0] = chunk.slice(bytesToCopy);
-                    }
-                }
-            }
-            this.totalLen -= totalPacketSize;
-            const payload = fullPacket.slice(9);
+            // Extract payload
+            const payload = Buffer.allocUnsafe(payloadSize);
+            this.buffer.copy(payload, 0, this.readPos + 9, this.readPos + packetSize);
+            
+            this.readPos += packetSize;
+            this.dataLen -= packetSize;
 
             if (type === 0) { // Video
-                this.frameCount = (this.frameCount || 0) + 1;
-                
-                if (this.frameCount % 120 === 0) {
-                    console.log(`[PipeBridge P${this.slot}] Received ${this.frameCount} packets from mGBA. (Encoder: ${this.encoder.isActive ? 'ACTIVE (MJPEG)' : 'INACTIVE'})`);
-                }
-                
+                this.frameCount++;
                 if (payload.length >= 8) {
-                    // Start after width/height header
                     const pixelData = payload.slice(8);
                     
-                    // Simple buffer comparison is extremely fast in Node.js
                     if (this.lastPixelBuffer && this.lastPixelBuffer.equals(pixelData)) {
                         this.skippedCount++;
-                        if (this.skippedCount % 300 === 0) {
-                            console.log(`[PipeBridge P${this.slot}] Optimization: Skipped ${this.skippedCount} identical frames.`);
-                        }
-                        return; // Skip encoding/sending identical frames
+                        continue;
                     }
-                    this.lastPixelBuffer = Buffer.from(pixelData); // Clone for comparison
+                    this.lastPixelBuffer = Buffer.from(pixelData);
 
                     if (this.encoder && this.encoder.isActive) {
-                        // EXTREMELY CRITICAL: Use a more realistic buffer threshold.
-                        // A GBA frame is ~150KB. Drop only if > 2 frames are queued (300KB).
-                        const isBufferFull = this.encoder.ffmpeg.stdin.writableLength > 300000;
-                        
-                        if (!isBufferFull) {
+                        if (this.encoder.ffmpeg.stdin.writableLength < 1000000) {
                             this.encoder.write(pixelData);
-                        } else {
-                            if (this.frameCount % 120 === 0) {
-                                console.warn(`[PipeBridge P${this.slot}] Dropped video frame to maintain GBA clock speed.`);
-                            }
                         }
                     } else {
-                        // Fallback to raw if encoder fails
                         this.emit('video', { width: 240, height: 160, data: pixelData });
                     }
                 }
             } else if (type === 1) { // Audio
                 this.emit('audio', payload);
+            }
+
+            // Cleanup Pos if buffer is empty
+            if (this.dataLen === 0) {
+                this.readPos = 0;
+                this.writePos = 0;
             }
         }
     }
