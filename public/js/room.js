@@ -13,6 +13,7 @@
 
     let mySlot = null;
     let isHost = false;
+    let currentUser = null;
     let currentView = 'single'; // 'single' or 'grid'
 
     // Canvas & Contexts
@@ -85,12 +86,35 @@
     // SOCKET EVENT HANDLERS
     // ═══════════════════════════════════════
 
-    socket.on('connect', () => {
-        updateConnectionStatus(true);
-        const roomId = window.location.pathname.split('/').pop();
-        socket.emit('auth', { id: localStorage.getItem('userId') || 'guest_' + Math.random().toString(36).substr(2, 5), username: localStorage.getItem('username') || 'Guest' });
-        socket.emit('join-room', roomId);
-    });
+    async function initRoom() {
+        console.log('[Room] Initializing session data...');
+        
+        try {
+            const res = await fetch('/api/me');
+            if (res.ok) {
+                const data = await res.json();
+                currentUser = data.user;
+                console.log('[Room] Authenticated as:', currentUser.username);
+            }
+        } catch (err) {
+            console.warn('[Room] Auth fetch failed, continuing as Guest.', err);
+        }
+
+        if (!currentUser) {
+            currentUser = {
+                id: 'guest_' + Math.random().toString(36).substr(2, 5),
+                username: 'Guest'
+            };
+        }
+
+        // Connect socket AFTER we have our identity
+        socket.on('connect', () => {
+            updateConnectionStatus(true);
+            const roomId = window.location.pathname.split('/').pop();
+            socket.emit('auth', currentUser);
+            socket.emit('join-room', roomId);
+        });
+    }
 
     socket.on('disconnect', () => updateConnectionStatus(false));
 
@@ -99,7 +123,7 @@
         console.log('[Room] My Socket ID:', socket.id);
         
         // Find my slot and host status
-        const me = room.players.find(p => p.socketId === socket.id || (p.id && p.id === localStorage.getItem('userId')));
+        const me = room.players.find(p => p.socketId === socket.id || (p.id && currentUser && p.id === currentUser.id));
         console.log('[Room] Identified as:', me);
 
         if (me) {
@@ -416,4 +440,6 @@
         }
     });
 
+    // Initialize on load
+    initRoom();
 })();

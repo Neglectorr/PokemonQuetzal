@@ -129,7 +129,9 @@ function init(io, lobbies) {
       });
 
       try {
-          await room.emulator.start(room.rom.path);
+          const path = require('path');
+          const romPath = path.join(__dirname, '..', 'roms', room.rom);
+          await room.emulator.start(romPath);
           console.log(`[Socket] WASM Core Ready for room "${room.name}"`);
           io.to(room.id).emit('game-started', { mode: 'WASM' });
       } catch (err) {
