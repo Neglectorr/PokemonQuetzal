@@ -11,7 +11,8 @@ class PipeBridge extends EventEmitter {
         this.pipePath = `\\\\.\\pipe\\${pipeName}`;
         this.slot = slot;
         this.socket = null;
-        this.buffer = Buffer.alloc(0);
+        this.chunks = [];
+        this.totalLen = 0;
         this.connected = false;
         this.reconnectTimer = null;
         this.destroyed = false;
@@ -65,38 +66,55 @@ class PipeBridge extends EventEmitter {
     }
 
     handleData(chunk) {
-        this.buffer = Buffer.concat([this.buffer, chunk]);
+        if (chunk) {
+            this.chunks.push(chunk);
+            this.totalLen += chunk.length;
+        }
 
-        while (this.buffer.length >= 9) { // Header size (4 + 1 + 4)
-            // Check Magic: "STRM" (0x53 0x54 0x52 0x4D)
-            const magic = this.buffer.readUInt32LE(0);
+        while (this.totalLen >= 9) {
+            // Peek header
+            let header = Buffer.concat(this.chunks, 9);
+            const magic = header.readUInt32LE(0);
+            
             if (magic !== 0x5354524D) {
-                // Seek for magic if misaligned
-                const index = this.buffer.indexOf(Buffer.from([0x4D, 0x52, 0x54, 0x53])); // "M R T S" (LE "STRM")
+                // Seek logic (rarely needed if protocol is stable)
+                let fullBuf = Buffer.concat(this.chunks);
+                const index = fullBuf.indexOf(Buffer.from([0x4D, 0x52, 0x54, 0x53]));
                 if (index !== -1) {
-                    this.buffer = this.buffer.slice(index);
+                    let discarded = index;
+                    this.chunks = [fullBuf.slice(index)];
+                    this.totalLen = this.chunks[0].length;
                     continue;
                 } else {
-                    if (this.buffer.length > 2048) this.buffer = this.buffer.slice(this.buffer.length - 4);
+                    this.chunks = [];
+                    this.totalLen = 0;
                     break;
                 }
             }
 
-            const type = this.buffer.readUInt8(4);
-            const totalSize = this.buffer.readUInt32LE(5);
+            const type = header.readUInt8(4);
+            const payloadSize = header.readUInt32LE(5);
+            const totalPacketSize = 9 + payloadSize;
 
-            if (this.buffer.length < 9 + totalSize) break;
+            if (this.totalLen < totalPacketSize) break;
 
-            const payload = this.buffer.slice(9, 9 + totalSize);
-            this.buffer = this.buffer.slice(9 + totalSize);
+            // Extract full packet
+            let fullPacket = Buffer.concat(this.chunks, totalPacketSize);
+            const payload = fullPacket.slice(9);
+
+            // Update internal buffer state (consume)
+            let remaining = Buffer.concat(this.chunks).slice(totalPacketSize);
+            this.chunks = [remaining];
+            this.totalLen = remaining.length;
 
             if (type === 0) { // Video
                 this.frameCount = (this.frameCount || 0) + 1;
                 
-                // 100% FPS Delivery: Send every frame to the client for minimum input latency
-                // (240x160x4 is small enough for local/high-speed networks)
-                if (this.frameCount % 240 === 0) {
-                    console.log(`[PipeBridge P${this.slot}] Sent ${this.frameCount} frames. Size: ${payload.length} bytes`);
+                // Log every 1 second (60 frames) to check clock jitter
+                if (this.frameCount % 60 === 0) {
+                    const now = new Date();
+                    const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+                    console.log(`[PipeBridge P${this.slot}] @ ${timestamp}: 60 frames sent. Total: ${this.frameCount}`);
                 }
                 
                 if (payload.length >= 8) {
