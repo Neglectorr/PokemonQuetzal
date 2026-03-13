@@ -96,16 +96,21 @@
 
     socket.on('room-update', (room) => {
         console.log('[Room] Update received:', room);
+        console.log('[Room] My Socket ID:', socket.id);
         
         // Find my slot and host status
-        const me = room.players.find(p => p.socketId === socket.id || p.id === localStorage.getItem('userId'));
+        const me = room.players.find(p => p.socketId === socket.id || (p.id && p.id === localStorage.getItem('userId')));
+        console.log('[Room] Identified as:', me);
+
         if (me) {
             mySlot = me.slot;
             isHost = (room.host.id === me.id);
+            window.currentRoomHostId = room.host.id;
+            console.log('[Room] My Slot:', mySlot, 'Is Host:', isHost);
         }
 
         document.getElementById('room-title').textContent = room.name;
-        document.getElementById('room-rom-info').textContent = room.rom ? room.rom.name : 'Quetzal';
+        document.getElementById('room-rom-info').textContent = room.rom && room.rom.name ? room.rom.name : (room.rom || 'Quetzal');
         
         updatePlayerList(room.players);
         updateStatusBadge(room.status);
@@ -243,10 +248,13 @@
         
         players.forEach(p => {
             const card = document.createElement('div');
-            card.className = `player-card ${p.id === socket.id ? 'is-me' : ''}`;
+            const isMe = p.socketId === socket.id || (p.id && p.id === localStorage.getItem('userId'));
+            const isHostCard = p.id === window.currentRoomHostId;
+
+            card.className = `player-card ${isMe ? 'is-me' : ''}`;
             card.innerHTML = `
                 <div class="slot-indicator slot-${p.slot}">${p.slot}</div>
-                <div class="player-name">${p.username} ${p.isHost ? '<span class="player-host-badge">HOST</span>' : ''}</div>
+                <div class="player-name">${p.username} ${isMe ? '<span class="player-me-badge">(YOU)</span>' : ''} ${isHostCard ? '<span class="player-host-badge">HOST</span>' : ''}</div>
             `;
             list.appendChild(card);
         });
