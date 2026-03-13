@@ -167,9 +167,16 @@ class PipeBridge extends EventEmitter {
                     this.lastPixelBuffer = Buffer.from(pixelData); // Clone for comparison
 
                     if (this.encoder && this.encoder.isActive) {
-                        const ok = this.encoder.write(pixelData);
-                        if (!ok && this.frameCount % 60 === 0) {
-                            console.warn(`[PipeBridge P${this.slot}] FFmpeg stdin BACKPRESSURE detected at frame ${this.frameCount}`);
+                        // EXTREMELY CRITICAL: Use a non-blocking check to prevent backpressure.
+                        // If FFmpeg's buffer is full, we DROP the frame so mGBA doesn't slow down.
+                        const isBufferFull = this.encoder.ffmpeg.stdin.writableHighWaterMark <= this.encoder.ffmpeg.stdin.writableLength;
+                        
+                        if (!isBufferFull) {
+                            this.encoder.write(pixelData);
+                        } else {
+                            if (this.frameCount % 120 === 0) {
+                                console.warn(`[PipeBridge P${this.slot}] Dropped video frame to maintain GBA clock speed.`);
+                            }
                         }
                     } else {
                         // Fallback to raw if encoder fails
