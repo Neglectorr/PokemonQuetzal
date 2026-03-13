@@ -24,6 +24,9 @@ class VideoEncoder extends EventEmitter {
     }
 
     findFFmpeg() {
+        const localPath = path.join(__dirname, '..', 'bin', 'ffmpeg.exe');
+        if (fs.existsSync(localPath)) return localPath;
+
         const candidates = [
             'C:\\Program Files\\SteelSeries\\GG\\apps\\moments\\ffmpeg.exe',
             'C:\\Program Files\\Krita (x64)\\bin\\ffmpeg.exe',
