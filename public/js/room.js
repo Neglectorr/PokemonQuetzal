@@ -154,12 +154,20 @@
     function renderFrame(slot, frameData, width, height) {
         if (!frameData || !width || !height) return;
 
-        // Check if this is a compressed WebP frame (starts with 'RIFF')
-        const isWebP = (frameData.byteLength > 12 && 
-                      new Uint8Array(frameData.slice(0, 4)).reduce((a, b) => a + String.fromCharCode(b), '') === 'RIFF');
+        // Efficiently check for RIFF/WebP header
+        const uint8 = (frameData instanceof Uint8Array) ? frameData : new Uint8Array(frameData);
+        const isWebP = (uint8.length > 12 && 
+                      uint8[0] === 0x52 && uint8[1] === 0x49 && uint8[2] === 0x46 && uint8[3] === 0x46 && // RIFF
+                      uint8[8] === 0x57 && uint8[9] === 0x45 && uint8[10] === 0x42 && uint8[11] === 0x50); // WEBP
+
+        if (!window.frameDebugCount) window.frameDebugCount = 0;
+        if (window.frameDebugCount < 5) {
+            console.log(`[Room] Frame received: slot=${slot}, size=${uint8.length}, isWebP=${isWebP}`);
+            window.frameDebugCount++;
+        }
 
         if (isWebP) {
-            const blob = new Blob([frameData], { type: 'image/webp' });
+            const blob = new Blob([uint8], { type: 'image/webp' });
             createImageBitmap(blob).then(bitmap => {
                 if (currentView === 'single') {
                     if (slot === mySlot || (!mySlot && slot === 1)) {

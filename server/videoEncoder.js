@@ -22,6 +22,7 @@ class VideoEncoder extends EventEmitter {
         this.isActive = false;
         this.buffer = Buffer.alloc(0);
         this.frameSize = this.width * this.height * 4; // RGBA
+        this.emittedCount = 0;
     }
 
     findFFmpeg() {
@@ -68,7 +69,7 @@ class VideoEncoder extends EventEmitter {
         console.log(`[VideoEncoder] Starting FFmpeg: ${this.ffmpegPath}`);
         
         try {
-            this.ffmpeg = spawn(this.ffmpegPath, args);
+            this.ffmpeg = spawn(this.ffmpegPath, args, { windowsHide: true });
             this.isActive = true;
 
             this.ffmpeg.on('error', (err) => {
@@ -144,6 +145,10 @@ class VideoEncoder extends EventEmitter {
 
                 // Quick validation: must have 'WEBP' at offset 8
                 if (frame.toString('ascii', 8, 12) === 'WEBP') {
+                    this.emittedCount++;
+                    if (this.emittedCount % 120 === 0) {
+                        console.log(`[VideoEncoder P${this.options.slot || '?'}] Compressed ${this.emittedCount} frames to WebP.`);
+                    }
                     this.emit('frame', frame);
                 }
             } else {
