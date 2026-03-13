@@ -98,6 +98,8 @@ class EmulatorInstance {
             '-C', 'pauseOnInactive=0',
             '-C', 'syncToVideo=0',
             '-C', 'syncToAudio=1',
+            '-C', 'limitSpeed=1',
+            '-C', 'unlimited=0',
             '-C', 'audio.bufferSamples=1024',
             '-C', 'fpsTarget=60',
             '-C', 'frameskip=0',
@@ -108,22 +110,15 @@ class EmulatorInstance {
 
         this.mGBAProcess = spawn(mgbaExe, mgbaArgs, {
             cwd: lobbyDir,
-            stdio: ['pipe', 'pipe', 'pipe'],
+            stdio: 'ignore', // Completely ignore logs to remove all stdio overhead
             env: { 
-                ...process.env, 
-                QT_QPA_PLATFORM: 'windows',
-                QT_QPA_PLATFORM_PLUGIN_PATH: path.dirname(mgbaExe),
-                QT_OPENGL: 'software',
-                LIBGL_ALWAYS_SOFTWARE: '1'
+                ...process.env,
+                // Don't force software, let mGBA decide
             },
-            windowsHide: false // DISABLE hide to prevent Windows background throttling
+            windowsHide: false
         });
         
-        // DRAIN logs to prevent pipe-clogging slowdowns (CRITICAL for speed)
-        this.mGBAProcess.stdout.on('data', () => {}); 
-        this.mGBAProcess.stderr.on('data', () => {});
-        this.mGBAProcess.stdout.resume();
-        this.mGBAProcess.stderr.resume();
+        // No drainage needed for 'ignore'
 
         // Use High Priority to ensure stable clockspeed on Server
         try {

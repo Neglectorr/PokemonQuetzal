@@ -45,6 +45,7 @@ class PipeBridge extends EventEmitter {
                 this.reconnectTimer = null;
             }
             this.connected = true;
+            this.socket.setNoDelay(true); // Disable Nagle's algorithm for raw throughput
             console.log(`[PipeBridge P${this.slot}] Stream pipe connected via NET.`);
             this.emit('connected');
         });
