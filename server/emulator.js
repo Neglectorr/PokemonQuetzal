@@ -156,8 +156,7 @@ class EmulatorInstance {
 
             console.log(`[Room ${this.roomId}] Spawning Wrapper for PID ${this.mGBAProcess.pid}...`);
             this.inputProxy = spawn('python', ['-u', wrapperScript, this.mGBAProcess.pid.toString(), this.maxPlayers.toString()], {
-                stdio: ['pipe', 'pipe', 'pipe'],
-                env: { ...process.env, 'WRAPPER_HIDE_WINDOWS': '1' } // Simulated headless
+                stdio: ['pipe', 'pipe', 'pipe']
             });
 
             // Binary parser for wrapper output: [Slot (1b)][Size (4b LE)][PNG Data]

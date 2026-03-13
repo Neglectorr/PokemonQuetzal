@@ -319,13 +319,6 @@ def main():
     
     sys.stderr.write(f"Found {len(multi_hwnds)} mGBA windows: {final_dict}\n")
     
-    # Session 0 Simulation: Move windows off-screen to verify PrintWindow(..., 2) capture
-    if os.environ.get('WRAPPER_HIDE_WINDOWS', '0') == '1':
-        time.sleep(2) # Extra 2s for Qt software renderer to settle
-        sys.stderr.write("!!! SESSION 0 SIMULATION ACTIVE: Moving mGBA windows off-screen !!!\n")
-        for slot, h in multi_hwnds:
-            # -3000, -3000 is safely off any desktop
-            win32gui.SetWindowPos(h, 0, -3000, -3000, 0, 0, win32con.SWP_NOSIZE | win32con.SWP_NOZORDER)
 
     # Start input listening thread
     t = threading.Thread(target=input_thread, args=(final_dict,), daemon=True)
