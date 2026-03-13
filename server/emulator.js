@@ -96,7 +96,7 @@ class EmulatorInstance {
             '-m', this.maxPlayers.toString(), 
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
-            '-C', 'syncToVideo=1',
+            '-C', 'syncToVideo=0',
             '-C', 'syncToAudio=0',
             '-C', 'audio.bufferSamples=1024',
             '-C', 'fpsTarget=60',

@@ -154,21 +154,37 @@
     function renderFrame(slot, frameData, width, height) {
         if (!frameData || !width || !height) return;
 
-        // frameData might be an ArrayBuffer or a Uint8Array depending on socket.io version
-        const uint8 = (frameData instanceof Uint8Array) ? frameData : new Uint8ClampedArray(frameData);
-        
-        // Safety check length
-        if (uint8.length < width * height * 4) return;
+        // Check if this is a compressed WebP frame (starts with 'RIFF')
+        const isWebP = (frameData.byteLength > 12 && 
+                      new Uint8Array(frameData.slice(0, 4)).reduce((a, b) => a + String.fromCharCode(b), '') === 'RIFF');
 
-        const imageData = new ImageData(uint8, width, height);
-
-        if (currentView === 'single') {
-            if (slot === mySlot || (!mySlot && slot === 1)) {
-                mainCtx.putImageData(imageData, 0, 0);
-            }
+        if (isWebP) {
+            const blob = new Blob([frameData], { type: 'image/webp' });
+            createImageBitmap(blob).then(bitmap => {
+                if (currentView === 'single') {
+                    if (slot === mySlot || (!mySlot && slot === 1)) {
+                        mainCtx.drawImage(bitmap, 0, 0);
+                    }
+                } else {
+                    const ctx = gridContexts[slot];
+                    if (ctx) ctx.drawImage(bitmap, 0, 0);
+                }
+                bitmap.close();
+            });
         } else {
-            const ctx = gridContexts[slot];
-            if (ctx) ctx.putImageData(imageData, 0, 0);
+            // Legacy/Raw RGBA fallback
+            const uint8 = (frameData instanceof Uint8Array) ? frameData : new Uint8ClampedArray(frameData);
+            if (uint8.length < width * height * 4) return;
+            const imageData = new ImageData(uint8, width, height);
+            
+            if (currentView === 'single') {
+                if (slot === mySlot || (!mySlot && slot === 1)) {
+                    mainCtx.putImageData(imageData, 0, 0);
+                }
+            } else {
+                const ctx = gridContexts[slot];
+                if (ctx) ctx.putImageData(imageData, 0, 0);
+            }
         }
     }
 

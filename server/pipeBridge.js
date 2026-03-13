@@ -1,5 +1,6 @@
 const net = require('net');
 const EventEmitter = require('events');
+const VideoEncoder = require('./videoEncoder');
 
 /**
  * PipeBridge
@@ -14,8 +15,19 @@ class PipeBridge extends EventEmitter {
         this.chunks = [];
         this.totalLen = 0;
         this.connected = false;
-        this.reconnectTimer = null;
         this.destroyed = false;
+
+        // Encoder setup for 50x bandwidth reduction
+        this.encoder = new VideoEncoder({ slot: this.slot });
+        this.encoder.on('frame', (webpData) => {
+            this.emit('video', { 
+                width: 240, 
+                height: 160, 
+                data: webpData,
+                compressed: true 
+            });
+        });
+        this.encoder.start();
     }
 
     connect() {
@@ -72,17 +84,21 @@ class PipeBridge extends EventEmitter {
         }
 
         while (this.totalLen >= 9) {
-            // Peek header
-            let header = Buffer.concat(this.chunks, 9);
+            // Peek header (avoiding full concat unless needed)
+            let header;
+            if (this.chunks[0].length >= 9) {
+                header = this.chunks[0];
+            } else {
+                header = Buffer.concat(this.chunks, 9);
+            }
+
             const magic = header.readUInt32LE(0);
-            
             if (magic !== 0x5354524D) {
-                // Seek logic (rarely needed if protocol is stable)
-                let fullBuf = Buffer.concat(this.chunks);
-                const index = fullBuf.indexOf(Buffer.from([0x4D, 0x52, 0x54, 0x53]));
-                if (index !== -1) {
-                    let discarded = index;
-                    this.chunks = [fullBuf.slice(index)];
+                // Rescue: Scan for STRM magic if we lost sync
+                let full = Buffer.concat(this.chunks);
+                let idx = full.indexOf(Buffer.from([0x53, 0x54, 0x52, 0x4D]));
+                if (idx !== -1) {
+                    this.chunks = [full.slice(idx)];
                     this.totalLen = this.chunks[0].length;
                     continue;
                 } else {
@@ -98,30 +114,37 @@ class PipeBridge extends EventEmitter {
 
             if (this.totalLen < totalPacketSize) break;
 
-            // Extract full packet
-            let fullPacket = Buffer.concat(this.chunks, totalPacketSize);
-            const payload = fullPacket.slice(9);
+            // Extract full packet efficiently
+            let fullPacket;
+            if (this.chunks.length === 1 && this.chunks[0].length === totalPacketSize) {
+                fullPacket = this.chunks[0];
+                this.chunks = [];
+            } else {
+                let flat = Buffer.concat(this.chunks);
+                fullPacket = flat.slice(0, totalPacketSize);
+                this.chunks = [flat.slice(totalPacketSize)];
+            }
+            this.totalLen -= totalPacketSize;
 
-            // Update internal buffer state (consume)
-            let remaining = Buffer.concat(this.chunks).slice(totalPacketSize);
-            this.chunks = [remaining];
-            this.totalLen = remaining.length;
+            const payload = fullPacket.slice(9);
 
             if (type === 0) { // Video
                 this.frameCount = (this.frameCount || 0) + 1;
                 
-                // Log every 1 second (60 frames) to check clock jitter
-                if (this.frameCount % 60 === 0) {
+                if (this.frameCount % 120 === 0) {
                     const now = new Date();
-                    const timestamp = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-                    console.log(`[PipeBridge P${this.slot}] @ ${timestamp}: 60 frames sent. Total: ${this.frameCount}`);
+                    console.log(`[PipeBridge P${this.slot}] Sent ${this.frameCount} frames. (Streaming via FFmpeg WebP)`);
                 }
                 
                 if (payload.length >= 8) {
-                    const width = payload.readUInt32LE(0);
-                    const height = payload.readUInt32LE(4);
+                    // Start after width/height header
                     const pixelData = payload.slice(8);
-                    this.emit('video', { width, height, data: pixelData });
+                    if (this.encoder && this.encoder.isActive) {
+                        this.encoder.write(pixelData);
+                    } else {
+                        // Fallback to raw if encoder fails
+                        this.emit('video', { width: 240, height: 160, data: pixelData });
+                    }
                 }
             } else if (type === 1) { // Audio
                 this.emit('audio', payload);
@@ -131,10 +154,15 @@ class PipeBridge extends EventEmitter {
 
     close() {
         if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
-        if (this.stream) {
-            this.stream.destroy();
-            this.stream = null;
+        if (this.socket) {
+            this.socket.destroy();
+            this.socket = null;
         }
+        if (this.encoder) {
+            this.encoder.stop();
+            this.encoder = null;
+        }
+        this.destroyed = true;
     }
 }
 
