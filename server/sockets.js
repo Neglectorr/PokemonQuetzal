@@ -1,12 +1,12 @@
-const fs = require('fs');
-const path = require('path');
 const lobbyModule = require('./lobby');
-const { io } = require('./index');
+
+// Internal state for tracking users across sockets
+const socketUsers = new Map();
 
 /**
  * Socket.io Event Handlers
  */
-function setupSockets(io, socketUsers, lobbies) {
+function init(io, lobbies) {
   io.on('connection', (socket) => {
     let userData = null;
 
@@ -24,13 +24,15 @@ function setupSockets(io, socketUsers, lobbies) {
         // Find if user was in a room
         const mapping = socketUsers.get(socket.id);
         if (mapping && mapping.roomId) {
-          const room = lobbyModule.getRoom(mapping.roomId);
+          const room = lobbies.getRoom(mapping.roomId);
           if (room) {
             room.players.delete(userData.id);
             if (room.players.size === 0) {
               // Kill emulator if room empty
-              if (room.emulator) room.emulator.stop();
-              lobbyModule.deleteRoom(room.id);
+              if (room.emulator) {
+                  room.emulator.stop().catch(console.error);
+              }
+              lobbies.deleteRoom(room.id);
             } else {
               // Re-assign host if needed
               if (room.host.id === userData.id) {
@@ -50,7 +52,7 @@ function setupSockets(io, socketUsers, lobbies) {
 
     socket.on('join-room', (roomId) => {
       if (!userData) return;
-      const room = lobbyModule.getRoom(roomId);
+      const room = lobbies.getRoom(roomId);
       if (!room) return;
 
       if (room.players.size >= room.maxPlayers) {
@@ -67,8 +69,10 @@ function setupSockets(io, socketUsers, lobbies) {
       room.players.set(userData.id, playerInfo);
       
       const mapping = socketUsers.get(socket.id);
-      mapping.roomId = roomId;
-      mapping.slot = slot;
+      if (mapping) {
+          mapping.roomId = roomId;
+          mapping.slot = slot;
+      }
 
       socket.join(roomId);
       console.log(`[Socket] ${userData.username} joined room "${room.name}" as player ${slot}`);
@@ -78,7 +82,7 @@ function setupSockets(io, socketUsers, lobbies) {
     });
 
     function broadcastRoomState(roomId) {
-      const room = lobbyModule.getRoom(roomId);
+      const room = lobbies.getRoom(roomId);
       if (room) {
         io.to(roomId).emit('room-update', {
           id: room.id,
@@ -97,11 +101,10 @@ function setupSockets(io, socketUsers, lobbies) {
     // ═══════════════════════════════════════
 
     socket.on('start-game', async () => {
-      if (!userData) return;
       const mapping = socketUsers.get(socket.id);
-      if (!mapping || !mapping.roomId) return;
+      if (!mapping || !mapping.roomId || !userData) return;
 
-      const room = lobbyModule.getRoom(mapping.roomId);
+      const room = lobbies.getRoom(mapping.roomId);
       if (!room) return;
 
       if (room.host.id !== userData.id) return;
@@ -127,10 +130,11 @@ function setupSockets(io, socketUsers, lobbies) {
 
       try {
           await room.emulator.start(room.rom.path);
+          console.log(`[Socket] WASM Core Ready for room "${room.name}"`);
           io.to(room.id).emit('game-started', { mode: 'WASM' });
       } catch (err) {
           console.error("Failed to start WASM Core:", err);
-          io.to(room.id).emit('error', { message: 'WASM Core Failure' });
+          io.to(room.id).emit('error', { message: 'WASM Core Failure: ' + err.message });
           room.status = 'waiting';
           broadcastRoomState(room.id);
       }
@@ -140,11 +144,10 @@ function setupSockets(io, socketUsers, lobbies) {
     socket.on('player-input', (data) => {
         const mapping = socketUsers.get(socket.id);
         if (mapping && mapping.roomId) {
-            const room = lobbyModule.getRoom(mapping.roomId);
-            if (room && room.emulator && room.emulator.page) {
-                // Relay keypress to Headless Browser
-                // Simplified for prototype: we don't handle complex button mapping here yet
-                // The portal.html handles local keys, but for server-side it's direct.
+            const room = lobbies.getRoom(mapping.roomId);
+            if (room && room.emulator && room.emulator.isReady) {
+                // data = { button: 'A', isPressed: true }
+                room.emulator.sendInput(data.button, data.isPressed).catch(console.error);
             }
         }
     });
@@ -160,7 +163,7 @@ function setupSockets(io, socketUsers, lobbies) {
 
     socket.on('chat-message', ({ message }) => {
       const mapping = socketUsers.get(socket.id);
-      if (mapping && mapping.roomId) {
+      if (mapping && mapping.roomId && userData) {
         io.to(mapping.roomId).emit('chat-message', {
           username: userData.username,
           message: message,
@@ -171,4 +174,4 @@ function setupSockets(io, socketUsers, lobbies) {
   });
 }
 
-module.exports = setupSockets;
+module.exports = { init };

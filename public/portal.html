@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANTIGRAWITY PORTAL | Next-Gen GBA</title>
+    <title>ANTIGRAWITY PORTAL | Server-Side GBA</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
     <style>
         :root {
             --bg: #05050a;
@@ -52,7 +53,6 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         h1 {
@@ -66,7 +66,7 @@
         }
 
         canvas {
-            width: 720px; /* 3x Scale */
+            width: 720px;
             height: 480px;
             background: #000;
             border-radius: 12px;
@@ -83,24 +83,6 @@
             opacity: 0.6;
         }
 
-        .controls-hint {
-            position: absolute;
-            bottom: -60px;
-            display: flex;
-            gap: 30px;
-            font-size: 12px;
-            opacity: 0.4;
-        }
-
-        .badge {
-            padding: 4px 12px;
-            background: var(--accent);
-            color: #fff;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 10px;
-        }
-
         #loading-overlay {
             position: absolute;
             inset: 0;
@@ -114,15 +96,7 @@
             transition: opacity 0.5s;
         }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(168, 85, 247, 0.1);
-            border-top: 3px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
+        .spinner { width: 40px; height: 40px; border: 3px solid rgba(168, 85, 247, 0.1); border-top: 3px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
@@ -132,106 +106,68 @@
     <div class="container" id="portal-ui">
         <div id="loading-overlay">
             <div class="spinner"></div>
-            <p style="margin-top: 20px; font-size: 12px; opacity: 0.6;">WARPING ROM DATA...</p>
+            <p style="margin-top: 20px; font-size: 12px; opacity: 0.6;">DOCKING WITH SERVER-CORE...</p>
         </div>
 
         <div style="display: flex; align-items: center; gap: 10px; width: 100%; justify-content: space-between;">
             <h1>Antigrawity Portal</h1>
-            <div class="badge">NATIVE-60FPS</div>
+            <div style="padding: 4px 12px; background: var(--accent); color: #fff; border-radius: 20px; font-weight: 700; font-size: 10px;">SERVER-SIDE WASM</div>
         </div>
 
         <canvas id="mgba-canvas" width="240" height="160"></canvas>
 
         <div class="status-bar">
-            <span>CPU: <span id="fps">0.0</span>%</span>
-            <span>SYNC: <span id="sync-status" style="color: #4ade80;">LOCAL-ONLY</span></span>
-            <span>PLAYER: <span id="player-id">GUEST</span></span>
-        </div>
-
-        <div class="controls-hint">
-            <span>ARROWS: MOVE</span>
-            <span>[X]: A</span>
-            <span>[Z]: B</span>
-            <span>[ENTER]: START</span>
-            <span>[BS]: SELECT</span>
+            <span>PING: <span id="ping">0</span>ms</span>
+            <span>LATENCY: <span id="sync-status" style="color: #4ade80;">0.0ms (SHARED-RAM)</span></span>
         </div>
     </div>
 
-    <script type="module">
-        import mGBA from '/wasm/mgba.js';
-
+    <script>
+        const socket = io();
         const canvas = document.getElementById('mgba-canvas');
+        const ctx = canvas.getContext('2d');
         const overlay = document.getElementById('loading-overlay');
-        const fpsEl = document.getElementById('fps');
-        
-        async function init() {
-            try {
-                const module = await mGBA({ canvas });
-                await module.FSInit();
-                
-                // Fetch the ROM from the server
-                const response = await fetch('/roms/QuetzalEnglishAlpha8v4.gba');
-                if (!response.ok) throw new Error("Could not find ROM on server.");
-                
-                const romBuffer = await response.arrayBuffer();
-                module.FS.writeFile('/data/game.gba', new Uint8Array(romBuffer));
-                
-                // Load game
-                const success = module.loadGame('/data/game.gba');
-                if (!success) throw new Error("mGBA failed to load ROM.");
-                
-                module.resumeGame();
-                
-                // Keyboard Bindings (Default mGBA mapping)
-                // We'll use the module's built-in buttonPress/buttonUnpress
-                const keyMap = {
-                    'ArrowUp': 'Up',
-                    'ArrowDown': 'Down',
-                    'ArrowLeft': 'Left',
-                    'ArrowRight': 'Right',
-                    'x': 'A',
-                    'z': 'B',
-                    'Enter': 'Start',
-                    'Backspace': 'Select',
-                    'a': 'L',
-                    's': 'R'
-                };
+        const pingEl = document.getElementById('ping');
 
-                window.addEventListener('keydown', (e) => {
-                    const btn = keyMap[e.key];
-                    if (btn) {
-                        e.preventDefault();
-                        module.buttonPress(btn);
-                    }
-                });
+        socket.emit('auth', { id: 'debug_portal', username: 'PortalUser' });
 
-                window.addEventListener('keyup', (e) => {
-                    const btn = keyMap[e.key];
-                    if (btn) {
-                        e.preventDefault();
-                        module.buttonUnpress(btn);
-                    }
-                });
-
-                // Stats loop
-                setInterval(() => {
-                    // Just a funny fake CPU usage tracker for the prototype
-                    fpsEl.innerText = (Math.random() * 2 + 1).toFixed(1);
-                }, 1000);
-
-                // Reveal UI
-                setTimeout(() => {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => overlay.remove(), 500);
-                }, 1000);
-
-            } catch (err) {
-                console.error(err);
-                document.body.innerHTML = \`<div style="color: red; font-family: monospace;">ERROR: \${err.message}</div>\`;
+        let frameCount = 0;
+        socket.on('frame', (frame) => {
+            if (overlay) {
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.remove(), 500);
             }
-        }
 
-        init();
+            const binary = atob(frame.data);
+            const array = new Uint8ClampedArray(binary.length);
+            for (let i = 0; i < binary.length; i++) array[i] = binary.charCodeAt(i);
+            
+            const imageData = new ImageData(array, 240, 160);
+            ctx.putImageData(imageData, 0, 0);
+            frameCount++;
+        });
+
+        // Ping tracker
+        setInterval(() => {
+            const start = Date.now();
+            socket.volatile.emit('ping', () => {
+                pingEl.innerText = Date.now() - start;
+            });
+        }, 2000);
+
+        // Input relay
+        const keyMap = {
+            'ArrowUp': 'Up', 'ArrowDown': 'Down', 'ArrowLeft': 'Left', 'ArrowRight': 'Right',
+            'x': 'A', 'z': 'B', 'Enter': 'Start', 'Backspace': 'Select', 'a': 'L', 's': 'R'
+        };
+
+        window.addEventListener('keydown', (e) => {
+            if (keyMap[e.key]) { e.preventDefault(); socket.emit('player-input', { button: keyMap[e.key], isPressed: true }); }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (keyMap[e.key]) { e.preventDefault(); socket.emit('player-input', { button: keyMap[e.key], isPressed: false }); }
+        });
     </script>
 </body>
 </html>

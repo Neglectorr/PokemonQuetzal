@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const EventEmitter = require('events');
+const fs = require('fs');
 
 class WasmEmulator extends EventEmitter {
     constructor(roomId, maxPlayers = 4) {
@@ -37,12 +38,12 @@ class WasmEmulator extends EventEmitter {
                         window.mgba = module;
                         console.log("WASM_READY");
                         
-                        // Pixel pusher
+                        // Pixel pusher - RGBA format
                         setInterval(() => {
                             const ctx = canvas.getContext('2d');
-                            const data = ctx.getImageData(0, 0, 240, 160).data;
-                            window.onPixels(Array.from(data));
-                        }, 33); // 30 FPS stream
+                            const imageData = ctx.getImageData(0, 0, 240, 160);
+                            window.onPixels(Array.from(imageData.data));
+                        }, 33);
                     }
                     init();
                 </script>
@@ -51,21 +52,29 @@ class WasmEmulator extends EventEmitter {
         `;
 
         await this.page.exposeFunction('onPixels', (pixels) => {
-            this.emit('frame', Buffer.from(pixels));
+            if (this.isReady) {
+                this.emit('frame', Buffer.from(pixels));
+            }
         });
 
         this.page.on('console', msg => {
             if (msg.text() === 'WASM_READY') this.isReady = true;
-            console.log(`[WasmCore LOG]`, msg.text());
+            if (msg.text() !== 'WASM_READY') console.log(`[WasmCore LOG]`, msg.text());
         });
 
         await this.page.setContent(html);
         
-        // Wait for ready
-        while(!this.isReady) await new Promise(r => setTimeout(r, 100));
+        // Wait for core
+        let timeout = 0;
+        while(!this.isReady && timeout < 100) {
+            await new Promise(r => setTimeout(r, 100));
+            timeout++;
+        }
+
+        if (!this.isReady) throw new Error("WASM Core failed to signal READY");
 
         // Load ROM
-        const fs = require('fs');
+        console.log(`[WasmCore ${this.roomId}] Injecting ROM...`);
         const romB64 = fs.readFileSync(romPath).toString('base64');
         await this.page.evaluate(async (b64) => {
             const res = await fetch(`data:application/octet-stream;base64,${b64}`);
@@ -78,8 +87,21 @@ class WasmEmulator extends EventEmitter {
         console.log(`[WasmCore ${this.roomId}] Engine Heartbeat Detected!`);
     }
 
+    async sendInput(button, isPressed) {
+        if (!this.page || !this.isReady) return;
+        await this.page.evaluate((btn, pressed) => {
+            if (window.mgba) {
+                if (pressed) window.mgba.buttonPress(btn);
+                else window.mgba.buttonUnpress(btn);
+            }
+        }, button, isPressed);
+    }
+
     async stop() {
         if (this.browser) await this.browser.close();
+        this.isReady = false;
+        this.page = null;
+        this.browser = null;
     }
 }
 
