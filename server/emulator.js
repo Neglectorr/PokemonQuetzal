@@ -105,7 +105,7 @@ class EmulatorInstance {
             stdio: ['pipe', 'pipe', 'pipe'],
             env: { 
                 ...process.env, 
-                QT_QPA_PLATFORM: 'offscreen',
+                QT_QPA_PLATFORM: 'windows',
                 QT_QPA_PLATFORM_PLUGIN_PATH: path.dirname(mgbaExe),
                 QT_OPENGL: 'software',
                 LIBGL_ALWAYS_SOFTWARE: '1',
