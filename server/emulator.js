@@ -85,15 +85,14 @@ class EmulatorInstance {
         console.log(`[Room ${this.roomId}] Launching truly headless mGBA...`);
         
         // 2. Launch mGBA with -platform offscreen for Session 0 compatibility.
-        // We use dummy audio and disable sync to video/audio to let the pipe handle timing.
-        // Passing the ROM once - mGBA -m replicates it internally.
+        // We force software rendering and sync to audio for stable headless performance.
         const mgbaArgs = [
             '-platform', 'offscreen',
             '-m', this.maxPlayers.toString(), 
+            '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
-            '-C', 'qt.displayDriver=0', // Force Software rendering
             '-C', 'syncToVideo=0',
-            '-C', 'syncToAudio=1',     // Sync to Dummy audio (timed consuming) for stable clocks
+            '-C', 'syncToAudio=1',
             '--stream-pipe', pipeBase, 
             '--sav-path', lobbyDir,
             romPath
@@ -125,12 +124,16 @@ class EmulatorInstance {
         // 3. Spawn Input Proxy after a short delay for windows to be created
         setTimeout(() => {
             const proxyScript = path.join(__dirname, 'input_proxy.py');
+            if (!fs.existsSync(proxyScript)) {
+                console.error(`[Room ${this.roomId}] Input proxy script NOT FOUND at ${proxyScript}`);
+                return;
+            }
             this.inputProxy = spawn('python', ['-u', proxyScript, this.mGBAProcess.pid.toString(), this.maxPlayers.toString()], {
                 stdio: ['pipe', 'pipe', 'pipe']
             });
             this.inputProxy.stdout.on('data', (data) => console.log(`[InputProxy ${this.roomId}]`, data.toString().trim()));
             this.inputProxy.stderr.on('data', (data) => console.error(`[InputProxy ${this.roomId} ERR]`, data.toString().trim()));
-        }, 5000);
+        }, 8000); // 8s delay to ensure mGBA windows exist in Session 0
 
         // Auto-load save states for assigned slots after a delay
         setTimeout(() => {

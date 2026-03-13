@@ -117,6 +117,10 @@
 
     socket.on('frame', (data) => {
         // data: { slot, data: Buffer, width, height, raw: true }
+        if (!window.firstFrameReceived) {
+            console.log(`[Room] First frame received for slot ${data.slot}: ${data.width}x${data.height}`);
+            window.firstFrameReceived = true;
+        }
         renderFrame(data.slot, data.data, data.width, data.height);
     });
 
@@ -147,10 +151,14 @@
     // ═══════════════════════════════════════
 
     function renderFrame(slot, frameData, width, height) {
-        if (!frameData) return;
+        if (!frameData || !width || !height) return;
 
-        // frameData is an ArrayBuffer (RGBA)
-        const uint8 = new Uint8ClampedArray(frameData);
+        // frameData might be an ArrayBuffer or a Uint8Array depending on socket.io version
+        const uint8 = (frameData instanceof Uint8Array) ? frameData : new Uint8ClampedArray(frameData);
+        
+        // Safety check length
+        if (uint8.length < width * height * 4) return;
+
         const imageData = new ImageData(uint8, width, height);
 
         if (currentView === 'single') {
