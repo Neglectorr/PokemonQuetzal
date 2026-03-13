@@ -138,6 +138,24 @@ function init(socketIo, lobby) {
     });
 
     // ═══════════════════════════════════════
+    // LINK RELAY
+    // ═══════════════════════════════════════
+    // --- HYPER-LINK WASM RELAY ---
+    socket.on('link-data', (data) => {
+        const mapping = socketUsers.get(socket.id);
+        if (!mapping || !mapping.roomId) return;
+
+        const room = lobbyModule.getRoom(mapping.roomId);
+        if (room) {
+            // Send the raw GBA link bytes to everyone else in the room
+            socket.to(room.id).emit('link-data', {
+                from: socket.id,
+                payload: data
+            });
+        }
+    });
+
+    // ═══════════════════════════════════════
     // CHAT MESSAGE
     // ═══════════════════════════════════════
     socket.on('chat-message', ({ message }) => {

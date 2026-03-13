@@ -128,6 +128,8 @@ app.use('/mgba', express.static(MGBA_DIST, { setHeaders: mgbaHeaders }));
 
 
 // Static files
+app.use('/js', express.static(path.join(__dirname, '../public/js')));
+app.use('/wasm', express.static(path.join(__dirname, '../node_modules/@thenick775/mgba-wasm/dist')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 
