@@ -50,7 +50,7 @@ class VideoEncoder extends EventEmitter {
         // We use 'bgra' because that's mGBA's native software output on Windows
         const args = [
             '-f', 'rawvideo',
-            '-pixel_format', 'bgra',
+            '-pixel_format', 'rgba',
             '-video_size', `${this.width}x${this.height}`,
             '-i', '-',
             '-f', 'image2pipe',
@@ -106,11 +106,12 @@ class VideoEncoder extends EventEmitter {
      * Feed raw pixels into the encoder.
      */
     write(pixels) {
-        if (!this.isActive || !this.ffmpeg) return;
+        if (!this.isActive || !this.ffmpeg) return true;
         try {
-            this.ffmpeg.stdin.write(pixels);
+            return this.ffmpeg.stdin.write(pixels);
         } catch (e) {
             console.error('[VideoEncoder] Error writing to FFmpeg stdin:', e);
+            return false;
         }
     }
 

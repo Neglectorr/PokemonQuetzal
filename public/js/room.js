@@ -137,7 +137,11 @@
     socket.on('emulator-ready', () => {
         addSystemMessage("Server-side emulation started.");
         document.getElementById('canvas-overlay').classList.add('hidden');
-        document.getElementById('macro-progress').classList.remove('active');
+        const progress = document.getElementById('macro-progress');
+        if (progress) {
+            progress.classList.remove('active');
+            setTimeout(() => progress.style.display = 'none', 500);
+        }
     });
 
     socket.on('emulator-error', (msg) => {

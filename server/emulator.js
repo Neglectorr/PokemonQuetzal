@@ -97,7 +97,7 @@ class EmulatorInstance {
             '-C', 'ports.qt.videoBackend=software',
             '-C', 'audio.driver=dummy',
             '-C', 'syncToVideo=0',
-            '-C', 'syncToAudio=0',
+            '-C', 'syncToAudio=1',
             '-C', 'audio.bufferSamples=1024',
             '-C', 'fpsTarget=60',
             '-C', 'frameskip=0',
