@@ -167,9 +167,9 @@ class PipeBridge extends EventEmitter {
                     this.lastPixelBuffer = Buffer.from(pixelData); // Clone for comparison
 
                     if (this.encoder && this.encoder.isActive) {
-                        // EXTREMELY CRITICAL: Use a non-blocking check to prevent backpressure.
-                        // If FFmpeg's buffer is full, we DROP the frame so mGBA doesn't slow down.
-                        const isBufferFull = this.encoder.ffmpeg.stdin.writableHighWaterMark <= this.encoder.ffmpeg.stdin.writableLength;
+                        // EXTREMELY CRITICAL: Use a more realistic buffer threshold.
+                        // A GBA frame is ~150KB. Drop only if > 2 frames are queued (300KB).
+                        const isBufferFull = this.encoder.ffmpeg.stdin.writableLength > 300000;
                         
                         if (!isBufferFull) {
                             this.encoder.write(pixelData);
