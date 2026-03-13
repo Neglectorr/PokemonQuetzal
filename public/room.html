@@ -39,6 +39,7 @@
       </div>
       <button id="fullscreen-btn" class="btn btn-secondary btn-sm" title="Fullscreen">⛶</button>
       <button id="toggle-gamepad-btn" class="btn btn-secondary btn-sm" title="Toggle Virtual Gamepad">🎮</button>
+      <button id="toggle-scanlines-btn" class="btn btn-secondary btn-sm" title="Toggle Scanlines">📺</button>
       <button id="controls-btn" class="btn btn-secondary btn-sm" title="Controls Help">⌨️</button>
     </div>
   </header>
@@ -57,6 +58,7 @@
           <!-- Single View -->
           <div id="single-view" class="canvas-wrapper">
             <div class="canvas-glow"></div>
+            <div id="scanlines" class="scanlines"></div>
             <canvas id="main-canvas"></canvas>
             
             <!-- Overlay for Loading/Paused -->
@@ -70,15 +72,21 @@
 
             <!-- Virtual Gamepad for Mobile (Hidden on Desktop) -->
             <div id="virtual-gamepad" class="virtual-gamepad hidden">
-                <div class="dpad">
-                    <button class="dpad-btn up" data-btn="Up">▲</button>
-                    <button class="dpad-btn left" data-btn="Left">◀</button>
-                    <button class="dpad-btn right" data-btn="Right">▶</button>
-                    <button class="dpad-btn down" data-btn="Down">▼</button>
+                <div class="gamepad-controls-top">
+                    <div class="dpad">
+                        <button class="dpad-btn up" data-btn="Up">▲</button>
+                        <button class="dpad-btn left" data-btn="Left">◀</button>
+                        <button class="dpad-btn right" data-btn="Right">▶</button>
+                        <button class="dpad-btn down" data-btn="Down">▼</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn b-btn" data-btn="B">B</button>
+                        <button class="action-btn a-btn" data-btn="A">A</button>
+                    </div>
                 </div>
-                <div class="action-buttons">
-                    <button class="action-btn b-btn" data-btn="B">B</button>
-                    <button class="action-btn a-btn" data-btn="A">A</button>
+                <div class="shoulder-buttons">
+                    <button class="shoulder-btn l-btn" data-btn="L">L</button>
+                    <button class="shoulder-btn r-btn" data-btn="R">R</button>
                 </div>
                 <div class="menu-buttons">
                     <button class="menu-btn select-btn" data-btn="Select">SELECT</button>

@@ -253,6 +253,13 @@
         document.getElementById('virtual-gamepad').classList.toggle('hidden');
     });
 
+    const scanBtn = document.getElementById('toggle-scanlines-btn');
+    if (scanBtn) {
+        scanBtn.addEventListener('click', () => {
+            document.getElementById('scanlines').classList.toggle('hidden');
+        });
+    }
+
     document.getElementById('chat-send-btn').addEventListener('click', sendMessage);
     document.getElementById('chat-input').addEventListener('keypress', e => e.key === 'Enter' && sendMessage());
 
