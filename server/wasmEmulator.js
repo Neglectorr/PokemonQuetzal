@@ -19,15 +19,38 @@ class WasmEmulator extends EventEmitter {
         this.linkHub = require('./wasmLinkHub');
     }
 
+    async findChromePath() {
+        if (process.env.PUPPETEER_EXECUTABLE_PATH) return process.env.PUPPETEER_EXECUTABLE_PATH;
+        
+        // Only for Windows environments based on the error logs
+        if (process.platform === 'win32') {
+            const commonPaths = [
+                'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+                'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+                'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+            ];
+            
+            for (const p of commonPaths) {
+                if (fs.existsSync(p)) {
+                    console.log(`[WasmCore] Detected browser at: ${p}`);
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
     async start(romPath) {
         console.log(`[WasmCore ${this.roomId}] Initializing Isolated Headless Instance (Slot ${this.slot})...`);
         this.linkHub.join(this.playerId);
         
         try {
-            console.log(`[WasmCore ${this.roomId}] Attempting Browser Launch...`);
+            const executablePath = await this.findChromePath();
+            console.log(`[WasmCore ${this.roomId}] Attempting Browser Launch... (Path: ${executablePath || 'bundled'})`);
+            
             this.browser = await puppeteer.launch({
                 headless: true,
-                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || null, // Allow custom chrome path
+                executablePath: executablePath,
                 args: [
                     '--no-sandbox', 
                     '--disable-setuid-sandbox',
