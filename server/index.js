@@ -179,7 +179,22 @@ app.get('/api/me', (req, res) => {
 // Socket.io setup
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+    origin: (origin, callback) => {
+        // Allow if origin is same-origin (undefined) or matches any of our known origins
+        const allowedOrigins = [
+            process.env.CLIENT_ORIGIN,
+            'http://localhost:3000',
+            'https://roms.wesleypostma.nl'
+        ].filter(Boolean);
+
+        if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development') {
+            callback(null, true);
+        } else {
+            console.warn(`[Socket.io] CORS blocked for origin: ${origin}`);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ["GET", "POST"],
     credentials: true
   },
   maxHttpBufferSize: 1e7 // 10MB for frame data

@@ -14,7 +14,7 @@ function init(io, lobbies) {
     socket.on('auth', (data) => {
       userData = { ...data, socketId: socket.id };
       socketUsers.set(socket.id, userData);
-      console.log(`[Socket] Connected: ${data.username} (${socket.id})`);
+      console.log(`[Socket] Auth successful: ${data.username} (${data.id}) on socket ${socket.id}`);
     });
 
     socket.on('disconnect', () => {
@@ -75,8 +75,8 @@ function init(io, lobbies) {
       }
 
       socket.join(roomId);
-      console.log(`[Socket] ${userData.username} joined room "${room.name}" as player ${slot}`);
-
+      console.log(`[Socket] ${userData.username} (ID: ${userData.id}) joined room "${room.name}" as player ${slot}`);
+      
       broadcastRoomState(roomId);
       socket.emit('joined-room', { roomId, slot });
     });

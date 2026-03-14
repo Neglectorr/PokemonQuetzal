@@ -89,57 +89,79 @@
     async function initRoom() {
         console.log('[Room] Initializing session data...');
         
-        // Define connect handler BEFORE any awaits
-        const onConnect = () => {
-            if (!currentUser) return; // Wait for user data
-            updateConnectionStatus(true);
-            const roomId = window.location.pathname.split('/').pop();
-            socket.emit('auth', currentUser);
-            socket.emit('join-room', roomId);
-        };
-
-        socket.on('connect', onConnect);
-        if (socket.connected) onConnect(); // Handle already connected state
-
+        let fetchedUser = null;
         try {
             const res = await fetch('/api/me');
             if (res.ok) {
                 const data = await res.json();
-                currentUser = data.user;
-                console.log('[Room] Authenticated as:', currentUser.username);
-                
-                // If we connected before fetch finished, trigger the join now
-                if (socket.connected) onConnect();
+                fetchedUser = data.user;
+                console.log('[Room] Authenticated as:', fetchedUser.username);
             }
         } catch (err) {
-            console.warn('[Room] Auth fetch failed, continuing as Guest.', err);
+            console.warn('[Room] Auth fetch failed.', err);
         }
 
-        if (!currentUser) {
-            currentUser = {
+        if (!fetchedUser) {
+            console.log('[Room] No session found, using guest fallback.');
+            fetchedUser = {
                 id: 'guest_' + Math.random().toString(36).substr(2, 5),
                 username: 'Guest'
             };
-            if (socket.connected) onConnect();
         }
+        
+        currentUser = fetchedUser;
+        // Store for persistence during refreshes
+        localStorage.setItem('userId', currentUser.id);
+        localStorage.setItem('username', currentUser.username);
+
+        const tryJoin = () => {
+            if (socket.connected && currentUser && !window.roomJoined) {
+                console.log('[Room] Connection established, sending join request...');
+                updateConnectionStatus(true);
+                const roomId = window.location.pathname.split('/').pop();
+                socket.emit('auth', currentUser);
+                socket.emit('join-room', roomId);
+                window.roomJoined = true; // Prevent multiple joins
+            }
+        };
+
+        socket.on('connect', tryJoin);
+        socket.on('connect_error', (err) => {
+            console.error('[Room] Socket Connection Error:', err.message);
+            updateConnectionStatus(false);
+            showToast(`Connection Error: ${err.message}`, 'error');
+        });
+        if (socket.connected) tryJoin();
     }
 
     socket.on('disconnect', () => updateConnectionStatus(false));
 
     socket.on('room-update', (room) => {
         console.log('[Room] Update received:', room);
-        console.log('[Room] My Socket ID:', socket.id);
         
         // Find my slot and host status
-        const me = room.players.find(p => p.socketId === socket.id || (p.id && currentUser && p.id === currentUser.id));
-        console.log('[Room] Identified as:', me);
+        // More resilient matching: socketId OR userId
+        const myUserId = currentUser ? currentUser.id : localStorage.getItem('userId');
+        const me = room.players.find(p => p.socketId === socket.id || (p.id && myUserId && p.id === myUserId));
+        
+        console.log('[Room] Identification check:', { 
+            found: !!me, 
+            socketId: socket.id, 
+            myUserId: myUserId,
+            hostId: room.host.id 
+        });
 
         if (me) {
             mySlot = me.slot;
             isHost = (room.host.id === me.id);
             window.currentRoomHostId = room.host.id;
-            console.log('[Room] My Slot:', mySlot, 'Is Host:', isHost);
+        } else {
+            // Fallback for Host if they created the room but aren't in players yet
+            isHost = (currentUser && room.host.id === currentUser.id);
+            window.currentRoomHostId = room.host.id;
         }
+        
+        console.log('[Room] Role:', isHost ? 'HOST' : 'PLAYER/SPECTATOR', 'Slot:', mySlot);
 
         document.getElementById('room-title').textContent = room.name;
         document.getElementById('room-rom-info').textContent = room.rom && room.rom.name ? room.rom.name : (room.rom || 'Quetzal');
