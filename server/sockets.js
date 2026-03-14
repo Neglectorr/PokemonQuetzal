@@ -1,4 +1,5 @@
 const lobbyModule = require('./lobby');
+const WasmMultiCore = require('./wasmMultiCore');
 
 // Internal state for tracking users across sockets
 const socketUsers = new Map();
