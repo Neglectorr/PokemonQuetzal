@@ -107,22 +107,30 @@ function ensureAuth(req, res, next) {
 
 // Middleware for auto-login in dev mode
 function autoLogin(req, res, next) {
-  if (process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTO_LOGIN !== 'true' && (!req.isAuthenticated || !req.isAuthenticated())) {
-    const id = 'debug_testuser';
-    let user = users.get(id);
-    if (!user) {
-      user = { id, username: 'TestUser', avatar: null, provider: 'debug' };
-      users.set(id, user);
+  if (process.env.NODE_ENV === 'development' && process.env.DISABLE_AUTO_LOGIN !== 'true') {
+    const requestedName = req.query.user;
+    const isAuthenticated = req.isAuthenticated && req.isAuthenticated();
+    const currentUsername = req.user ? req.user.username : null;
+
+    // Trigger login if not authenticated OR if a specific different user is requested via ?user=
+    if (!isAuthenticated || (requestedName && requestedName !== currentUsername)) {
+      const finalName = requestedName || 'TestUser';
+      const id = 'debug_' + finalName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      
+      let user = users.get(id);
+      if (!user) {
+        user = { id, username: finalName, avatar: null, provider: 'debug' };
+        users.set(id, user);
+      }
+      
+      return req.login(user, (err) => {
+        if (err) console.error('[Auth] Dev auto-login failed:', err);
+        else console.log(`[Auth] Dev mode: Auto-logged in as ${finalName}`);
+        next();
+      });
     }
-    
-    req.login(user, (err) => {
-      if (err) console.error('[Auth] Dev auto-login failed:', err);
-      else console.log('[Auth] Dev mode: Auto-logged in as TestUser');
-      next();
-    });
-  } else {
-    next();
   }
+  next();
 }
 
 module.exports = { router, configure, ensureAuth, autoLogin, users };

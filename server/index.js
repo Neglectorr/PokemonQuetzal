@@ -130,6 +130,7 @@ app.use('/mgba', express.static(MGBA_DIST, { setHeaders: mgbaHeaders }));
 // Static files
 app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/wasm', express.static(path.join(__dirname, '../node_modules/@thenick775/mgba-wasm/dist')));
+app.use('/roms-internal', express.static(path.join(__dirname, '../roms'))); // Internal bridge use
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 
@@ -238,4 +239,12 @@ server.listen(PORT, () => {
   ║     Debug Auth: ${process.env.DEBUG_AUTH === 'true' ? 'ENABLED' : 'DISABLED'}                  ║
   ╚══════════════════════════════════════════════╝
   `);
+});
+
+process.on('uncaughtException', (err) => {
+    console.error('[CRITICAL] Uncaught Exception:', err.stack);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('[CRITICAL] Unhandled Rejection at:', promise, 'reason:', reason);
 });

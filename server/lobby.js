@@ -86,7 +86,8 @@ router.post('/rooms', ensureAuth, (req, res) => {
   }
 
   const max = Math.min(Math.max(parseInt(maxPlayers) || 2, 2), 4);
-  const romGroup = romMatcher.getRomGroup(rom);
+  const romName = (typeof rom === 'object' && rom) ? rom.name : rom;
+  const romGroup = romMatcher.getRomGroup(romName || 'Quetzal.gba');
 
   const room = {
     id: uuidv4(),

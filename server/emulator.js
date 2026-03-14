@@ -323,9 +323,17 @@ class EmulatorInstance {
         delete this.slots[slot];
     }
 
-    sendInput(slot, buttons) {
+    sendInput(slot, nameOrButtons, isPressed) {
         if (!this.inputProxy || this.state !== 'playing') return;
 
+        if (typeof nameOrButtons === 'string') {
+            // Single button mode: sendInput(slot, "A", true)
+            this.inputProxy.stdin.write(`${slot},${nameOrButtons},${isPressed ? '1' : '0'}\n`);
+            return;
+        }
+
+        // Bitmask mode: sendInput(slot, 0x01)
+        const buttons = nameOrButtons;
         for (const { mask, name } of this.BUTTON_NAMES) {
             const nowPressed = (buttons    & mask) !== 0;
             const wasPressed = (this.lastButtons[slot] & mask) !== 0;

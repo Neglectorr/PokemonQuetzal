@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { margin: 0; background: #0a0a1a; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        canvas { image-rendering: pixelated; width: 240px; height: 160px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="240" height="160"></canvas>
+    <script type="module">
+        import mGBA from '/mgba/mgba.js';
+        
+        async function init() {
+            try {
+                console.log("WASM_BOOT_START");
+                const canvas = document.getElementById('c');
+                
+                // CRITICAL: Force WebGL to preserve drawing buffer 
+                // This allows toDataURL and drawImage to capture the pixels
+                const glContexts = ['webgl', 'webgl2', 'experimental-webgl'];
+                const originalGetContext = canvas.getContext;
+                canvas.getContext = function(type, attributes) {
+                    if (glContexts.includes(type)) {
+                        attributes = attributes || {};
+                        attributes.preserveDrawingBuffer = true;
+                        console.log(`WASM_GL_HIJACK: Forcing preserveDrawingBuffer for ${type}`);
+                    }
+                    return originalGetContext.call(this, type, attributes);
+                };
+
+                const module = await mGBA({ 
+                    canvas,
+                    locateFile: (url) => {
+                        if (url.endsWith('.wasm')) return '/mgba/mgba.wasm';
+                        return url;
+                    },
+                    print: (text) => console.log('EM_STDOUT:', text),
+                    printErr: (text) => console.error('EM_STDERR:', text)
+                });
+                
+                console.log("EM_MODULE_CONSTRUCTED");
+                await module.FSInit();
+                
+                // Restored Stable 100% Speed
+                if (module.setCoreSettings) {
+                    module.setCoreSettings({ 
+                        audioSync: 0, 
+                        videoSync: 0,
+                        baseFpsTarget: 60, 
+                        timestepSync: 1, // Sync to wall clock
+                        rewindEnable: 0
+                    });
+                    console.log("WASM_SETTINGS_STABLE_60: Target 100% Speed");
+                }
+
+                window.mgba = module;
+                console.log("WASM_READY");
+                
+                // Audit & Performance tracking
+                const auditCanvas = document.createElement('canvas');
+                auditCanvas.width = 240;
+                auditCanvas.height = 160;
+                const auditCtx = auditCanvas.getContext('2d');
+                
+                let lastFrameTime = performance.now();
+                let frameCount = 0;
+                let totalFrameDelta = 0;
+
+                const GBA_KEYS = ['a', 'b', 'select', 'start', 'right', 'left', 'up', 'down', 'r', 'l'];
+                window.GBA_KEYS = GBA_KEYS;
+
+                function pushFrame() {
+                    if (!window.mgba) return;
+                    const now = performance.now();
+                    const delta = now - lastFrameTime;
+                    lastFrameTime = now;
+                    totalFrameDelta += delta;
+                    frameCount++;
+
+                    try {
+                        const dataUrl = canvas.toDataURL('image/webp', 0.95);
+                        window.onPixels(dataUrl);
+
+                        if (frameCount % 300 === 0) {
+                            auditCtx.drawImage(canvas, 0, 0);
+                            const data = auditCtx.getImageData(0, 0, 240, 160).data;
+                            let sum = 0;
+                            let nonZero = 0;
+                            for (let i = 0; i < data.length; i += 4) {
+                                const l = data[i] + data[i+1] + data[i+2];
+                                sum += l;
+                                if (l > 0) nonZero++;
+                            }
+                            const avgLuma = sum / (240 * 160 * 3);
+                            const avgFps = (1000 / (totalFrameDelta / 300)).toFixed(1);
+                            console.log(`[WasmEngine] STATS: FPS=${avgFps} Luma=${avgLuma.toFixed(2)} (Render OK)`);
+                            totalFrameDelta = 0;
+                        }
+                    } catch (e) {
+                        // ignore
+                    }
+                }
+                // Use 16ms interval for stable 60fps pushing
+                setInterval(pushFrame, 16);
+
+                async function autoWake() {
+                    if (!window.mgba) return;
+                    console.log("WASM_AUTO_WAKE_START");
+                    const keys = ['start', 'start', 'start', 'a', 'a', 'a', 'b', 'b'];
+                    for (const key of keys) {
+                        await new Promise(r => setTimeout(r, 1200));
+                        console.log(`WASM_AW_PRESS: ${key}`);
+                        window.mgba.buttonPress(key);
+                        await new Promise(r => setTimeout(r, 400)); // Hold longer
+                        window.mgba.buttonUnpress(key);
+                    }
+                }
+                
+                // MULTIPLAYER SIO SYNC LOGIC
+                // Discovered Base: 762492
+                const IO_BASE = 762492;
+                const REG_SIOCNT = IO_BASE + 0x128;
+                const REG_SIOMLT_SEND = IO_BASE + 0x12A;
+                const REG_SIOMULTI = IO_BASE + 0x120; // 0, 1, 2, 3 (each 2 bytes)
+                const REG_IF = IO_BASE + 0x202;
+
+                window.setSioData = function(dataArray) {
+                    if (!window.mgba) return;
+                    const h = window.mgba.HEAPU8;
+                    // 1. Fill SIOMULTI0-3
+                    for (let i = 0; i < 4; i++) {
+                        const val = dataArray[i] || 0xFFFF;
+                        h[REG_SIOMULTI + i*2] = val & 0xFF;
+                        h[REG_SIOMULTI + i*2 + 1] = (val >> 8) & 0xFF;
+                    }
+                    // 2. Clear Start bit (7) in SIOCNT
+                    h[REG_SIOCNT] &= ~0x80;
+                    
+                    // 3. Trigger SIO IRQ (bit 7)
+                    h[REG_IF] |= (1 << 7);
+                    
+                    // 4. Resume if we paused
+                    // window.mgba.resumeGame();
+                };
+
+                let lastSentData = -1;
+                let sioCooldown = 0;
+
+                function pollSio() {
+                    if (!window.mgba || !window.onSioTransfer) return;
+                    
+                    const h = window.mgba.HEAPU8;
+                    const sendVal = h[REG_SIOMLT_SEND] | (h[REG_SIOMLT_SEND+1] << 8);
+                    
+                    // 1. Always keep server updated with our local send buffer
+                    if (sendVal !== lastSentData) {
+                        // We need a way to just "update" without "triggering"
+                        // For now let's just trigger, it will just refresh everyone's cache
+                        window.onSioTransfer(sendVal);
+                        lastSentData = sendVal;
+                    }
+
+                    if (sioCooldown > 0) {
+                        sioCooldown--;
+                        return;
+                    }
+
+                    const siocnt = h[REG_SIOCNT] | (h[REG_SIOCNT+1] << 8);
+                    if ((siocnt & 0x0080) && (siocnt & 0x2000)) {
+                        // Start Bit set - Trigger a full sync
+                        window.onSioTransfer(sendVal);
+                        sioCooldown = 5; // throttle
+                    }
+                }
+                setInterval(pollSio, 4); // ~250Hz polling
+
+                setTimeout(autoWake, 5000);
+
+            } catch (err) {
+                console.error("WASM_FATAL_ERROR:", err.message);
+            }
+        }
+        init();
+    </script>
+</body>
+</html>

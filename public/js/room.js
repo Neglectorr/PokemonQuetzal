@@ -89,12 +89,27 @@
     async function initRoom() {
         console.log('[Room] Initializing session data...');
         
+        // Define connect handler BEFORE any awaits
+        const onConnect = () => {
+            if (!currentUser) return; // Wait for user data
+            updateConnectionStatus(true);
+            const roomId = window.location.pathname.split('/').pop();
+            socket.emit('auth', currentUser);
+            socket.emit('join-room', roomId);
+        };
+
+        socket.on('connect', onConnect);
+        if (socket.connected) onConnect(); // Handle already connected state
+
         try {
             const res = await fetch('/api/me');
             if (res.ok) {
                 const data = await res.json();
                 currentUser = data.user;
                 console.log('[Room] Authenticated as:', currentUser.username);
+                
+                // If we connected before fetch finished, trigger the join now
+                if (socket.connected) onConnect();
             }
         } catch (err) {
             console.warn('[Room] Auth fetch failed, continuing as Guest.', err);
@@ -105,15 +120,8 @@
                 id: 'guest_' + Math.random().toString(36).substr(2, 5),
                 username: 'Guest'
             };
+            if (socket.connected) onConnect();
         }
-
-        // Connect socket AFTER we have our identity
-        socket.on('connect', () => {
-            updateConnectionStatus(true);
-            const roomId = window.location.pathname.split('/').pop();
-            socket.emit('auth', currentUser);
-            socket.emit('join-room', roomId);
-        });
     }
 
     socket.on('disconnect', () => updateConnectionStatus(false));
@@ -219,27 +227,30 @@
     function renderFrame(slot, frameData, width, height) {
         if (!frameData || !width || !height) return;
 
-        // Detect format: JPEG [0xFF, 0xD8] or PNG [0x89, 0x50, 0x4E, 0x47]
+        // Detect format: JPEG, PNG, or WebP
         const uint8 = (frameData instanceof Uint8Array) ? frameData : new Uint8Array(frameData);
         const isJPEG = (uint8.length > 2 && uint8[0] === 0xFF && uint8[1] === 0xD8);
         const isPNG = (uint8.length > 4 && uint8[0] === 0x89 && uint8[1] === 0x50 && uint8[2] === 0x4E && uint8[3] === 0x47);
+        const isWebP = (uint8.length > 12 && uint8[0] === 0x52 && uint8[1] === 0x49 && uint8[2] === 0x46 && uint8[3] === 0x46 && uint8[8] === 0x57 && uint8[9] === 0x45 && uint8[10] === 0x42 && uint8[11] === 0x50);
 
         if (!window.frameDebugCount) window.frameDebugCount = 0;
         if (window.frameDebugCount < 5) {
-            console.log(`[Room] Frame received: slot=${slot}, size=${uint8.length}, isJPEG=${isJPEG}, isPNG=${isPNG}`);
+            console.log(`[Room] Frame received: slot=${slot}, size=${uint8.length}, isJPEG=${isJPEG}, isPNG=${isPNG}, isWebP=${isWebP}`);
             window.frameDebugCount++;
         }
 
-        if (isJPEG || isPNG) {
-            const blob = new Blob([uint8], { type: isJPEG ? 'image/jpeg' : 'image/png' });
+        if (isJPEG || isPNG || isWebP) {
+            let type = 'image/jpeg';
+            if (isPNG) type = 'image/png';
+            if (isWebP) type = 'image/webp';
+            
+            const blob = new Blob([uint8], { type });
             createImageBitmap(blob).then(bitmap => {
                 if (currentView === 'single') {
-                    if (slot === mySlot || (!mySlot && slot === 1)) {
+                    // Multiplayer Logic: Show MY slot screen. If I'm a spectator, show P1.
+                    const targetSlot = mySlot || 1;
+                    if (slot === targetSlot) {
                         mainCtx.drawImage(bitmap, 0, 0);
-                    } else {
-                        if (window.frameDebugCount % 100 === 0) {
-                            console.warn(`[Room] Dropping frame from P${slot} (Not my slot: ${mySlot})`);
-                        }
                     }
                 } else {
                     const ctx = gridContexts[slot];

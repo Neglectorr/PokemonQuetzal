@@ -110,36 +110,44 @@ function init(io, lobbies) {
       if (room.host.id !== userData.id) return;
       if (room.status === 'playing') return;
 
-      console.log(`[Socket] Starting HYPER-WASM Core for room "${room.name}"`);
+      console.log(`[Socket] Starting WASM MULTI-CORE for room "${room.name}"`);
 
-      // Launch Server-Side WASM Core
-      const WasmEmulator = require('./wasmEmulator');
-      room.emulator = new WasmEmulator(room.id, room.maxPlayers);
+      // Launch Multi-Instance WASM mGBA Core (for server-authoritative WASM support)
+      const WasmMultiCore = require('./wasmMultiCore');
+      const romPath = (typeof room.rom === 'object' && room.rom) ? room.rom.name : room.rom;
+      room.emulator = new WasmMultiCore(room.id, room.maxPlayers, romPath || 'Quetzal.gba');
+      
+      room.emulator.on('frame', (slot, buffer) => {
+          // Broadcast frame for the specific slot
+          io.to(room.id).emit('frame', {
+              slot: slot,
+              data: buffer,
+              width: 240,
+              height: 160
+          });
+      });
+
+      room.emulator.on('ready', () => {
+          console.log(`[Socket] WASM Multi-Core Ready for room "${room.name}"`);
+          io.to(room.id).emit('game-started', { mode: 'WASM_MULTI' });
+      });
+
+      room.emulator.on('error', (err) => {
+          console.error(`[Socket] WASM Multi-Core Error (${room.id}):`, err);
+          io.to(room.id).emit('emulator-error', err);
+      });
+      // The original code had a macro-progress callback here, but WasmMultiCore uses events.
+      // If macro-progress is needed, it should be implemented as an event listener for WasmMultiCore.
       
       room.status = 'playing';
       broadcastRoomState(room.id);
 
-      room.emulator.on('frame', (buffer) => {
-          // Broadcast raw binary frame to all portal users
-          io.to(room.id).emit('frame', {
-              slot: 1,
-              data: buffer.toString('base64'),
-              type: 'rgba'
-          });
-      });
-
-      try {
-          const path = require('path');
-          const romPath = path.join(__dirname, '..', 'roms', room.rom);
-          await room.emulator.start(romPath);
-          console.log(`[Socket] WASM Core Ready for room "${room.name}"`);
-          io.to(room.id).emit('game-started', { mode: 'WASM' });
-      } catch (err) {
-          console.error("Failed to start WASM Core:", err);
+      room.emulator.start().catch(err => {
+          console.error('[Socket] Failed to start WASM Multiplayer:', err);
           io.to(room.id).emit('error', { message: 'WASM Core Failure: ' + err.message });
           room.status = 'waiting';
           broadcastRoomState(room.id);
-      }
+      });
     });
 
     // Input relay (Prototype: Player 1 controls the master instance)
@@ -147,9 +155,19 @@ function init(io, lobbies) {
         const mapping = socketUsers.get(socket.id);
         if (mapping && mapping.roomId) {
             const room = lobbies.getRoom(mapping.roomId);
-            if (room && room.emulator && room.emulator.isReady) {
-                // data = { button: 'A', isPressed: true }
-                room.emulator.sendInput(data.button, data.isPressed).catch(console.error);
+            if (room && room.emulator && (room.emulator.isReady || room.emulator.state === 'playing')) {
+                if (data.buttons !== undefined) {
+                    if (room.emulator.syncInput) {
+                        room.emulator.syncInput(mapping.slot, data.buttons).catch(console.error);
+                    } else if (room.emulator.sendInput) {
+                        // Native backend uses sendInput(slot, buttons)
+                        room.emulator.sendInput(mapping.slot, data.buttons);
+                    }
+                } else {
+                    if (room.emulator.sendInput) {
+                        room.emulator.sendInput(mapping.slot, data.button, data.isPressed).catch(console.error);
+                    }
+                }
             }
         }
     });
