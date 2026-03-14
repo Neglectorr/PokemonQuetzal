@@ -142,7 +142,7 @@
         // Find my slot and host status
         // More resilient matching: socketId OR userId
         const myUserId = currentUser ? currentUser.id : localStorage.getItem('userId');
-        const me = room.players.find(p => p.socketId === socket.id || (p.id && myUserId && p.id === myUserId));
+        const me = room.players.find(p => p.socketId === socket.id || (p.id && myUserId && p.id == myUserId));
         
         console.log('[Room] Identification check:', { 
             found: !!me, 
@@ -153,11 +153,11 @@
 
         if (me) {
             mySlot = me.slot;
-            isHost = (room.host.id === me.id);
+            isHost = (room.host.id == me.id);
             window.currentRoomHostId = room.host.id;
         } else {
             // Fallback for Host if they created the room but aren't in players yet
-            isHost = (currentUser && room.host.id === currentUser.id);
+            isHost = (currentUser && room.host.id == currentUser.id);
             window.currentRoomHostId = room.host.id;
         }
         
