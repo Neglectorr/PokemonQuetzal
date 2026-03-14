@@ -84,11 +84,11 @@
                     ctx.font = '8px monospace';
                     ctx.fillText(slot, 2, 8);
 
-                    const dataUrl = canvas.toDataURL('image/webp', 0.95);
-                    window.onPixels(dataUrl);
+                    try {
+                        const dataUrl = canvas.toDataURL('image/webp', 0.95);
+                        window.onPixels(dataUrl);
 
-                    frameCount++;
-                    if (frameCount % 300 === 0) {
+                        if (frameCount % 300 === 0) {
                             auditCtx.drawImage(canvas, 0, 0);
                             const data = auditCtx.getImageData(0, 0, 240, 160).data;
                             let sum = 0;
