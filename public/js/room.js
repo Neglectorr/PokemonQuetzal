@@ -5,7 +5,7 @@
 
 (function() {
     'use strict';
-    console.log('[Antigravity] Room UI Version 2.3 (Multi-Sync Fix) Loaded');
+    console.log('[Antigravity] Room UI Version 2.4 (Multi-Tab Fix) Loaded');
 
     const socket = io();
     const GBA_WIDTH = 240;
@@ -140,9 +140,9 @@
         console.log('[Room] Update received:', room);
         
         // Find my slot and host status
-        // More resilient matching: socketId OR userId
+        // CRITICAL: Prioritize socketId match for multi-tab testing
+        const me = room.players.find(p => p.socketId === socket.id);
         const myUserId = currentUser ? currentUser.id : localStorage.getItem('userId');
-        const me = room.players.find(p => p.socketId === socket.id || (p.id && myUserId && p.id == myUserId));
         
         console.log('[Room] Identification check:', { 
             found: !!me, 

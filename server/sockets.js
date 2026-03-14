@@ -27,7 +27,7 @@ function init(io, lobbies) {
         if (mapping && mapping.roomId) {
           const room = lobbies.getRoom(mapping.roomId);
           if (room) {
-            room.players.delete(userData.id);
+            room.players.delete(socket.id);
             if (room.players.size === 0) {
               // Kill emulator if room empty
               if (room.emulator) {
@@ -36,7 +36,7 @@ function init(io, lobbies) {
               lobbies.deleteRoom(room.id);
             } else {
               // Re-assign host if needed
-              if (room.host.id === userData.id) {
+              if (room.host.id == userData.id && room.players.size > 0) {
                 room.host = Array.from(room.players.values())[0];
               }
               broadcastRoomState(room.id);
@@ -67,7 +67,7 @@ function init(io, lobbies) {
       while (usedSlots.includes(slot)) slot++;
 
       const playerInfo = { ...userData, slot };
-      room.players.set(userData.id, playerInfo);
+      room.players.set(socket.id, playerInfo);
       
       const mapping = socketUsers.get(socket.id);
       if (mapping) {
