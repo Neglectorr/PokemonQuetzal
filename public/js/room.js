@@ -5,7 +5,7 @@
 
 (function() {
     'use strict';
-    console.log('[Antigravity] Room UI Version 2.4 (Multi-Tab Fix) Loaded');
+    console.log('[Antigravity] Room UI Version 2.5 (Identifier Sync) Loaded');
 
     const socket = io();
     const GBA_WIDTH = 240;
@@ -156,12 +156,27 @@
             isHost = (room.host.id == me.id);
             window.currentRoomHostId = room.host.id;
         } else {
-            // Fallback for Host if they created the room but aren't in players yet
-            isHost = (currentUser && room.host.id == currentUser.id);
+            console.warn('[Room] Direct Socket Match Failed. Scanning UserID List...');
+            // Resilient Fallback: Match by User ID if it's unique in the player list
+            const myIdFallback = currentUser ? currentUser.id : localStorage.getItem('userId');
+            const myPlayers = room.players.filter(p => p.id == myIdFallback);
+            
+            // If there's only one Wesley, we take that slot. 
+            // If there are multiple, we pick the one with the highest slot (newest).
+            if (myPlayers.length > 0) {
+                const latest = myPlayers.sort((a,b) => b.slot - a.slot)[0];
+                mySlot = latest.slot;
+                isHost = (room.host.id == latest.id);
+                console.log(`[Room] Identification resolved via UserID fallback: Slot ${mySlot}`);
+            } else {
+                // True Spectator or Host-only state
+                isHost = (currentUser && room.host.id == currentUser.id);
+                console.log(`[Room] Identified as SPECTATOR / HOST-ONLY (Slot 1 Default)`);
+            }
             window.currentRoomHostId = room.host.id;
         }
         
-        console.log('[Room] Role:', isHost ? 'HOST' : 'PLAYER/SPECTATOR', 'Slot:', mySlot);
+        console.log('[Room] FINAL ASSIGNMENT -> Slot:', mySlot, 'Role:', isHost ? 'HOST' : 'PLAYER');
 
         document.getElementById('room-title').textContent = room.name;
         document.getElementById('room-rom-info').textContent = room.rom && room.rom.name ? room.rom.name : (room.rom || 'Quetzal');

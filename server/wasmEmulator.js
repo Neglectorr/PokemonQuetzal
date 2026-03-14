@@ -68,7 +68,7 @@ class WasmEmulator extends EventEmitter {
             await this.page.exposeFunction('onPixels', (dataUrl) => {
                 const base64Data = dataUrl.split(',')[1];
                 if (base64Data) {
-                    this.emit('frame', Buffer.from(base64Data, 'base64'));
+                    this.emit('frame', this.slot, Buffer.from(base64Data, 'base64'));
                 }
             });
 

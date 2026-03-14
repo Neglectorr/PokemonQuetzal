@@ -19,8 +19,8 @@ class WasmMultiCore extends EventEmitter {
         for (let i = 0; i < this.slotCount; i++) {
             const instance = new WasmEmulator(this.roomId, i + 1, this.slotCount);
             
-            instance.on('frame', (buffer) => {
-                this.emit('frame', i + 1, buffer);
+            instance.on('frame', (slot, buffer) => {
+                this.emit('frame', slot, buffer);
             });
 
             instance.on('error', (err) => {
