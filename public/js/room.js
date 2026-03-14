@@ -5,7 +5,7 @@
 
 (function() {
     'use strict';
-    console.log('[Antigravity] Room UI Version 2.5 (Identifier Sync) Loaded');
+    console.log('[Antigravity] Room UI Version 2.6 (Stream Verification) Loaded');
 
     const socket = io();
     const GBA_WIDTH = 240;
@@ -284,10 +284,19 @@
             const blob = new Blob([uint8], { type });
             createImageBitmap(blob).then(bitmap => {
                 if (currentView === 'single') {
-                    // Multiplayer Logic: Show MY slot screen. If I'm a spectator, show P1.
-                    const targetSlot = mySlot || 1;
-                    if (slot === targetSlot) {
+                    // Multiplayer Logic: Show MY slot screen. 
+                    // If mySlot is not identified yet, don't default to 1 as it creates confusion.
+                    if (!mySlot) {
+                        return;
+                    }
+
+                    if (slot === mySlot) {
                         mainCtx.drawImage(bitmap, 0, 0);
+                        
+                        // Debug overlay on client side
+                        mainCtx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                        mainCtx.font = 'bold 12px Inter';
+                        mainCtx.fillText(`SLOT ${mySlot}`, 10, GBA_HEIGHT - 10);
                     }
                 } else {
                     const ctx = gridContexts[slot];

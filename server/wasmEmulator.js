@@ -109,10 +109,10 @@ class WasmEmulator extends EventEmitter {
                 this.emit('error', err.message);
             });
 
-            // Target the local headless host
-            console.log(`[WasmCore ${this.roomId}] Navigating to bridge: http://127.0.0.1:3000/wasm-headless.html`);
-            await this.page.goto('http://127.0.0.1:3000/wasm-headless.html', {
-                waitUntil: 'domcontentloaded', // Less strict than networkidle2
+            // Target the local headless host with slot ID for visual tracking
+            console.log(`[WasmCore ${this.roomId}] Navigating to bridge: http://127.0.0.1:3000/wasm-headless.html?slot=${this.slot}`);
+            await this.page.goto(`http://127.0.0.1:3000/wasm-headless.html?slot=${this.slot}`, {
+                waitUntil: 'domcontentloaded',
                 timeout: 60000
             });
             console.log(`[WasmCore ${this.roomId}] Bridge Navigation Complete.`);

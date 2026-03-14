@@ -72,17 +72,23 @@
 
                 function pushFrame() {
                     if (!window.mgba) return;
-                    const now = performance.now();
-                    const delta = now - lastFrameTime;
-                    lastFrameTime = now;
-                    totalFrameDelta += delta;
+                    
+                    // Draw slot watermark on the canvas for absolute tracing
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const slot = urlParams.get('slot') || '?';
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = 'rgba(255,0,0,0.5)';
+                    ctx.fillRect(0, 0, 10, 10);
+                    ctx.fillStyle = 'white';
+                    ctx.font = '8px monospace';
+                    ctx.fillText(slot, 2, 8);
+
+                    const dataUrl = canvas.toDataURL('image/webp', 0.95);
+                    window.onPixels(dataUrl);
+
                     frameCount++;
-
-                    try {
-                        const dataUrl = canvas.toDataURL('image/webp', 0.95);
-                        window.onPixels(dataUrl);
-
-                        if (frameCount % 300 === 0) {
+                    if (frameCount % 300 === 0) {
                             auditCtx.drawImage(canvas, 0, 0);
                             const data = auditCtx.getImageData(0, 0, 240, 160).data;
                             let sum = 0;
