@@ -102,20 +102,38 @@ function init(io, lobbies) {
 
     socket.on('start-game', async () => {
       const mapping = socketUsers.get(socket.id);
-      if (!mapping || !mapping.roomId || !userData) return;
+      if (!mapping || !mapping.roomId || !userData) {
+          console.warn(`[Socket] start-game denied: Missing mapping or userData. Socket: ${socket.id}`);
+          return;
+      }
 
       const room = lobbies.getRoom(mapping.roomId);
-      if (!room) return;
+      if (!room) {
+          console.warn(`[Socket] start-game denied: Room ${mapping.roomId} not found.`);
+          return;
+      }
 
-      if (room.host.id !== userData.id) return;
-      if (room.status === 'playing') return;
+      console.log(`[Socket] start-game received from ${userData.username} for room ${room.id}. Host: ${room.host.id}, User: ${userData.id}`);
+
+      if (room.host.id != userData.id) {
+          console.warn(`[Socket] start-game denied: User ${userData.id} is not host ${room.host.id}`);
+          return;
+      }
+      
+      if (room.status === 'playing') {
+          console.warn(`[Socket] start-game ignored: Room already playing.`);
+          return;
+      }
 
       console.log(`[Socket] Starting WASM MULTI-CORE for room "${room.name}"`);
 
-      // Launch Multi-Instance WASM mGBA Core (for server-authoritative WASM support)
-      const WasmMultiCore = require('./wasmMultiCore');
-      const romPath = (typeof room.rom === 'object' && room.rom) ? room.rom.name : room.rom;
-      room.emulator = new WasmMultiCore(room.id, room.maxPlayers, romPath || 'Quetzal.gba');
+      // Resolve ROM Filename accurately
+      let romName = (room.rom && typeof room.rom === 'object') ? room.rom.name : room.rom;
+      if (!romName || romName === 'Quetzal') romName = 'QuetzalEnglishAlpha8v4.gba';
+      
+      console.log(`[Socket] Selected ROM for WASM Multi-Core: ${romName}`);
+
+      room.emulator = new WasmMultiCore(room.id, room.maxPlayers, romName);
       
       room.emulator.on('frame', (slot, buffer) => {
           // Broadcast frame for the specific slot
@@ -144,7 +162,7 @@ function init(io, lobbies) {
 
       room.emulator.start().catch(err => {
           console.error('[Socket] Failed to start WASM Multiplayer:', err);
-          io.to(room.id).emit('error', { message: 'WASM Core Failure: ' + err.message });
+          io.to(room.id).emit('emulator-error', 'WASM Core Failure: ' + err.message);
           room.status = 'waiting';
           broadcastRoomState(room.id);
       });

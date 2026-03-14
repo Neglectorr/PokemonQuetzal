@@ -11,9 +11,9 @@ class WasmLinkHub extends events.EventEmitter {
     join(playerId) {
         // playerId is roomId_slot
         const parts = playerId.split('_');
-        const slot = parseInt(parts[parts.length - 1]);
+        const slot = parseInt(parts[parts.length - 1]) - 1; // 0-indexed for internal hub
         this.players.set(playerId, slot);
-        console.log(`[LinkHub] Player ${playerId} assigned to slot ${slot}`);
+        console.log(`[LinkHub] Player ${playerId} assigned to internal slot ${slot}`);
         return slot;
     }
 

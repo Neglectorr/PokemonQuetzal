@@ -24,22 +24,20 @@ class WasmEmulator extends EventEmitter {
         this.linkHub.join(this.playerId);
         
         try {
+            console.log(`[WasmCore ${this.roomId}] Attempting Browser Launch...`);
             this.browser = await puppeteer.launch({
                 headless: true,
+                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || null, // Allow custom chrome path
                 args: [
                     '--no-sandbox', 
                     '--disable-setuid-sandbox',
                     '--disable-dev-shm-usage',
-                    '--disable-accelerated-2d-canvas',
                     '--no-first-run',
                     '--mute-audio',
-                    '--enable-features=SharedArrayBuffer',
-                    '--disable-background-timer-throttling',
-                    '--disable-backgrounding-occluded-windows',
-                    '--disable-renderer-backgrounding',
-                    '--js-flags="--max-old-space-size=4096"'
+                    '--enable-features=SharedArrayBuffer'
                 ]
             });
+            console.log(`[WasmCore ${this.roomId}] Browser Launched Successfully.`);
 
             this.page = await this.browser.newPage();
             
@@ -89,15 +87,16 @@ class WasmEmulator extends EventEmitter {
             });
 
             // Target the local headless host
-            console.log(`[WasmCore ${this.roomId}] Navigating to bridge...`);
+            console.log(`[WasmCore ${this.roomId}] Navigating to bridge: http://127.0.0.1:3000/wasm-headless.html`);
             await this.page.goto('http://127.0.0.1:3000/wasm-headless.html', {
-                waitUntil: 'networkidle2',
-                timeout: 30000
+                waitUntil: 'domcontentloaded', // Less strict than networkidle2
+                timeout: 60000
             });
+            console.log(`[WasmCore ${this.roomId}] Bridge Navigation Complete.`);
             
             // Wait for Engine Startup
             let waitCount = 0;
-            while(!this.isReady && waitCount < 150) { // 30s max wait for WASM compile/init
+            while(!this.isReady && waitCount < 300) { // 60s max wait for WASM compile/init
                 await new Promise(r => setTimeout(r, 200));
                 waitCount++;
             }

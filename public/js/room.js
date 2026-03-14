@@ -5,7 +5,7 @@
 
 (function() {
     'use strict';
-    console.log('[Antigravity] Room UI Version 2.1 (Headless Refactor) Loaded');
+    console.log('[Antigravity] Room UI Version 2.3 (Multi-Sync Fix) Loaded');
 
     const socket = io();
     const GBA_WIDTH = 240;
